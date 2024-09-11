@@ -64,3 +64,45 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Install the project
+
+_Copy the .env.example file_
+```bash
+cp .env.example .env
+```
+
+_uncomment those lines :_
+```.dotenv
+DB_CONNECTION=sqlite
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=root
+```
+
+_and change to this :_
+```.dotenv
+DB_CONNECTION=pgsql
+DB_HOST=pgsql
+DB_PORT=5432
+DB_DATABASE=laravel
+DB_USERNAME=sail
+DB_PASSWORD=password
+```
+
+_After this you can mount docker by using those commands :_
+
+```bash
+./vendor/bin/sail build --no-cache
+```
+
+```bash
+./vendor/bin/sail up
+```
+
+If you prefer you can create an alias like that to gain some time:
+```bash
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+```
