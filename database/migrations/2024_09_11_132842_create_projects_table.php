@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
             $table->string('theme');
-            $table->boolean('is_draft')->default(false);
             $table->integer('difficulty');
+            $table->boolean('is_draft')->default(false);
+            $table->boolean('is_free')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
