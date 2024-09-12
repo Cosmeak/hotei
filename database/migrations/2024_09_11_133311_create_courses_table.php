@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignUuid('project_id')->constrained('projects')->cascadeOnDelete();
             $table->string('name');
             $table->string('theme');
-            $table->integer('time');
+            $table->integer('duration');
             $table->json('materials');
             $table->boolean('is_draft')->default(false);
             $table->integer('difficulty');
