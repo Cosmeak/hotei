@@ -19,6 +19,7 @@ class Course extends Model
         'time',
         'materials',
         'is_draft',
+        'is_free',
         'difficulty',
     ];
 }
