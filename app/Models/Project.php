@@ -14,6 +14,7 @@ class Project extends Model
         'name',
         'difficulty',
         'is_draft',
+        'is_free',
         'theme',
     ];
 }
