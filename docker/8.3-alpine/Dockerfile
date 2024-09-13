@@ -1,4 +1,4 @@
-# Use PHP 8.2 instead of 8.0.2
+# Use PHP 8.2
 FROM php:8.2-alpine
 
 ARG WWWGROUP
@@ -56,6 +56,9 @@ RUN apk --no-cache add \
 # Setup postgres
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
         && docker-php-ext-install pdo pdo_pgsql pgsql
+
+# Install Node.js and npm
+RUN apk add --no-cache nodejs npm
 
 # Add the 'sail' group and user
 RUN addgroup sail \
