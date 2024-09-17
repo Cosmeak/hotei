@@ -34,7 +34,7 @@ class TestController extends Controller
 
             try {
                 $videoFile = $request->file('video');
-                
+
                 \Log::info('Video file received: ' . $videoFile->getClientOriginalName());
 
 
@@ -46,7 +46,7 @@ class TestController extends Controller
                     'audio_url' => $paths['audio_url'],
                 ]);
             } catch (\Exception $e) {
-                
+
                 \Log::error('Error processing video: ' . $e->getMessage());
 
                 return response()->json(['error' => 'Failed to process video'], 500);

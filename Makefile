@@ -7,8 +7,14 @@ build:
 down:
 	./vendor/bin/sail down -v
 
-run-dev:
-	./vendor/bin/sail npm run dev
-
 migrate:
 	./vendor/bin/sail php artisan migrate
+
+key-gen:
+	./vendor/bin/sail php artisan key:generate
+
+npm-install:
+	./vendor/bin/sail npm install
+
+run-dev:
+	./vendor/bin/sail npm run dev

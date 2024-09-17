@@ -19,7 +19,8 @@ services:
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
         volumes:
             - '.:/var/www/html'
-            - 'sail-storage:/var/www/html/storage/app'
+            - 'sail-storage:/var/www/html/storage/app/public'
+            - 'sail-storage:/var/www/html/storage/logs'
         networks:
             - sail
         depends_on:
