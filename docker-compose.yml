@@ -1,11 +1,11 @@
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.3
+            context: ./docker/8.3-alpine
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: sail-8.3/app
+        image: sail-8.3-alpine/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -19,6 +19,8 @@ services:
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
         volumes:
             - '.:/var/www/html'
+            - 'sail-storage:/var/www/html/storage/app/public'
+            - 'sail-storage:/var/www/html/storage/logs'
         networks:
             - sail
         depends_on:
@@ -53,4 +55,6 @@ networks:
         driver: bridge
 volumes:
     sail-pgsql:
+        driver: local
+    sail-storage:
         driver: local

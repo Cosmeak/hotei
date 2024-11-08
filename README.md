@@ -31,22 +31,21 @@
   git clone git@github.com:Cosmeak/hotei.git && cd hotei
 ```
 
-2. Install dependencies
-
-```bash
-  composer install && npm install
-```
-
-3. Environnement variables
+2. Environment variables
 
 ```bash
   cp .env.example .env.local
 ```
 
-4. Start Docker
+3. Start Docker
 
 ```bash
-  ./vendor/bin/sail up -d
+  make up
+```
+
+4. Generate key-pair
+```bash
+  make key-gen
 ```
 
 > [!NOTE]
@@ -55,15 +54,20 @@
 5. Migrate database
 
 ```bash
-  ./vendor/bin/sail artisan migrate
+  make migrate
 ```
 
-6. Frontend build
+6. Frontend dependencies
 
 ```bash
-  ./vendor/bin/sail npm run dev
+  make npm-install
 ```
 
-7. Code
+7. Run frontend server
+```bash
+  make run-dev
+```
+
+8. Code
 
 You are ready to go!
