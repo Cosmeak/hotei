@@ -2,6 +2,7 @@
 FROM php:8.2-alpine
 
 ARG WWWGROUP
+ARG WWWUSER
 ARG NODE_VERSION=20
 ARG MYSQL_CLIENT="mysql-client"
 ARG POSTGRES_VERSION=15
@@ -13,11 +14,9 @@ ENV SUPERVISOR_PHP_COMMAND="/usr/bin/php -d variables_order=EGPCS /var/www/html/
 ENV SUPERVISOR_PHP_USER="sail"
 
 RUN apk update \
-    && apk --no-cache add  \
-        py3-setuptools \
-        supervisor
+    && apk --no-cache add py3-setuptools supervisor
 
-# Install usermod
+# Install usermod for modifying users and groups
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
 RUN apk --no-cache add -U shadow
 
@@ -61,8 +60,13 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
 RUN apk add --no-cache nodejs npm
 
 # Add the 'sail' group and user
-RUN addgroup sail \
-    && adduser -h /var/www/html -s /bin/bash -G sail -D sail
+RUN addgroup -g "$WWWGROUP" sail \
+    && adduser -h /var/www/html -u "$WWWUSER" -s /bin/bash -G sail -D sail
+
+# Set permissions for Laravel storage and bootstrap/cache directories
+RUN mkdir -p /var/www/html/storage/logs /var/www/html/bootstrap/cache \
+    && chown -R sail:sail /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Create the log directory for Supervisor
 RUN mkdir -p /var/log/supervisor \
