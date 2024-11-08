@@ -4,7 +4,8 @@ services:
             context: ./docker/8.3-alpine
             dockerfile: Dockerfile
             args:
-                WWWGROUP: '${WWWGROUP}'
+                WWWGROUP: "${WWWGROUP}"
+                WWWUSER: "${WWWUSER}"
         image: sail-8.3-alpine/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
