@@ -1,25 +1,22 @@
 <template>
   <div class="upload-container" @drop.prevent="handleDrop" @dragover.prevent>
-    <p>Drag and drop your MP4 file here or click to upload</p>
+    <p>Déposez votre fichier MP4 ici ou cliquez pour le télécharger</p>
     <input type="file" ref="fileInput" @change="handleFileChange" accept="video/mp4" />
   </div>
-  <button @click="uploadFile" :disabled="isUploading">Upload Video</button>
-
+  <button @click="uploadFile" :disabled="isUploading">Télécharger la vidéo</button>
 
   <div v-if="videoUrl || audioUrl">
-    <p>Processing complete! Download the files below:</p>
-    <a v-if="videoUrl" :href="videoUrl" target="_blank">Download Video (VP9)</a><br>
-    <a v-if="audioUrl" :href="audioUrl" target="_blank">Download Audio (Opus)</a>
+    <p>Traitement terminé ! Téléchargez les fichiers ci-dessous :</p>
+    <a v-if="videoUrl" :href="videoUrl" target="_blank">Télécharger Vidéo (VP9)</a><br>
+    <a v-if="audioUrl" :href="audioUrl" target="_blank">Télécharger Audio (Opus)</a>
   </div>
-
 
   <div v-if="isUploading">
-    <p>Uploading and processing video, please wait...</p>
+    <p>Téléchargement et traitement en cours, veuillez patienter...</p>
   </div>
 
-
   <div v-if="errorMessage">
-    <p class="error">Error: {{ errorMessage }}</p>
+    <p class="error">Erreur : {{ errorMessage }}</p>
   </div>
 </template>
 
@@ -48,7 +45,7 @@ export default {
     },
     async uploadFile() {
       if (!this.file || this.file.type !== 'video/mp4') {
-        alert('Please upload a valid MP4 file.');
+        alert('Veuillez télécharger un fichier MP4 valide.');
         return;
       }
 
@@ -56,13 +53,17 @@ export default {
       this.errorMessage = '';  // Réinitialise le message d'erreur
 
       try {
-        this.form.video = this.file;
-        const response = await this.form.post(route('test.store'));
+        const formData = new FormData();
+        formData.append('video', this.file);
+
+        const response = await axios.post(route('test.store'), formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
         
-        this.videoUrl = response.video_url;
-        this.audioUrl = response.audio_url;
+        this.videoUrl = response.data.video_url;
+        this.audioUrl = response.data.audio_url;
       } catch (error) {
-        this.errorMessage = error.response.data.error + ": " + error.response.data.details;
+        this.errorMessage = 'Échec du traitement de la vidéo';
       } finally {
         this.isUploading = false;
       }

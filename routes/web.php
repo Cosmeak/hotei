@@ -1,6 +1,7 @@
 <?php
 
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\TestController;
@@ -27,5 +28,10 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/test', [TestController::class, 'index'])->name('test.index');
 Route::post('/test', [TestController::class, 'store'])->name('test.store');
+
+Route::get('/test-log', function () {
+    Log::info('Test de logging Laravel après ajustement des permissions.');
+    return 'Log écrit';
+});
 
 require __DIR__.'/auth.php';
