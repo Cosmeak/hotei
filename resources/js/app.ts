@@ -11,17 +11,17 @@ const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 /**
  * Register all global UI components in the entire without having to import it on all pages
  */
-const registerGlobalComponents = (app: App) => {
-  const components = import.meta.glob("./Components/ui/**/*.vue");
-  Object.entries(components).forEach(([path, componentConfig]) => {
-    const componentName: string | undefined = path
-      .split("/")
-      .pop()
-      ?.replace(/\.\w+$/, "") as string;
+// const registerGlobalComponents = (app: App) => {
+//   const components = import.meta.glob("./Components/ui/**/*.vue");
+//   Object.entries(components).forEach(([path, componentConfig]) => {
+//     const componentName: string | undefined = path
+//       .split("/")
+//       .pop()
+//       ?.replace(/\.\w+$/, "") as string;
 
-    app.component(componentName, componentConfig.default);
-  });
-};
+//     app.component(componentName, componentConfig.default);
+//   });
+// };
 
 /**
  * Create inertia app and mount vue inside
@@ -38,7 +38,7 @@ createInertiaApp({
       .use(plugin)
       .use(ZiggyVue);
 
-    registerGlobalComponents(app);
+    // registerGlobalComponents(app);
 
     app.mount(el);
   },
