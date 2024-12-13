@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import Materials from "@/Pages/Course/Partials/Materials.vue";
+import Materials from "@/Components/Materials.vue";
 import Skills from "@/Pages/Course/Partials/Skills.vue";
 
 const props = defineProps<{
