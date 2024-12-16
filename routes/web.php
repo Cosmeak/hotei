@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/video-processing', [VideoProcessingController::class, 'index'])->name('test.index');
-Route::post('/video-processing', [VideoProcessingController::class, 'store'])->name('test.store');
+Route::get('/video-processing', [VideoProcessingController::class, 'index'])->name('video-processing.index');
+Route::post('/video-processing', [VideoProcessingController::class, 'store'])->name('video-processing.store');
 
 require __DIR__.'/auth.php';
