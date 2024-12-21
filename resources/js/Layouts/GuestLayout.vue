@@ -4,17 +4,17 @@ import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div>
+    <div class="min-h-screen flex flex-col items-center pt-6 sm:pt-0 bg-[#d9e8dc]">
+        <div class="flex justify-start items-start w-full px-6">
             <Link href="/">
-                <ApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
+                <ApplicationLogo class="w-25 h-25 fill-current text-gray-500" />
             </Link>
         </div>
-
         <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
+            
         >
             <slot />
         </div>
     </div>
 </template>
+
