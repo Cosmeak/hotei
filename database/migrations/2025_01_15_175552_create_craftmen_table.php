@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('craftmans', function (Blueprint $table) {
+        Schema::create('craftmen', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained('users');
             $table->string('avatar');
             $table->string('website')->nullable();
             $table->string('phone')->nullable();
@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('categories');
             $table->text('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -18,23 +18,23 @@ class Video
         $videoDirectory = storage_path('app/public/videos/');
         $audioDirectory = storage_path('app/public/audios/');
 
-        $outputVideo = $videoDirectory . $uuid . '_vp9.webm';
-        $outputAudio = $audioDirectory . $uuid . '_audio.mp3';
+        $outputVideo = $videoDirectory.$uuid.'_vp9.webm';
+        $outputAudio = $audioDirectory.$uuid.'_audio.mp3';
 
-        if (!file_exists($videoDirectory)) {
+        if (! file_exists($videoDirectory)) {
             Log::info('Creating videos directory.');
             mkdir($videoDirectory, 0755, true);
         }
-        if (!file_exists($audioDirectory)) {
+        if (! file_exists($audioDirectory)) {
             Log::info('Creating audios directory.');
             mkdir($audioDirectory, 0755, true);
         }
 
         Log::info('Moving the video file to the videos directory.');
-        $videoFile->move($videoDirectory, $uuid . '.mp4');
+        $videoFile->move($videoDirectory, $uuid.'.mp4');
 
-        $inputPath = $videoDirectory . $uuid . '.mp4';
-        Log::info('Input video path: ' . $inputPath);
+        $inputPath = $videoDirectory.$uuid.'.mp4';
+        Log::info('Input video path: '.$inputPath);
 
         try {
             $ffmpeg = FFMpeg::create();
@@ -42,17 +42,17 @@ class Video
 
             $video = $ffmpeg->open($inputPath);
             Log::info('Converting video to VP9 format...');
-            $video->save(new WebM(), $outputVideo);
-            Log::info('Video saved: ' . $outputVideo);
+            $video->save(new WebM, $outputVideo);
+            Log::info('Video saved: '.$outputVideo);
 
             Log::info('Extracting audio...');
             $audio = $ffmpeg->open($inputPath);
-            $audio->save(new Mp3(), $outputAudio);
-            Log::info('Audio saved: ' . $outputAudio);
+            $audio->save(new Mp3, $outputAudio);
+            Log::info('Audio saved: '.$outputAudio);
 
             if (file_exists($inputPath)) {
                 unlink($inputPath);
-                Log::info('Original video file deleted: ' . $inputPath);
+                Log::info('Original video file deleted: '.$inputPath);
             }
 
             return [
@@ -60,7 +60,7 @@ class Video
                 'audio' => $outputAudio,
             ];
         } catch (\Exception $e) {
-            Log::error('Error processing the video: ' . $e->getMessage());
+            Log::error('Error processing the video: '.$e->getMessage());
             throw $e;
         }
     }

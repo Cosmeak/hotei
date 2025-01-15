@@ -1,14 +1,17 @@
 <?php
 
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VideoProcessingController;
 use Inertia\Inertia;
 
-Route::get('newsletter', [\App\Http\Controllers\NewsletterController::class, 'index']);
+// ┌───────────────────────────────┐
+// │ authentication                │
+// └───────────────────────────────┘
+require __DIR__.'/auth.php';
 
+// ┌───────────────────────────────┐
+// │ user interface                │
+// └───────────────────────────────┘
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -16,18 +19,28 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
+})->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::resource('course', \App\Http\Controllers\CourseController::class)->only(['index', 'show']);
+
+// ┌───────────────────────────────┐
+// │ back office                   │
+// └───────────────────────────────┘
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::name('backoffice.')->prefix('backoffice')->middleware(\App\Http\Middleware\HasAccessBackOffice::class)->group(function () {
+    Route::resource('course', \App\Http\Controllers\CourseBackOfficeController::class);
 });
 
-Route::get('/course', [CourseController::class, 'show'])->name('course.index');
-
-require __DIR__.'/auth.php';
+// ┌───────────────────────────────┐
+// │ landing page api              │
+// └───────────────────────────────┘
+Route::get('newsletter', [\App\Http\Controllers\NewsletterController::class, 'index']);

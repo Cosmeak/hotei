@@ -3,15 +3,24 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use Inertia\Response;
 
 class CourseController extends Controller
 {
     /**
-     * Display a course
+     * Display a listing of the resource.
      */
-    public function show(): Response
+    public function index()
     {
-        return Inertia::render('Course/Index', []);
+        return Inertia::render('Course/Index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Course $course)
+    {
+        return Inertia::render('Course/Index', [
+            'course' => $course,
+        ]);
     }
 }
