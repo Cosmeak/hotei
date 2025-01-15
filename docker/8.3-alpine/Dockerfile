@@ -14,7 +14,7 @@ ENV SUPERVISOR_PHP_COMMAND="/usr/bin/php -d variables_order=EGPCS /var/www/html/
 ENV SUPERVISOR_PHP_USER="sail"
 
 RUN apk update \
-    && apk --no-cache add py3-setuptools supervisor
+    && apk --no-cache add py3-setuptools supervisor ffmpeg
 
 # Install usermod for modifying users and groups
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
@@ -58,6 +58,8 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
 
 # Install Node.js and npm
 RUN apk add --no-cache nodejs npm
+
+RUN apk add --no-cache ffmpeg
 
 # Add the 'sail' group and user
 RUN addgroup -g "$WWWGROUP" sail \

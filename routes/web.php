@@ -4,6 +4,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VideoProcessingController;
 use Inertia\Inertia;
 
 Route::get('newsletter', [\App\Http\Controllers\NewsletterController::class, 'index']);
