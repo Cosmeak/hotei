@@ -1,17 +1,5 @@
 <script lang="ts" setup>
 import { useForm } from "laravel-precognition-vue-inertia";
-import { Label } from "@/Components/ui/label";
-import { Input } from "@/Components/ui/input";
-import {
-  Select,
-  SelectItem,
-  SelectValue,
-  SelectContent,
-  SelectGroup,
-  SelectTrigger,
-} from "@/Components/ui/select";
-import { Textarea } from "@/Components/ui/textarea";
-import { Button } from "@/Components/ui/button";
 import { Plus, Minus } from "lucide-vue-next";
 
 const { course, craftmen, categories } = defineProps([

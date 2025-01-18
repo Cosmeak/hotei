@@ -1,36 +1,6 @@
 <script setup lang="ts">
 import BackOfficeLayout from "@/Layouts/BackOfficeLayout.vue";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/Components/ui/table";
-import { Card, CardContent, CardFooter } from "@/Components/ui/card";
-import { Button } from "@/Components/ui/button";
-import {
-  Pagination,
-  PaginationEllipsis,
-  PaginationFirst,
-  PaginationLast,
-  PaginationList,
-  PaginationListItem,
-  PaginationNext,
-  PaginationPrev,
-} from "@/Components/ui/pagination";
-import { Plus } from "lucide-vue-next";
 import { Link } from "@inertiajs/vue3";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/Components/ui/dropdown-menu";
-import { Badge } from "@/Components/ui/badge";
 import { MoreHorizontal } from "lucide-vue-next";
 
 const { courses } = defineProps(["courses"]);
