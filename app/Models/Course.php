@@ -7,22 +7,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
-    use HasFactory, HasUuids;
-
-    protected $table = 'course';
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected $fillable = [
         'craftman_id',
-        'name',
-        'theme',
-        'time',
+        'title',
+        'category',
+        'duration',
         'materials',
         'is_draft',
-        'is_free',
+        'cost',
         'difficulty',
+    ];
+
+    protected $casts = [
+        'materials' => 'json',
     ];
 
     // ┌───────────────────────────────┐

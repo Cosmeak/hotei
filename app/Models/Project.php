@@ -12,11 +12,14 @@ class Project extends Model
 
     protected $fillable = [
         'craftman_id',
-        'name',
+        'title',
+        'description',
         'difficulty',
         'is_draft',
-        'is_free',
-        'theme',
+        'duration',
+        'cost',
+        'category',
+        'materials',
     ];
 
     // ┌───────────────────────────────┐

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Middleware\HasAccessBackOffice;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -32,13 +34,15 @@ Route::resource('course', \App\Http\Controllers\CourseController::class)->only([
 // ┌───────────────────────────────┐
 // │ back office                   │
 // └───────────────────────────────┘
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::name('backoffice.')->prefix('backoffice')
+    ->middleware(['auth', 'verified', HasAccessBackOffice::class, HandlePrecognitiveRequests::class])
+    ->group(function () {
+        Route::get('dashboard', function () {
+            return Inertia::render('Dashboard');
+        })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::name('backoffice.')->prefix('backoffice')->middleware(\App\Http\Middleware\HasAccessBackOffice::class)->group(function () {
-    Route::resource('course', \App\Http\Controllers\CourseBackOfficeController::class);
-});
+        Route::resource('course', \App\Http\Controllers\CourseBackOfficeController::class);
+    });
 
 // ┌───────────────────────────────┐
 // │ landing page api              │
