@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             'categories' => ['test', 'test2'],
         ]);
 
-        $craftman->craftman_id = $craftman->id;
-        $craftman->save();
+        $craftmanUser->craftman_id = $craftman->id;
+        $craftmanUser->save();
     }
 }
