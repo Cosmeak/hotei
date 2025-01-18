@@ -5,63 +5,50 @@ namespace App\Helpers;
 use FFMpeg\FFMpeg;
 use FFMpeg\Format\Audio\Mp3;
 use FFMpeg\Format\Video\WebM;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class Video
 {
-    public function optimize($videoFile)
+    public static function optimize(UploadedFile $tempFile, string $path): array
     {
         Log::info('Starting the optimize method.');
 
-        $uuid = Str::uuid();
-        $videoDirectory = storage_path('app/public/videos/');
-        $audioDirectory = storage_path('app/public/audios/');
+        $path = storage_path('app/public/'.$path.'/');
+        $outputVideo = $path.'video.webm';
+        $outputAudio = $path.'audio_original.mp3';
 
-        $outputVideo = $videoDirectory . $uuid . '_vp9.webm';
-        $outputAudio = $audioDirectory . $uuid . '_audio.mp3';
-
-        if (!file_exists($videoDirectory)) {
+        if (! file_exists($path)) {
             Log::info('Creating videos directory.');
-            mkdir($videoDirectory, 0755, true);
+            mkdir($path, 0755, true);
         }
-        if (!file_exists($audioDirectory)) {
-            Log::info('Creating audios directory.');
-            mkdir($audioDirectory, 0755, true);
-        }
-
-        Log::info('Moving the video file to the videos directory.');
-        $videoFile->move($videoDirectory, $uuid . '.mp4');
-
-        $inputPath = $videoDirectory . $uuid . '.mp4';
-        Log::info('Input video path: ' . $inputPath);
 
         try {
             $ffmpeg = FFMpeg::create();
             Log::info('FFmpeg initialized.');
+            $openedFile = $ffmpeg->open($tempFile->getPathname());
 
-            $video = $ffmpeg->open($inputPath);
             Log::info('Converting video to VP9 format...');
-            $video->save(new WebM(), $outputVideo);
-            Log::info('Video saved: ' . $outputVideo);
+            $openedFile->save(new WebM, $outputVideo);
+            Log::info('Video saved: '.$outputVideo);
 
             Log::info('Extracting audio...');
-            $audio = $ffmpeg->open($inputPath);
-            $audio->save(new Mp3(), $outputAudio);
-            Log::info('Audio saved: ' . $outputAudio);
+            $openedFile->save(new Mp3, $outputAudio);
+            Log::info('Audio saved: '.$outputAudio);
 
-            if (file_exists($inputPath)) {
-                unlink($inputPath);
-                Log::info('Original video file deleted: ' . $inputPath);
+            if (file_exists($tempFile->getPathname())) {
+                unlink($tempFile);
+                Log::info('Original video file deleted: '.$tempFile);
             }
 
-            return [
-                'video' => $outputVideo,
-                'audio' => $outputAudio,
-            ];
         } catch (\Exception $e) {
-            Log::error('Error processing the video: ' . $e->getMessage());
+            Log::error('Error processing the video: '.$e->getMessage());
             throw $e;
         }
+
+        return [
+            'video' => $outputVideo,
+            'audio' => $outputAudio,
+        ];
     }
 }

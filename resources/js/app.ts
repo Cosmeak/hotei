@@ -36,6 +36,7 @@ createInertiaApp({
   setup({ el, App, props, plugin }) {
     const app = createApp({ render: () => h(App, props) })
       .use(plugin)
+      .mixin(methods)
       .use(ZiggyVue);
 
     // registerGlobalComponents(app);
@@ -46,3 +47,12 @@ createInertiaApp({
     color: "#4B5563",
   },
 });
+
+const methods =  {
+  methods: {
+    route,
+    isAdmin(): Boolean {
+      return this.$page.props.auth.user.role == 'admin';
+    }
+  }
+}
