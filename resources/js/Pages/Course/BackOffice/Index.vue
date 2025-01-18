@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import BackOfficeLayout from "@/Layouts/BackOfficeLayout.vue";
-import { Link } from "@inertiajs/vue3";
 import { MoreHorizontal } from "lucide-vue-next";
 
 const { courses } = defineProps(["courses"]);
@@ -9,7 +8,10 @@ const { courses } = defineProps(["courses"]);
 <template>
   <BackOfficeLayout>
     <div class="flex justify-end">
-      <Button class="w-fit" :as="Link" :href="route('backoffice.course.create')"
+      <Button
+        class="w-fit"
+        :as="InertiaLink"
+        :href="route('backoffice.course.create')"
         ><Plus /> New Course</Button
       >
     </div>
@@ -53,18 +55,18 @@ const { courses } = defineProps(["courses"]);
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuItem>
-                        <Link
+                        <InertiaLink
                           class="w-full"
                           :href="
                             route('backoffice.course.edit', {
                               course: course.id,
                             })
                           "
-                          >Edit</Link
+                          >Edit</InertiaLink
                         >
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <Link
+                        <InertiaLink
                           as="button"
                           method="delete"
                           class="w-full text-start"
@@ -73,7 +75,7 @@ const { courses } = defineProps(["courses"]);
                               course: course.id,
                             })
                           "
-                          >Delete</Link
+                          >Delete</InertiaLink
                         >
                       </DropdownMenuItem>
                     </DropdownMenuContent>
