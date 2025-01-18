@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Category;
-use App\Helpers\Video;
 use App\Http\Requests\CourseRequest;
+use App\Jobs\VideoOptimization;
 use App\Models\Course;
 use App\Models\Craftman;
 use Illuminate\Http\RedirectResponse;
@@ -68,7 +68,7 @@ class CourseBackOfficeController extends Controller
         $course->save();
 
         $video = $request->file('video');
-        Video::optimize($video, 'courses/'.$course->id);
+        VideoOptimization::dispatch($video, 'courses/'.$course->id);
 
         return redirect()->route('backoffice.course.show', ['course' => $course->id]);
     }
