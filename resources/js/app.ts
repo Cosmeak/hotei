@@ -5,8 +5,7 @@ import { createApp, h, DefineComponent, App } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
-import Link from "@inertiajs/vue3";
-import Head from "@inertiajs/vue3";
+import { Link, Head } from "@inertiajs/vue3";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
