@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignUuid('course_id')->nullable()->constrained('courses')->cascadeOnDelete();
             $table->foreignUuid('project_id')->nullable()->constrained('projects')->cascadeOnDelete();
             $table->dateTime('completed_at');
-            $table->timestamps();
         });
     }
 

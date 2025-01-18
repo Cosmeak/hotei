@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('name');
-            $table->string('theme');
+            $table->foreignUuid('craftman_id')->constrained('craftmen')->cascadeOnDelete();
+            $table->string('title');
+            $table->string('description');
+            $table->string('category');
             $table->integer('difficulty');
-            $table->boolean('is_draft')->default(false);
-            $table->boolean('is_free')->default(false);
+            $table->boolean('is_draft')->default(true);
+            $table->integer('cost')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
