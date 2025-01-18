@@ -22,7 +22,7 @@ class CourseBackOfficeController extends Controller
         $user = Auth::user();
         $courses = Course::query()
             ->when($user->role != 'admin', function ($query) use ($user) {
-                $query->where('craftman_id', $user->id);
+                $query->where('craftman_id', $user->craftman_id);
             })->paginate(100);
 
         return Inertia::render('Course/BackOffice/Index', [
