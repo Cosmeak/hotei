@@ -18,11 +18,7 @@ class HasAccessBackOffice
     {
         $user = Auth::user();
 
-        if (! $user) {
-            return redirect()->route('home');
-        }
-
-        if (! in_array($user->role, ['admin', 'craftman'])) {
+        if (! $user || ! in_array($user->role, ['admin', 'craftman'])) {
             return redirect()->route('home');
         }
 

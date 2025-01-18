@@ -2,11 +2,19 @@
 import BackOfficeLayout from "@/Layouts/BackOfficeLayout.vue";
 import CourseForm from "@/Components/forms/CourseForm.vue";
 
-const { craftmen, categories } = defineProps(["craftmen", "categories"]);
+const { craftmen, categories, course } = defineProps([
+  "craftmen",
+  "categories",
+  "course",
+]);
 </script>
 
 <template>
   <BackOfficeLayout>
-    <CourseForm :craftmen="craftmen" :categories="categories" />
+    <CourseForm
+      :course="course"
+      :craftmen="craftmen"
+      :categories="categories"
+    />
   </BackOfficeLayout>
 </template>

@@ -26,8 +26,8 @@ class Video
         try {
             $ffmpeg = FFMpeg::create();
             Log::info('FFmpeg initialized.');
-
             $openedFile = $ffmpeg->open($tempFile->getPathname());
+
             Log::info('Converting video to VP9 format...');
             $openedFile->save(new WebM, $outputVideo);
             Log::info('Video saved: '.$outputVideo);

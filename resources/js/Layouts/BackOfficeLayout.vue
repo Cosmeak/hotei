@@ -11,10 +11,11 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
 import { CircleUser, Menu, Package2, Moon, Sun } from "lucide-vue-next";
 
-const updateTheme = (mode) => {
+const updateTheme = (mode: String) => {
   const body = document.querySelector("body");
   if (mode == "dark") body?.classList.add("dark");
   else if (mode == "light") body?.classList.remove("dark");
+  else if (mode == "system") return;
 };
 </script>
 
@@ -103,10 +104,10 @@ const updateTheme = (mode) => {
           <DropdownMenuTrigger as-child>
             <Button variant="outline">
               <Moon
-                class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-100"
+                class="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:-rotate-0 dark:scale-100"
               />
               <Sun
-                class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-0"
+                class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-100 transition-all dark:rotate-0 dark:scale-0"
               />
               <span class="sr-only">Toggle theme</span>
             </Button>

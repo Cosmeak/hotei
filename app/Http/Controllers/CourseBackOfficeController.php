@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Category;
 use App\Helpers\Video;
 use App\Http\Requests\CourseRequest;
 use App\Models\Course;
@@ -39,9 +40,11 @@ class CourseBackOfficeController extends Controller
         if ($user->role == 'admin') {
             $craftmen = Craftman::query()->with('user')->get();
         }
+        $categories = Category::cases();
 
         return Inertia::render('Course/BackOffice/Create', [
             'craftmen' => $craftmen,
+            'categories' => $categories,
         ]);
     }
 
@@ -62,11 +65,10 @@ class CourseBackOfficeController extends Controller
         $course->is_draft = $request->is_draft;
         $course->cost = $request->cost;
         $course->difficulty = $request->difficulty;
-
         $course->save();
 
         $video = $request->file('video');
-        Video::optimize($video, 'course/'.$course->id);
+        Video::optimize($video, 'courses/'.$course->id);
 
         return redirect()->route('backoffice.course.show', ['course' => $course->id]);
     }
@@ -86,8 +88,17 @@ class CourseBackOfficeController extends Controller
      */
     public function edit(Course $course): Response
     {
+        $user = Auth::user();
+        $craftmen = collect();
+        if ($user->role == 'admin') {
+            $craftmen = Craftman::query()->with('user')->get();
+        }
+        $categories = Category::cases();
+
         return Inertia::render('Course/BackOffice/Edit', [
             'course' => $course,
+            'craftmen' => $craftmen,
+            'categories' => $categories,
         ]);
     }
 
@@ -96,7 +107,17 @@ class CourseBackOfficeController extends Controller
      */
     public function update(CourseRequest $request, Course $course): RedirectResponse
     {
-        //
+        $course->title = $request->title;
+        $course->description = $request->description;
+        $course->duration = 0;
+        $course->category = $request->category;
+        $course->materials = $request->materials;
+        $course->is_draft = $request->is_draft;
+        $course->cost = $request->cost;
+        $course->difficulty = $request->difficulty;
+        $course->save();
+
+        return redirect()->route('backoffice.course.show', ['course' => $course->id]);
     }
 
     /**
@@ -104,7 +125,7 @@ class CourseBackOfficeController extends Controller
      */
     public function destroy(Course $course): RedirectResponse
     {
-        $course->softDelete();
+        $course->delete();
 
         return redirect()->route('backoffice.course.index');
     }
