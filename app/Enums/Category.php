@@ -12,6 +12,6 @@ enum Category: String
 
     public static function casesToString(): string
     {
-        return implode(',', array_map(fn ($case) => $case->name, self::cases()));
+        return implode(',', array_map(fn ($case) => $case->value, self::cases()));
     }
 }
