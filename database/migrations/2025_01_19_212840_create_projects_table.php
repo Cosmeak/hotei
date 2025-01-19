@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects_skills', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('project_id')->constrained('courses')->cascadeOnDelete();
-            $table->foreignUuid('skills_id')->constrained('courses')->cascadeOnDelete();
+            $table->foreignUuid('craftman_id')->constrained('craftmen')->cascadeOnDelete();
+            $table->foreignUuid('craftsmanship_id')->constrained('craftsmanships')->nullOnDelete();
+            $table->text('description');
+            $table->boolean('is_draft')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_courses');
+        Schema::dropIfExists('projects');
     }
 };

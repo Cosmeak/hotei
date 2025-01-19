@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('craftman_id')->constrained('craftmen')->cascadeOnDelete();
-            $table->string('type');
+            $table->foreignUuid('craftsmanship_id')->constrained('craftsmanships')->nullOnDelete();
             $table->string('title');
-            $table->string('description');
-            $table->string('category');
+            $table->text('description');
             $table->integer('duration');
             $table->json('materials');
             $table->integer('difficulty');
             $table->boolean('is_draft')->default(true);
+            $table->boolean('is_skill')->default(false);
             $table->integer('cost')->default(0);
             $table->timestamps();
             $table->softDeletes();
