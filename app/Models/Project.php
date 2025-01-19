@@ -16,10 +16,8 @@ class Project extends Model
         'description',
         'difficulty',
         'is_draft',
-        'duration',
         'cost',
         'category',
-        'materials',
     ];
 
     // ┌───────────────────────────────┐

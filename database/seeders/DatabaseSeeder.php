@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course;
 use App\Models\Craftman;
+use App\Models\Project;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,6 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create admin and user
         User::factory()->create([
             'firstname' => 'Admin',
             'lastname' => 'Admin',
@@ -31,6 +34,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
         ]);
 
+        // Create craftman user
         $craftmanUser = User::factory()->create([
             'firstname' => 'Craftman',
             'lastname' => 'Craftman',
@@ -39,6 +43,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'craftman',
         ]);
 
+        // Create craftman profile
         $craftman = Craftman::create([
             'user_id' => $craftmanUser->id,
             'avatar' => 'dzada',
@@ -48,5 +53,29 @@ class DatabaseSeeder extends Seeder
 
         $craftmanUser->craftman_id = $craftman->id;
         $craftmanUser->save();
+
+        // Create some courses for the craftman
+        Course::create([
+            'craftman_id' => $craftman->id,
+            'title' => 'zadzf',
+            'description' => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
+            'category' => 'category',
+            'duration' => 7,
+            'materials' => ['metal', 'wood', 'clay'],
+            'is_draft' => false,
+            'cost' => 23,
+            'difficulty' => 2,
+        ]);
+
+        // Create some projects for the craftman
+        Project::create([
+            'craftman_id' => $craftman->id,
+            'title' => 'project | azferzgf',
+            'description' => 'lorem ipsum dolor sit amet',
+            'difficulty' => 3,
+            'is_draft' => false,
+            'cost' => 50,
+            'category' => 'wood work',
+        ]);
     }
 }

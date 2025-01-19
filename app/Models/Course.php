@@ -16,6 +16,7 @@ class Course extends Model
     protected $fillable = [
         'craftman_id',
         'title',
+        'description',
         'category',
         'duration',
         'materials',

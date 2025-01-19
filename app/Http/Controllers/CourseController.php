@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Inertia\Inertia;
 
 class CourseController extends Controller
@@ -17,10 +18,14 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Course $course)
+    public function show($courseId)
     {
-        return Inertia::render('Course/Index', [
+        $course = Course::with(['craftman', 'project'])->findOrFail($courseId);
+
+        return Inertia::render('Course/Show', [
             'course' => $course,
+            'craftman' => $course->craftman,
+            'project' => $course->project,
         ]);
     }
 }
