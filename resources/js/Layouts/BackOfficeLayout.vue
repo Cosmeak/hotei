@@ -11,7 +11,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
 import { CircleUser, Menu, Package2, Moon, Sun } from "lucide-vue-next";
 
-const updateTheme = (mode: String) => {
+const updateTheme = (mode: string) => {
   const body = document.querySelector("body");
   if (mode == "dark") body?.classList.add("dark");
   else if (mode == "light") body?.classList.remove("dark");
