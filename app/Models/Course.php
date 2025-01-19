@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,15 +14,19 @@ class Course extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
+    // ┌───────────────────────────────┐
+    // │ attributes                    │
+    // └───────────────────────────────┘
     protected $fillable = [
         'craftman_id',
+        'type',
         'title',
         'category',
         'duration',
+        'difficulty',
+        'cost',
         'materials',
         'is_draft',
-        'cost',
-        'difficulty',
     ];
 
     protected $casts = [
@@ -36,9 +41,9 @@ class Course extends Model
         return $this->belongsTo(Craftman::class);
     }
 
-    public function project(): BelongsToMany
+    public function linkedCourses(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class, 'projects_courses');
+        return $this->belongsToMany(Course::class, 'projects_skills');
     }
 
     public function completions(): BelongsToMany
@@ -49,5 +54,18 @@ class Course extends Model
     public function buyed(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'orders');
+    }
+
+    // ┌───────────────────────────────┐
+    // │ scope queries                 │
+    // └───────────────────────────────┘
+    public function scopeProject(Builder $query): void
+    {
+        $query->where('type', '=', 'project');
+    }
+
+    public function scopeSkill(Builder $query): void
+    {
+        $query->where('type', '=', 'skill');
     }
 }

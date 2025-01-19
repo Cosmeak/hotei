@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Middleware\HasAccessBackOffice;
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -10,6 +8,11 @@ use Inertia\Inertia;
 // │ authentication                │
 // └───────────────────────────────┘
 require __DIR__.'/auth.php';
+
+// ┌───────────────────────────────┐
+// │ back office                   │
+// └───────────────────────────────┘
+require __DIR__.'/backoffice.php';
 
 // ┌───────────────────────────────┐
 // │ user interface                │
@@ -30,19 +33,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('course', \App\Http\Controllers\CourseController::class)->only(['index', 'show']);
-
-// ┌───────────────────────────────┐
-// │ back office                   │
-// └───────────────────────────────┘
-Route::name('backoffice.')->prefix('backoffice')
-    ->middleware(['auth', 'verified', HasAccessBackOffice::class, HandlePrecognitiveRequests::class])
-    ->group(function () {
-        Route::get('dashboard', function () {
-            return Inertia::render('Dashboard');
-        })->middleware(['auth', 'verified'])->name('dashboard');
-
-        Route::resource('course', \App\Http\Controllers\CourseBackOfficeController::class);
-    });
 
 // ┌───────────────────────────────┐
 // │ landing page api              │

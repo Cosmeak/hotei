@@ -29,14 +29,16 @@ class CourseRequest extends FormRequest
 
         return [
             'craftman_id' => [Rule::requiredIf(fn () => $user->role == 'admin'), 'string', 'nullable'],
+            'type' => ['required', 'string', 'in:project,skill'],
+            'skills' => ['exclude_unless:type,project', 'array'],
             'title' => ['string', 'min:3', 'max:255', 'required'],
             'description' => ['string', 'max:255', 'required'],
             'category' => ['string', 'required', 'in:'.Category::casesToString()],
-            'video' => ['file', 'required', File::types(['mp4', 'wav'])],
-            'is_draft' => ['boolean', 'required'],
             'materials' => ['array', 'required'],
             'cost' => ['integer', 'nullable'],
             'difficulty' => ['integer', 'required'],
+            'video' => ['file', 'required', File::types(['mp4', 'wav'])],
+            'is_draft' => ['boolean', 'required'],
         ];
     }
 }
