@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,27 +9,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Course extends Model
+class Project extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
     // ┌───────────────────────────────┐
     // │ attributes                    │
     // └───────────────────────────────┘
-    protected $fillable = [
+    protected $fillables = [
         'craftman_id',
         'craftmanship_id',
-        'title',
-        'duration',
-        'difficulty',
-        'cost',
-        'materials',
+        'description',
         'is_draft',
-        'is_skill',
-    ];
-
-    protected $casts = [
-        'materials' => 'json',
     ];
 
     // ┌───────────────────────────────┐
@@ -41,36 +31,13 @@ class Course extends Model
         return $this->belongsTo(Craftman::class);
     }
 
-    public function skills(): BelongsToMany
+    public function courses(): BelongsToMany
     {
-        return $this->belongsToMany(Course::class, 'skills', 'skill_id');
-    }
-
-    public function completed(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'completed');
-    }
-
-    public function buyed(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'orders');
+        return $this->belongsToMany(Course::class, 'projects_courses');
     }
 
     public function craftmanship(): BelongsTo
     {
         return $this->belongsTo(Craftsmanship::class);
-    }
-
-    // ┌───────────────────────────────┐
-    // │ scope queries                 │
-    // └───────────────────────────────┘
-    public function scopeSkill(Builder $query): void
-    {
-        $query->where('is_skill', '=', true);
-    }
-
-    public function scopeNotSkill(Builder $query): void
-    {
-        $query->where('is_skill', '!=', false);
     }
 }

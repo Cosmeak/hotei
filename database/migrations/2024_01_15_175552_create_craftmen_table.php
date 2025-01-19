@@ -26,7 +26,7 @@ return new class extends Migration
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignUuid('craftman_id')->after('id')->nullable()->constrained('craftmen');
+            $table->foreignUuid('craftman_id')->nullable()->after('id')->constrained('craftmen');
         });
     }
 
