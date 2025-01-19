@@ -17,6 +17,6 @@ const header: CourseHeader = props.header ?? {
 <template>
   <header class="flex justify-around object-center p-10 text-2xl">
     <h1>{{ header.title }}</h1>
-    <span>{{ header.duration }}</span>
+    <span>{{ header.duration }}"</span>
   </header>
 </template>

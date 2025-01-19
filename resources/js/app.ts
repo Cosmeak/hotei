@@ -1,7 +1,7 @@
 import "./bootstrap";
 import "../css/app.css";
 
-import { createApp, h, DefineComponent, App } from "vue";
+import { createApp, h, DefineComponent } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
@@ -51,7 +51,7 @@ createInertiaApp({
 const methods =  {
   methods: {
     route,
-    isAdmin(): Boolean {
+    isAdmin(): boolean {
       return this.$page.props.auth.user.role == 'admin';
     }
   }
