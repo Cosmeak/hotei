@@ -54,7 +54,7 @@ createInertiaApp({
 const methods = {
   methods: {
     route,
-    isAdmin(): Boolean {
+    isAdmin(): boolean {
       return this.$page.props.auth.user.role == "admin";
     },
   },
