@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignUuid('course_id')->nullable()->constrained('courses')->cascadeOnDelete();
-            $table->foreignUuid('project_id')->nullable()->constrained('projects')->cascadeOnDelete();
             $table->dateTime('completed_at');
         });
     }

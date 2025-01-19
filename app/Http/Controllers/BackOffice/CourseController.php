@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BackOffice;
 
 use App\Enums\Category;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
 use App\Jobs\VideoOptimization;
 use App\Models\Course;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class CourseBackOfficeController extends Controller
+class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +26,7 @@ class CourseBackOfficeController extends Controller
                 $query->where('craftman_id', $user->craftman_id);
             })->paginate(100);
 
-        return Inertia::render('Course/BackOffice/Index', [
+        return Inertia::render('BackOffice/Course/Index', [
             'courses' => $courses,
         ]);
     }
@@ -42,7 +43,7 @@ class CourseBackOfficeController extends Controller
         }
         $categories = Category::cases();
 
-        return Inertia::render('Course/BackOffice/Create', [
+        return Inertia::render('BackOffice/Course/Create', [
             'craftmen' => $craftmen,
             'categories' => $categories,
         ]);
@@ -95,7 +96,7 @@ class CourseBackOfficeController extends Controller
         }
         $categories = Category::cases();
 
-        return Inertia::render('Course/BackOffice/Edit', [
+        return Inertia::render('BackOffice/Course/Edit', [
             'course' => $course,
             'craftmen' => $craftmen,
             'categories' => $categories,
