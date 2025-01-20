@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\BackOffice;
 
-use App\Enums\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
 use App\Jobs\VideoOptimization;
 use App\Models\Course;
 use App\Models\Craftman;
+use App\Models\Craftsmanship;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -41,11 +41,13 @@ class CourseController extends Controller
         if ($user->role == 'admin') {
             $craftmen = Craftman::query()->with('user')->get();
         }
-        $categories = Category::cases();
+        $skills = Course::skill()->with('craftsmanship')->get();
+        $craftsmanships = Craftsmanship::all();
 
         return Inertia::render('BackOffice/Course/Create', [
             'craftmen' => $craftmen,
-            'categories' => $categories,
+            'craftsmanships' => $craftsmanships,
+            'skills' => $skills,
         ]);
     }
 
