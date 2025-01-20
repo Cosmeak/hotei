@@ -16,7 +16,8 @@ const registerGlobalComponents = (app: App) => {
   const components = import.meta.glob("./Components/ui/**/*/index.ts", {
     eager: true,
   });
-  Object.values(components).forEach((component) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Object.values(components).forEach((component: any) => {
     // const componentName: String = path.split("/").at(-1).split(".")[0];
     for (const subcomponentName in component) {
       app.component(subcomponentName, component[subcomponentName]);
@@ -37,10 +38,17 @@ createInertiaApp({
   setup({ el, App, props, plugin }) {
     const app = createApp({ render: () => h(App, props) })
       .use(plugin)
-      .mixin(methods)
       .use(ZiggyVue)
       .component("InertiaLink", Link)
-      .component("InertiaHead", Head);
+      .component("InertiaHead", Head)
+      .mixin({
+        methods: {
+          route,
+          isAdmin(): boolean {
+            return this.$page.props.auth.user.role == "admin";
+          },
+        },
+      });
 
     registerGlobalComponents(app);
 
@@ -50,12 +58,3 @@ createInertiaApp({
     color: "#4B5563",
   },
 });
-
-const methods = {
-  methods: {
-    route,
-    isAdmin(): boolean {
-      return this.$page.props.auth.user.role == "admin";
-    },
-  },
-};
