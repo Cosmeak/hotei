@@ -48,3 +48,10 @@ Route::name('backoffice.')->prefix('backoffice')
 // │ landing page api              │
 // └───────────────────────────────┘
 Route::get('newsletter', [\App\Http\Controllers\NewsletterController::class, 'index']);
+
+
+// ┌───────────────────────────────┐
+// │ home for a craft             │
+// └───────────────────────────────┘
+Route::get('/craft/{slug}', [\App\Http\Controllers\CraftsmanshipController::class, 'show'])
+    ->name('craft.show');
