@@ -2,10 +2,11 @@
 import { useForm } from "laravel-precognition-vue-inertia";
 import { Plus, Minus } from "lucide-vue-next";
 
-const { course, craftmen, categories } = defineProps([
+const { course, craftmen, craftsmanships, skills } = defineProps([
   "course",
   "craftmen",
-  "categories",
+  "craftsmanships",
+  "skills",
 ]);
 
 const form = useForm(
@@ -17,7 +18,7 @@ const form = useForm(
     title: course?.title,
     description: course?.description,
     video: course?.video,
-    category: course?.category,
+    craftsmanship: course?.craftsmanship.id,
     materials: course?.materials ?? [
       {
         name: "",
@@ -26,6 +27,7 @@ const form = useForm(
     ],
     difficulty: course?.difficulty,
     is_draft: course?.is_draft ?? true,
+    skills: course?.skills.map((skill: any) => skill.id),
 
     // ADMIN ONLY
     craftman_id: course?.craftman_id,
@@ -114,18 +116,18 @@ const removeMaterial = () => {
 
       <div class="w-full">
         <Label>Category</Label>
-        <Select v-model="form.category">
+        <Select v-model="form.craftsmanship">
           <SelectTrigger>
             <SelectValue placeholder="Select a category" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectItem
-                v-for="(category, index) in categories"
-                :key="index"
-                :value="category"
+                v-for="craftsmanship in craftsmanships"
+                :key="craftsmanship.id"
+                :value="craftsmanship.id"
               >
-                {{ category }}
+                {{ craftsmanship.name }}
               </SelectItem>
             </SelectGroup>
           </SelectContent>
