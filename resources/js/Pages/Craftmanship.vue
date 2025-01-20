@@ -46,7 +46,7 @@
         />
     </svg>
   
-        <!-- Quart de cercle droit (plus grand, inchangé) -->
+        <!-- Quart de cercle droit -->
     <svg
             class="absolute bottom-0 right-0"
             width="200"
@@ -85,7 +85,7 @@
             <!-- Titre / description à gauche -->
             <div class="md:w-2/3 md:pr-6 mb-4 md:mb-0">
                 <h1 class="text-2xl font-bold mb-1" style="color: #104730;">
-                {{ craft.name }}
+                Le {{ craft.name }}
                 </h1>
                 <p class="text-sm md:text-base leading-tight" style="color: #104730;">
                 {{ craft.description }}
@@ -692,7 +692,7 @@
     <section class="relative w-full min-h-[350px] bg-[#F8F5F0] py-6">
     <!-- Titre -->
     <h3 class="text-2xl font-bold text-center mb-6 text-[#104730]">
-        Nos artisans experts pour apprendre le crochet
+        Nos artisans experts pour apprendre  le {{ craft.name }}
     </h3>
 
     <!-- Conteneur principal -->

@@ -20,12 +20,12 @@ class Craft extends Model
     private static array $data = [
         [
             'slug' => 'crochet',
-            'name' => 'Le crochet',
+            'name' => ' crochet',
             'description' => 'On peut faire plein de choses au crochet : amigurumis, vêtements, etc.',
         ],
         [
             'slug' => 'tricot',
-            'name' => 'Le tricot',
+            'name' => ' tricot',
             'description' => 'De la laine, des aiguilles, et c’est parti pour un beau pull !',
         ],
 
