@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build && vite build --ssr",
+        "build": "vite build",
         "prepare": "husky",
         "lint": "eslint --ignore-pattern 'resources/js/Components/ui/*' --max-warnings 0 resources/js/ ",
         "lint:fix": "eslint --ignore-pattern 'resources/js/Components/ui/*' --fix --max-warnings 0 resources/js/ "
