@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('course', \App\Http\Controllers\CourseController::class)->only(['index', 'show']);
+Route::resource('project', \App\Http\Controllers\ProjectController::class)->only(['index', 'show']);
 
 // ┌───────────────────────────────┐
 // │ back office                   │

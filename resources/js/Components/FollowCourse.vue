@@ -22,7 +22,7 @@ function calculateCompletionPercentage(): number {
 </script>
 
 <template>
-  <div class="bg-amber-100 p-4 rounded-lg">
+  <div class="bg-green-400 bg-opacity-30 p-4 rounded-lg">
     <h2 class="text-lg font-bold mb-4">Progression des cours</h2>
     <p class="text-sm my-2">Progression : {{ calculateCompletionPercentage().toFixed(2) }}%</p>
     <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden">
