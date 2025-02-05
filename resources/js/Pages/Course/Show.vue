@@ -32,8 +32,6 @@ const props = defineProps<{
 const course = props.course ?? { description: 'Description not available', title: 'Untitled', duration: 0, materials: [] };
 const craftman = props.craftman ?? { avatar: '', description: '', categories: [] };
 const project = props.project ?? { title: 'Untitled Project', description: 'No description available' };
-
-console.log(course)
 </script>
 
 <template>

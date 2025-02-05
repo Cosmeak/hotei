@@ -9,6 +9,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use phpDocumentor\Reflection\Project;
 
 class DatabaseSeeder extends Seeder
 {
@@ -69,7 +70,14 @@ class DatabaseSeeder extends Seeder
             'is_draft' => False,
             'is_skill' => True
         ]);
-
         $course->save();
+
+        $project = \App\Models\Project::create([
+            'craftman_id' => $craftman->id,
+            'craftsmanship_id' => $craftsmanship->id,
+            'description' => 'dzadza dza dza dza dzad za',
+            'is_draft' => False,
+        ]);
+        $project->save();
     }
 }
