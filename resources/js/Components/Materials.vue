@@ -19,12 +19,12 @@ const materials: Materials[] = [
 </script>
 
 <template>
-  <section class="bg-green-400 bg-opacity-30 rounded-lg p-6 shadow-sm px-40">
+  <section class="bg-green-400 bg-opacity-30 rounded-lg p-6 shadow-sm px-8 md:px-40">
     <h2 class="text-2xl font-bold leading-none tracking-tight text-primary mb-2">Matériel nécessaire pour le projet :</h2>
     <p class="text-sm text-muted-foreground mb-4">Ravitaillez-vous en équipement chez nos partenaires !</p>
 
 
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid md:grid-cols-3 gap-4">
       <li v-for="material in materials" :key="material.id" class="flex items-center justify-between rounded-lg border bg-background p-2 shadow hover:shadow-lg transition">
         <div class="flex items-center gap-4">
           <img :src="material.image" alt="Material" class="h-10 w-10 rounded-lg border object-cover" />

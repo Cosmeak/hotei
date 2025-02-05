@@ -40,14 +40,14 @@ const project = props.project ?? { title: 'Untitled Project', description: 'No d
   <Head :title="course.title" />
   <main class="bg-amber-50">
     <Header :header="{ title: project.title, duration: course.duration }" />
-    <div class=" gap-4">
+    <div class="gap-4">
       <Materials :materials="course.materials" />
       <Skills />
-      <section class="flex justify-around px-40">
-        <div class="w-3/5">
+      <section class="md:flex justify-around px-4 md:px-40">
+        <div class="md:w-3/5">
           <FollowCourse />
         </div>
-        <div class="w-1/3">
+        <div class="md:w-1/3">
           <ArtisanResume :craftman="craftman" />
         </div>
       </section>
