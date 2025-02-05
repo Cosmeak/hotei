@@ -21,6 +21,7 @@ class Course extends Model
         'craftman_id',
         'craftmanship_id',
         'title',
+        'description',
         'duration',
         'difficulty',
         'cost',

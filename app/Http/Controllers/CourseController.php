@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Inertia\Inertia;
 
 class CourseController extends Controller
@@ -9,7 +10,7 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Inertia\Response
     {
         return Inertia::render('Course/Index');
     }
@@ -17,9 +18,9 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Course $course)
+    public function show(Course $course): \Inertia\Response
     {
-        return Inertia::render('Course/Index', [
+        return Inertia::render('Course/Show', [
             'course' => $course,
         ]);
     }

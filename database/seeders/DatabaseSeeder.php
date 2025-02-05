@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course;
 use App\Models\Craftman;
+use App\Models\Craftsmanship;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -48,5 +50,26 @@ class DatabaseSeeder extends Seeder
 
         $craftmanUser->craftman_id = $craftman->id;
         $craftmanUser->save();
+
+        $craftsmanship = Craftsmanship::create([
+            'name' => 'test',
+            'color' => '#ffffff',
+            'description' => 'dzadza dza dza dzad za'
+        ]);
+
+        $course = Course::create([
+            'craftman_id' => $craftman->id,
+            'craftsmanship_id' => $craftsmanship->id,
+            'title' => 'Title course',
+            'duration' => '50',
+            'description' => 'Description course',
+            'difficulty' => '2',
+            'cost' => '50',
+            'materials' => ['wood', 'needle'],
+            'is_draft' => False,
+            'is_skill' => True
+        ]);
+
+        $course->save();
     }
 }
