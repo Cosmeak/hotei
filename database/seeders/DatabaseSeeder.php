@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course;
 use App\Models\Craftman;
+use App\Models\Craftsmanship;
+use App\Models\Project;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -32,8 +34,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $craftmanUser = User::factory()->create([
-            'firstname' => 'Craftman',
-            'lastname' => 'Craftman',
+            'firstname' => 'Marie',
+            'lastname' => 'Dupont',
             'email' => 'craftman@hotei.com',
             'password' => Hash::make('password'),
             'role' => 'craftman',
@@ -41,12 +43,40 @@ class DatabaseSeeder extends Seeder
 
         $craftman = Craftman::create([
             'user_id' => $craftmanUser->id,
-            'avatar' => 'dzada',
-            'description' => 'description',
+            'avatar' => 'https://thispersondoesnotexist.com/',
+            'description' => 'Passionnée de crochet depuis plusieurs années, Marie Dupont crée des pièces uniques allant des accessoires de mode aux objets décoratifs. Dotée d’un grand souci du détail et d’une créativité sans limite, elle maîtrise diverses techniques comme le crochet tunisien et l’amigurumi. Elle partage son savoir-faire à travers des tutoriels et des créations personnalisées.',
             'categories' => ['test', 'test2'],
         ]);
 
         $craftmanUser->craftman_id = $craftman->id;
         $craftmanUser->save();
+
+        $craftsmanship = Craftsmanship::create([
+            'name' => 'test',
+            'color' => '#ffffff',
+            'description' => 'dzadza dza dza dzad za'
+        ]);
+
+        $course = Course::create([
+            'craftman_id' => $craftman->id,
+            'craftsmanship_id' => $craftsmanship->id,
+            'title' => 'Faire une chainette',
+            'duration' => '50',
+            'description' => '',
+            'difficulty' => '2',
+            'cost' => '50',
+            'materials' => ['Un crochet adapté', 'Une pelote de fil'],
+            'is_draft' => False,
+            'is_skill' => True
+        ]);
+
+        $project = Project::create([
+            'craftman_id' => $craftman->id,
+            'craftsmanship_id' => $craftsmanship->id,
+            'description' => "La chaînette est la base de presque tous les projets au crochet. Elle consiste à créer une série de mailles en l'air qui serviront de fondation pour le reste de l'ouvrage.",
+            'is_draft' => False,
+        ]);
+
+        $project->courses()->attach($course->id);
     }
 }
