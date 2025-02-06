@@ -5,14 +5,14 @@ module.exports = {
   darkMode: ["class"],
   safelist: ["dark"],
   prefix: "",
-  
+
   content: [
     "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
     "./storage/framework/views/*.php",
     "./resources/views/**/*.blade.php",
     "./resources/js/**/*.{ts,tsx,vue}",
   ],
-  
+
   theme: {
     container: {
       center: true,
@@ -27,6 +27,10 @@ module.exports = {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
+        background_component: "hsl(var(--background-component))",
+        background_green_darker: "hsl(var(--background-green-darker))",
+        background_green_light: "hsl(var(--background-green-light))",
+        yellow_darker: "hsl(var(--yellow-darker))",
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
