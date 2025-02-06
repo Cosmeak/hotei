@@ -34,6 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('projects/{project}')->name('projects.')->group(function () {
         Route::resource('course', \App\Http\Controllers\CourseController::class)->only(['show']);
     });
+  
+    Route::get('/craft/{slug}', [\App\Http\Controllers\CraftsmanshipController::class, 'show'])
+      ->name('craft.show');
 });
 
 
@@ -43,3 +46,4 @@ Route::middleware('auth')->group(function () {
 // │ landing page api              │
 // └───────────────────────────────┘
 Route::get('newsletter', [\App\Http\Controllers\NewsletterController::class, 'index']);
+
