@@ -1,11 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from "vue";
-
-const { id = 123, title = "tricot", credit = 2 } = defineProps<{
-  id: number,
-  title: string,
-  credit: number,
-}>();
 
 const skills = [
   { id: 1, title: "noeud", credits: 3 },
