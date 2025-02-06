@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\Craftman;
 use App\Models\Project;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CourseController extends Controller
@@ -13,7 +12,7 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Inertia\Response
+    public function index(Project $project): \Inertia\Response
     {
         return Inertia::render('Course/Index');
     }
@@ -21,35 +20,24 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Course $course): \Inertia\Response
+    public function show(Project $project, Course $course): \Inertia\Response
     {
-        $craftman = $this->getCraftmanWithUser($course->craftman_id);
-        $project = $this->getProject($course);
-        $materials = $this->prepareMaterials($course);
+        $course->load('craftman.user');
+
+        $course->materials = $this->prepareMaterials($course);
+
+        $user = Auth::user();
+        $completedCourses = $user->load(['completedCourses' => function ($query) use($project) {
+            $query->whereIn('course_id', $project->courses->pluck('id'));
+        }]);
+
+        $completion = $completedCourses->count() / $project->courses->count();
 
         return Inertia::render('Course/Show', [
-            'course' => $this->prepareCourseData($course, $materials),
-            'craftman' => $this->prepareCraftmanData($craftman),
-            'project' => $this->prepareProjectData($project),
+            'project' => $project,
+            'course' => $course,
+            'completion' => $completion,
         ]);
-    }
-
-    /**
-     * Get Artisan by the user.
-     */
-    private function getCraftmanWithUser(string $craftmanId)
-    {
-        return Craftman::with('user')->findOrFail($craftmanId);
-    }
-
-    /**
-     * Get Project
-     */
-    private function getProject(Course $course)
-    {
-        return Project::where('craftman_id', $course->craftman_id)
-            ->where('craftsmanship_id', $course->craftsmanship_id)
-            ->first();
     }
 
     /**
@@ -66,43 +54,5 @@ class CourseController extends Controller
                 'url' => "https://example.com/materials/{$material}",
             ];
         });
-    }
-
-    /**
-     * Prepare course data.
-     */
-    private function prepareCourseData(Course $course, $materials): array
-    {
-        return [
-            'title' => $course->title,
-            'description' => $course->description,
-            'duration' => $course->duration,
-            'materials' => $materials,
-        ];
-    }
-
-    /**
-     * Prepare artisan data
-     */
-    private function prepareCraftmanData($craftman): ?array
-    {
-        return $craftman ? [
-            'avatar' => $craftman->avatar,
-            'firstname' => $craftman->user->firstname,
-            'lastname' => $craftman->user->lastname,
-            'description' => $craftman->description,
-            'categories' => $craftman->categories ?? [],
-        ] : null;
-    }
-
-    /**
-     * Prepare project data
-     */
-    private function prepareProjectData($project): ?array
-    {
-        return $project ? [
-            'title' => $project->title ?? 'Untitled Project',
-            'description' => $project->description ?? 'No description available',
-        ] : null;
     }
 }

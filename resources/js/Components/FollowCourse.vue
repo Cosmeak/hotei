@@ -6,18 +6,12 @@ interface Course {
   isFinish: boolean;
 }
 
-const defaultCourses: Course[] = [
-  { id: 1, name: 'Cours de crochet', duration: 2, isFinish: true },
-  { id: 2, name: 'Cours de tricot', duration: 3, isFinish: false }
-];
-
-const props = defineProps<{ courses?: Course[] }>();
-const courses = props.courses ?? defaultCourses;
+const { courses } = defineProps<{ courses?: Course[] }>();
 
 function calculateCompletionPercentage(): number {
-  const totalCourses = courses.length;
-  const finishedCourses = courses.filter(course => course.isFinish).length;
-  return totalCourses > 0 ? (finishedCourses / totalCourses) * 100 : 0;
+  const totalCourses = courses?.length;
+  const finishedCourses = courses?.filter(course => course.isFinish).length;
+  return totalCourses && finishedCourses && totalCourses > 0 ? (finishedCourses / totalCourses) * 100 : 0;
 }
 </script>
 

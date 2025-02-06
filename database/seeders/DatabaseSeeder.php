@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Course;
 use App\Models\Craftman;
 use App\Models\Craftsmanship;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -42,7 +43,7 @@ class DatabaseSeeder extends Seeder
 
         $craftman = Craftman::create([
             'user_id' => $craftmanUser->id,
-            'avatar' => 'dzada',
+            'avatar' => 'https://thispersondoesnotexist.com/',
             'description' => 'Passionnée de crochet depuis plusieurs années, Marie Dupont crée des pièces uniques allant des accessoires de mode aux objets décoratifs. Dotée d’un grand souci du détail et d’une créativité sans limite, elle maîtrise diverses techniques comme le crochet tunisien et l’amigurumi. Elle partage son savoir-faire à travers des tutoriels et des créations personnalisées.',
             'categories' => ['test', 'test2'],
         ]);
@@ -68,14 +69,14 @@ class DatabaseSeeder extends Seeder
             'is_draft' => False,
             'is_skill' => True
         ]);
-        $course->save();
 
-        $project = \App\Models\Project::create([
+        $project = Project::create([
             'craftman_id' => $craftman->id,
             'craftsmanship_id' => $craftsmanship->id,
             'description' => "La chaînette est la base de presque tous les projets au crochet. Elle consiste à créer une série de mailles en l'air qui serviront de fondation pour le reste de l'ouvrage.",
             'is_draft' => False,
         ]);
-        $project->save();
+
+        $project->courses()->attach($course->id);
     }
 }
