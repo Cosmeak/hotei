@@ -27,12 +27,14 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::prefix('projects/{project}')->name('projects.')->group(function () {
+        Route::resource('course', \App\Http\Controllers\CourseController::class)->only(['index', 'show']);
+    });
 });
 
-Route::resource('course', \App\Http\Controllers\CourseController::class)->only(['index', 'show']);
 
 // ┌───────────────────────────────┐
 // │ landing page api              │
