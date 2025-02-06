@@ -13,7 +13,7 @@ const props = defineProps<{ materials: Materials[] }>();
 </script>
 
 <template>
-  <section class="bg-background_component rounded-lg p-6 shadow-sm">
+  <section class="bg-background_component md:rounded-lg p-6 shadow-sm" :class="$attrs.class">
     <h2 class="text-lg font-semibold leading-none tracking-tight text-primary mb-2">Matériel Recommandé</h2>
     <p class="text-sm text-muted-foreground mb-4">Pour cette partie du projet</p>
     <ul class="space-y-3">

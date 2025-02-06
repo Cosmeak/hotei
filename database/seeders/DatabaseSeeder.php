@@ -74,6 +74,7 @@ class DatabaseSeeder extends Seeder
             'craftman_id' => $craftman->id,
             'craftsmanship_id' => $craftsmanship->id,
             'description' => "La chaînette est la base de presque tous les projets au crochet. Elle consiste à créer une série de mailles en l'air qui serviront de fondation pour le reste de l'ouvrage.",
+            'duration' => '50',
             'is_draft' => False,
         ]);
 

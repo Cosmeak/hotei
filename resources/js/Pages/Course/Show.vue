@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import Materials from "@/Components/Materials.vue";
 import ArtisanResume from "@/Components/ArtisanResume.vue";
 import FollowCourse from "@/Components/FollowCourse.vue";

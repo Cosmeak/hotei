@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignUuid('craftman_id')->constrained('craftmen')->cascadeOnDelete();
             $table->foreignUuid('craftsmanship_id')->constrained('craftsmanships')->nullOnDelete();
             $table->text('description');
+            $table->integer('duration');
             $table->boolean('is_draft')->default(true);
             $table->timestamps();
             $table->softDeletes();

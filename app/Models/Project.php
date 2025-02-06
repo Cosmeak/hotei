@@ -20,6 +20,7 @@ class Project extends Model
         'craftman_id',
         'craftmanship_id',
         'description',
+        'duration',
         'is_draft',
     ];
 
