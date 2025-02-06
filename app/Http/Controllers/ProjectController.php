@@ -8,11 +8,6 @@ use Inertia\Response;
 
 class ProjectController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      */

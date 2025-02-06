@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('projects', \App\Http\Controllers\ProjectController::class)->only(['index', 'show']);
     Route::prefix('projects/{project}')->name('projects.')->group(function () {
-        Route::resource('course', \App\Http\Controllers\CourseController::class)->only(['index', 'show']);
+        Route::resource('course', \App\Http\Controllers\CourseController::class)->only(['show']);
     });
 });
 
