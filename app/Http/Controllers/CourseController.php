@@ -4,30 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Project;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class CourseController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index(Project $project): \Inertia\Response
-    {
-        return Inertia::render('Course/Index');
-    }
-
-    /**
      * Display the specified resource.
      */
-    public function show(Project $project, Course $course): \Inertia\Response
+    public function show(Project $project, Course $course): Response|RedirectResponse
     {
-        $course->load('craftman.user');
+        if ($course->is_skill) {
+            return back();
+        }
+
+        $course->load('craftman.user', 'skills');
 
         $course->materials = $this->prepareMaterials($course);
 
         $user = Auth::user();
-        $completedCourses = $user->load(['completedCourses' => function ($query) use($project) {
+        $completedCourses = $user->load(['completedCourses' => function ($query) use ($project) {
             $query->whereIn('course_id', $project->courses->pluck('id'));
         }]);
 

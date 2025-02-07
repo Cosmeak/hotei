@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Craftsmanship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
@@ -42,6 +43,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'meta' => [
                 'layout' => str_contains(Route::currentRouteName(), 'backoffice.') ? 'BackOfficeLayout' : 'AppLayout',
+                'craftsmanships' => Craftsmanship::all(),
             ],
         ];
     }
