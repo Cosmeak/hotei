@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-    <div class="flex-1 bg-white border-2 border-[#104730] rounded-lg p-3 shadow-sm">
+    <div class="flex-1 bg-white border-2 border-[#a0c1a6] rounded-2xl p-3 shadow-sm">
         <img :src="image" :alt="title" class="rounded mb-2 object-cover w-full h-24" />
         <div class="flex items-center justify-between text-xs mb-1">
             <span class="bg-[#F7DCB9] text-[#104730] px-1 py-0.5 rounded">
@@ -23,8 +23,8 @@ defineProps<{
         <p class="text-xs text-gray-600 mb-1">par {{ author }}</p>
         <hr class="my-2 border-gray-300" />
         <div class="flex items-center text-xs text-gray-600 justify-between">
-            <span>{{ difficulty }}</span>
-            <span>{{ duration }}</span>
+            <span><i class="fas fa-tasks mr-1"></i>{{ difficulty }}</span>
+            <span><i class="fas fa-clock mr-1"></i>{{ duration }}</span>
         </div>
     </div>
 </template>

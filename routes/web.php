@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
         Route::get('courses/{course}', [CourseController::class, 'show'])->name('courses.show');
     });
 
-    Route::get('craftsmanships/{slug}', [CraftsmanshipController::class, 'show'])->name('craftsmanships.show');
+    Route::get('craftsmanships/{craftsmanship}', [CraftsmanshipController::class, 'show'])->name('craftsmanships.show');
     Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.show');
 
 });

@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Craft;
+use Illuminate\Http\Request;
+use App\Models\Craftsmanship;
 
 class CraftsmanshipController extends Controller
 {
-    public function show($slug)
+    public function show(Craftsmanship $craftsmanship)
     {
-        $craft = Craft::findBySlugOrFail($slug);
-
         return Inertia::render('Craftmanship', [
-            'craft' => [
-                'slug'        => $craft->slug,
-                'name'        => $craft->name,
-                'description' => $craft->description,
-            ],
+            'craftsmanship' => $craftsmanship,
         ]);
     }
 }
