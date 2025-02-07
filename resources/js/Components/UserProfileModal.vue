@@ -22,7 +22,7 @@ function toUpper(text?: string): string {
 <template>
   <Dialog v-model:open="showModal">
     <DialogTrigger as-child>
-      <Button @click="showModal = true">Voir le Profil</Button>
+      <Button class="bg-background_green_darker hover:bg-background_green_darker" @click="showModal = true">Voir le Profil</Button>
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>
