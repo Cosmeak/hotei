@@ -1,7 +1,7 @@
 import "./bootstrap";
 import "../css/app.css";
 
-import { createApp, h, DefineComponent, App } from "vue";
+import { createApp, h, DefineComponent, App, Component } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
@@ -15,14 +15,14 @@ const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 const registerGlobalComponents = (app: App) => {
   const components = import.meta.glob("./Components/ui/**/*/index.ts", {
     eager: true,
-  });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Object.values(components).forEach((component: any) => {
-    // const componentName: String = path.split("/").at(-1).split(".")[0];
-    for (const subcomponentName in component) {
-      app.component(subcomponentName, component[subcomponentName]);
-    }
-  });
+  }) as Record<string, unknown>;
+  Object.values(components)
+    .filter((c): c is Record<string, Component> => !!c)
+    .forEach((component: Record<string, Component>) => {
+      for (const subcomponentName in component) {
+        app.component(subcomponentName, component[subcomponentName]);
+      }
+    });
 };
 
 /**
