@@ -20,6 +20,7 @@ class Project extends Model
         'craftman_id',
         'craftmanship_id',
         'description',
+        'duration',
         'is_draft',
     ];
 
@@ -40,4 +41,5 @@ class Project extends Model
     {
         return $this->belongsTo(Craftsmanship::class);
     }
+
 }

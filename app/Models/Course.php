@@ -21,6 +21,7 @@ class Course extends Model
         'craftman_id',
         'craftmanship_id',
         'title',
+        'description',
         'duration',
         'difficulty',
         'cost',
@@ -59,6 +60,11 @@ class Course extends Model
     public function craftmanship(): BelongsTo
     {
         return $this->belongsTo(Craftsmanship::class);
+    }
+
+    public function project(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'projects_courses');
     }
 
     // ┌───────────────────────────────┐
