@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { usePage } from "@inertiajs/vue3";
 import { ChevronDown } from "lucide-vue-next";
+import UserProfileModal from "@/Components/UserProfileModal.vue";
 
 const user = usePage().props.auth.user;
 const craftsmanships = usePage().props.meta.craftsmanships;
@@ -30,7 +31,7 @@ const craftsmanships = usePage().props.meta.craftsmanships;
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Button>Mon profil</Button>
+      <UserProfileModal>Mon profil</UserProfileModal>
     </div>
   </header>
 </template>
