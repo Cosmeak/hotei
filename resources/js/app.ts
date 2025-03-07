@@ -6,24 +6,9 @@ import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import { Link, Head } from "@inertiajs/vue3";
+import registerGlobalComponents from "./utils/meta";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
-
-/**
- * Register all global UI components in the entire without having to import it on all pages
- */
-const registerGlobalComponents = (app: App) => {
-  const components = import.meta.glob("./Components/ui/**/*/index.ts", {
-    eager: true,
-  }) as Record<string, unknown>;
-  Object.values(components)
-    .filter((c): c is Record<string, Component> => !!c)
-    .forEach((component: Record<string, Component>) => {
-      for (const subcomponentName in component) {
-        app.component(subcomponentName, component[subcomponentName]);
-      }
-    });
-};
 
 /**
  * Create inertia app and mount vue inside
