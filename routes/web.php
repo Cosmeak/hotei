@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VideoProcessingController;
 use Inertia\Inertia;
+use App\Http\Controllers\GoogleAuthController;
 
 Route::get('newsletter', [\App\Http\Controllers\NewsletterController::class, 'index']);
 
@@ -29,5 +30,8 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/video-processing', [VideoProcessingController::class, 'index'])->name('video-processing.index');
 Route::post('/video-processing', [VideoProcessingController::class, 'store'])->name('video-processing.store');
+
+Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 
 require __DIR__.'/auth.php';

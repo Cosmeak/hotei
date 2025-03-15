@@ -40,13 +40,21 @@ const submit = () => {
             <form @submit.prevent="submit" class="space-y-4">
                 <div>
                     <InputLabel for="lastname" value="Nom" />
-                    <TextInput
+                    <!-- <TextInput
                         id="lastname"
                         type="text"
                         class="mt-1 block w-full"
                         v-model="form.lastname"
                         required
                         autofocus
+                        autocomplete="lastname"
+                    /> -->
+                    <TextInput
+                        id="lastname"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="form.lastname"
+                        required
                         autocomplete="lastname"
                     />
                     <InputError class="mt-2" :message="form.errors.lastname" />
