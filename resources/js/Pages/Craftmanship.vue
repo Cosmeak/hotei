@@ -346,76 +346,158 @@ const experts = [
     <h3 class="text-2xl font-bold mb-4 text-[#104730] text-center sm:text-left">
         Nos compétences et projets
       </h3>
-      
+
       <section class="mb-10 w-full max-w-8xl mx-auto">
-        <div class="flex flex-col gap-5 items-center">
-          
-          <!-- Ligne filtres + 2 cartes -->
-          <div class="flex flex-wrap gap-5 w-full">
-            
-            <!-- Bloc vert de filtres -->
-            <div class="relative bg-[#A0C1A6] p-3 pb-6 sm:pb-3 shadow-sm rounded-lg overflow-hidden w-full sm:w-[49%]">
-              <div class="mb-2">
-                <input type="text" placeholder="Chercher"
-                  class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[#104730] focus:outline-none text-sm" />
-              </div>
-              <div class="flex items-center flex-wrap mb-2">
-                <button class="px-3 py-1 text-sm rounded border bg-[#F7DCB9] text-[#104730] font-semibold">
-                  Tout
-                </button>
-                <button class="px-3 py-1 text-sm rounded border bg-white text-gray-700 hover:bg-gray-50">
-                  Projet
-                </button>
-                <button class="px-2 py-1 text-sm rounded border bg-white text-gray-700 hover:bg-gray-50">
-                  Compétence
-                </button>
-                <select class="ml-auto border rounded-md px-2 py-1 text-gray-700 text-sm focus:outline-none"
-                  style="min-width: 80px">
-                  <option>Facile</option>
-                  <option>Moyen</option>
-                  <option>Difficile</option>
-                </select>
-              </div>
-              <div class="flex items-center gap-2 mb-2">
-                <div class="flex items-center px-2 py-1 bg-white text-[#104730] text-xs font-bold border rounded-md"
-                  style="min-width: 55px; justify-content: center">
-                  50 CT
-                </div>
-                <input type="range" min="0" max="240" value="50" class="slider-yellow flex-grow" />
-                <div class="flex items-center px-2 py-1 bg-white text-[#104730] text-xs font-bold border rounded"
-                  style="min-width: 62px; justify-content: center">
-                  240 CT
-                </div>
-              </div>
-              <p class="absolute bottom-2 right-3 text-sm font-medium text-black text-center" style="line-height: 1.2">
-                10 résultats
-              </p>
-            </div>
+  <div class="flex flex-col gap-5 items-center">
+  <!-- Ligne filtres + 2 cartes -->
+  <div class="flex flex-wrap sm:justify-center md:justify-center w-full gap-5">
 
-            <!-- 2 cartes sur la même ligne -->
-            <div class="flex flex-wrap gap-5 justify-center">
-              <div class="w-[280px]" v-for="(card, index) in cardsProjectItems.slice(0, 2)" :key="index">
-                <CardCraftProject :image="card.image" :title="card.title" :author="card.author"
-                  :difficulty="card.difficulty" :duration="card.duration" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Ligne avec 4 cartes -->
-          <div class="mt-5 flex flex-wrap gap-6 w-full justify-center sm:justify-start min-h-[1px]">
-            <div class="w-full sm:w-[48%] md:w-[32%] max-w-[280px] flex-shrink-0" v-for="(card, index) in displayedCardsProjectItems" :key="index">
-              <CardCraftProject :image="card.image" :title="card.title" :author="card.author"
-                :difficulty="card.difficulty" :duration="card.duration" />
-            </div>
-          </div>
-
-          <div class="text-center mt-5 w-full">
-            <button class="bg-[#E8B83A] text-[#104730] font-semibold py-1 px-4 rounded hover:bg-[#e7aa2d] text-sm">
-              Voir plus
-            </button>
-          </div>
+    <!-- BLOC VERT DE FILTRES -->
+    <div 
+      class="
+        relative
+        bg-[#A0C1A6] p-3 pb-6 sm:pb-3 shadow-sm rounded-lg
+        overflow-hidden w-full sm:w-[49%] 
+        md:flex-grow  
+      "
+    >
+      <div class="mb-2">
+        <input
+          type="text"
+          placeholder="Chercher"
+          class="w-full px-3 py-2 border rounded-md
+                focus:ring-2 focus:ring-[#104730] focus:outline-none text-sm"
+        />
+      </div>
+      <div class="flex items-center flex-wrap mb-2">
+        <button class="px-3 py-1 text-sm rounded border bg-[#F7DCB9] text-[#104730] font-semibold">
+          Tout
+        </button>
+        <button class="px-3 py-1 text-sm rounded border bg-white text-gray-700 hover:bg-gray-50">
+          Projet
+        </button>
+        <button class="px-2 py-1 text-sm rounded border bg-white text-gray-700 hover:bg-gray-50">
+          Compétence
+        </button>
+        <select
+          class="ml-auto border rounded-md px-2 py-1 text-gray-700 text-sm focus:outline-none"
+          style="min-width: 80px"
+        >
+          <option>Facile</option>
+          <option>Moyen</option>
+          <option>Difficile</option>
+        </select>
+      </div>
+      <div class="flex items-center gap-2 mb-2">
+        <div
+          class="flex items-center px-2 py-1 bg-white text-[#104730] text-xs font-bold border rounded-md"
+          style="min-width: 55px; justify-content: center"
+        >
+          50 CT
         </div>
-      </section>
+        <input
+          type="range"
+          min="0"
+          max="240"
+          value="50"
+          class="slider-yellow flex-grow"
+        />
+        <div
+          class="flex items-center px-2 py-1 bg-white text-[#104730] text-xs font-bold border rounded"
+          style="min-width: 62px; justify-content: center"
+        >
+          240 CT
+        </div>
+      </div>
+      <!-- "10 résultats" en bas à droite -->
+      <p
+        class="absolute bottom-2 right-3 text-sm font-medium text-black text-center"
+        style="line-height: 1.2"
+      >
+        10 résultats
+      </p>
+    </div>
+    <!-- /BLOC VERT -->
+
+    <!-- 2 CARTES -->
+    <div
+      class="
+        flex flex-wrap gap-5 justify-center
+        w-full sm:w-[49%]  
+        md:flex-grow  
+        [&:only-child]:w-full /* Une seule carte prend toute la largeur */
+        [&:only-child]:max-w-[95vw] /* Elle reste contenue dans l’écran */
+        [&:only-child]:px-4 /* Ajoute du padding latéral */
+      "
+    >
+      <div
+        class="
+          flex-none w-full sm:w-[280px] 
+          max-w-[280px] mx-auto /* Évite l’élargissement et centre les cartes */
+        "
+        v-for="(card, index) in cardsProjectItems.slice(0, 2)"
+        :key="index"
+      >
+        <CardCraftProject
+          :image="card.image"
+          :title="card.title"
+          :author="card.author"
+          :difficulty="card.difficulty"
+          :duration="card.duration"
+        />
+      </div>
+    </div>
+    <!-- /2 CARTES -->
+
+  </div>
+  <!-- /LIGNE FILTRES + 2 CARTES -->
+
+
+  <!-- LIGNE AVEC 4 CARTES -->
+  <div
+    class="
+      mt-5 flex flex-wrap gap-6 w-full min-h-[1px] 
+      justify-center                 
+      sm:justify-center              
+      md:justify-center              
+      lg:justify-center 
+      max-w-[95vw] mx-auto /* Empêche les cartes de toucher les bords */
+      overflow-x-auto /* Ajoute une scrollbar si nécessaire */
+      px-4 sm:px-6 md:px-8 lg:px-12 /* Ajoute de l’espace latéral */
+    "
+  >
+    <div
+      class="
+        flex-none 
+        w-[280px] max-w-[280px] /* Bloque la largeur des cartes */
+        mx-auto 
+      "
+      v-for="(card, index) in displayedCardsProjectItems"
+      :key="index"
+    >
+      <CardCraftProject
+        :image="card.image"
+        :title="card.title"
+        :author="card.author"
+        :difficulty="card.difficulty"
+        :duration="card.duration"
+      />
+    </div>
+  </div>
+  <!-- /LIGNE AVEC 4 CARTES -->
+
+
+      <div class="text-center mt-5 w-full">
+        <button
+          class="bg-[#E8B83A] text-[#104730] font-semibold py-1 px-4 rounded
+                hover:bg-[#e7aa2d] text-sm"
+        >
+          Voir plus
+        </button>
+      </div>
+      
+    </div>
+  </section>
 
       <!-- SECTION finale : Nos artisans experts pour apprendre -->
       <section class="my-artisans flex flex-col relative w-full gap-7 bg-[#F8F5F0] py-6">
