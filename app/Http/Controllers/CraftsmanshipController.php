@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 use App\Models\Craft;
+use Inertia\Inertia;
 
 class CraftsmanshipController extends Controller
 {
@@ -14,8 +13,8 @@ class CraftsmanshipController extends Controller
 
         return Inertia::render('Craftmanship', [
             'craft' => [
-                'slug'        => $craft->slug,
-                'name'        => $craft->name,
+                'slug' => $craft->slug,
+                'name' => $craft->name,
                 'description' => $craft->description,
             ],
         ]);

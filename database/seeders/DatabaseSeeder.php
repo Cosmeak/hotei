@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
         $craftsmanship = Craftsmanship::create([
             'name' => 'test',
             'color' => '#ffffff',
-            'description' => 'dzadza dza dza dzad za'
+            'description' => 'dzadza dza dza dzad za',
         ]);
 
         $course = Course::create([
@@ -66,8 +66,8 @@ class DatabaseSeeder extends Seeder
             'difficulty' => '2',
             'cost' => '50',
             'materials' => ['Un crochet adapté', 'Une pelote de fil'],
-            'is_draft' => False,
-            'is_skill' => True
+            'is_draft' => false,
+            'is_skill' => true,
         ]);
 
         $project = Project::create([
@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
             'craftsmanship_id' => $craftsmanship->id,
             'description' => "La chaînette est la base de presque tous les projets au crochet. Elle consiste à créer une série de mailles en l'air qui serviront de fondation pour le reste de l'ouvrage.",
             'duration' => '50',
-            'is_draft' => False,
+            'is_draft' => false,
         ]);
 
         $project->courses()->attach($course->id);
