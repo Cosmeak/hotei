@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import Checkbox from "@/Components/Checkbox.vue";
-import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import Footer from "@/Components/Footer.vue";
 import { Label } from '@/Components/ui/label';
 import { Input } from '@/Components/ui/input';
 import { Checkbox } from "@/Components/ui/checkbox"
 import { Button } from '@/Components/ui/button';
-import { useForm } from 'laravel-precognition-vue-inertia';
 
 defineProps<{
   canResetPassword?: boolean;
