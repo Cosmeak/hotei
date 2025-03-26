@@ -67,24 +67,24 @@ const submit = () => {
             <div class="mt-4">
                 <Label for="password">Password</Label>
 
-                <Input
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
+          <TextInput
+            id="password"
+            type="password"
+            class="mt-1 block w-full"
+            v-model="form.password"
+            required
+            autocomplete="current-password"
+          />
 
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+          <InputError class="mt-2" :message="form.errors.password" />
+        </div>
 
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <Checkbox name="remember" :model-value="form.remember" @update:model-value="(value) => form.remember = value as boolean" />
-                    <span class="ms-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
+        <div class="block mt-4">
+          <label class="flex items-center">
+            <Checkbox name="remember" v-model:checked="form.remember" />
+            <span class="ms-2 text-sm text-gray-600">Se souvenir de moi </span>
+          </label>
+        </div>
 
             <div class="flex items-center justify-end mt-4">
                 <InertiaLink

@@ -33,12 +33,43 @@ class DatabaseSeeder extends Seeder
         $craftmanships = ['Crochet', 'Coutellerie', 'Maroquinerie', 'Poterie'];
         Craftsmanship::factory(count($craftmanships))->state(new Sequence(fn (Sequence $sequence) => ['name' => $craftmanships[$sequence->index]]))->create();
 
-        Project::factory()->count(10)->hasCourses(5, function (array $attributes, Project $project) {
-            return [
-                'craftman_id' => $project->craftman_id,
-                'craftsmanship_id' => $project->craftsmanship_id,
-            ];
-        })->create();
-        Course::factory()->count(10)->isSkill()->create();
+        $craftman = Craftman::create([
+            'user_id' => $craftmanUser->id,
+            'avatar' => 'https://thispersondoesnotexist.com/',
+            'description' => 'Passionnée de crochet depuis plusieurs années, Marie Dupont crée des pièces uniques allant des accessoires de mode aux objets décoratifs. Dotée d’un grand souci du détail et d’une créativité sans limite, elle maîtrise diverses techniques comme le crochet tunisien et l’amigurumi. Elle partage son savoir-faire à travers des tutoriels et des créations personnalisées.',
+            'categories' => ['test', 'test2'],
+        ]);
+
+        $craftmanUser->craftman_id = $craftman->id;
+        $craftmanUser->save();
+
+        $craftsmanship = Craftsmanship::create([
+            'name' => 'test',
+            'color' => '#ffffff',
+            'description' => 'dzadza dza dza dzad za',
+        ]);
+
+        $course = Course::create([
+            'craftman_id' => $craftman->id,
+            'craftsmanship_id' => $craftsmanship->id,
+            'title' => 'Faire une chainette',
+            'duration' => '50',
+            'description' => '',
+            'difficulty' => '2',
+            'cost' => '50',
+            'materials' => ['Un crochet adapté', 'Une pelote de fil'],
+            'is_draft' => false,
+            'is_skill' => true,
+        ]);
+
+        $project = Project::create([
+            'craftman_id' => $craftman->id,
+            'craftsmanship_id' => $craftsmanship->id,
+            'description' => "La chaînette est la base de presque tous les projets au crochet. Elle consiste à créer une série de mailles en l'air qui serviront de fondation pour le reste de l'ouvrage.",
+            'duration' => '50',
+            'is_draft' => false,
+        ]);
+
+        $project->courses()->attach($course->id);
     }
 }
