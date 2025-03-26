@@ -41,5 +41,4 @@ class Project extends Model
     {
         return $this->belongsTo(Craftsmanship::class);
     }
-
 }

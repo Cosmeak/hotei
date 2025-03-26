@@ -21,14 +21,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'firstname',
-        'lastname',
-        'role',
-        'email',
-        'password',
-        'credits',
-        'subscription_plan',
-        'verified_at',
+        "google_id",
+        "firstname",
+        "lastname",
+        "role",
+        "email",
+        "password",
+        "credits",
+        "subscription_plan",
+        "verified_at",
     ];
 
     /**
@@ -36,10 +37,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ["password", "remember_token"];
 
     /**
      * Get the attributes that should be cast.
@@ -49,22 +47,26 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            "email_verified_at" => "datetime",
+            "password" => "hashed",
         ];
     }
 
     // ┌───────────────────────────────┐
-    // │ relations                     │
+    // │ relations                                          │
     // └───────────────────────────────┘
     public function completedCourses(): BelongsToMany
     {
-        return $this->belongsToMany(Course::class, 'completed')->withPivot('completed_at');
+        return $this->belongsToMany(Course::class, "completed")->withPivot(
+            "completed_at"
+        );
     }
 
     public function completedProjects(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class, 'completed')->withPivot('completed_at');
+        return $this->belongsToMany(Project::class, "completed")->withPivot(
+            "completed_at"
+        );
     }
 
     public function orders(): HasMany

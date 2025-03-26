@@ -52,6 +52,12 @@ Route::middleware("guest")->group(function () {
         Route::get("auth/google/callback", "handleCallback");
     });
 
+    Route::controller(FacebookAuthController::class)->group(function () {
+        Route::get("auth/facebook", "redirectToFacebook")->name(
+            "auth.facebook"
+        );
+        Route::get("auth/facebook/callback", "handleCallback");
+    });
 });
 
 Route::middleware("auth")->group(function () {
