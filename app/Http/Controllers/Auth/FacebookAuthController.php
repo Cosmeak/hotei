@@ -29,7 +29,7 @@ class FacebookAuthController extends Controller
             $facebookUser = Socialite::driver("facebook")->user();
 
             if (!$facebookUser) {
-                back()->with([
+                return back()->with([
                     "toast" => [
                         "type" => "error",
                         "message" => __(
@@ -57,7 +57,7 @@ class FacebookAuthController extends Controller
                 "Erreur lors de la connexion Facebook : " . $e->getMessage()
             );
 
-            back()->with([
+            return back()->with([
                 "toast" => [
                     "type" => "error",
                     "message" => __(

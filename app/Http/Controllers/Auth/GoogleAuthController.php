@@ -29,7 +29,7 @@ class GoogleAuthController extends Controller
             $googleUser = Socialite::driver("google")->user();
 
             if (!$googleUser) {
-                back()->with([
+                return back()->with([
                     "toast" => [
                         "type" => "error",
                         "message" => __(
@@ -57,7 +57,7 @@ class GoogleAuthController extends Controller
                 "Erreur lors de la connexion Google : " . $e->getMessage()
             );
 
-            back()->with([
+            return back()->with([
                 "toast" => [
                     "type" => "error",
                     "message" => __(
