@@ -12,21 +12,20 @@ use App\Services\OrderService;
 use Illuminate\Support\Facades\Route;
 
 // ┌───────────────────────────────┐
-// │ authentication                                     │
+// │ authentication                │
 // └───────────────────────────────┘
-require __DIR__.'/web/auth.php';
+require __DIR__.'/auth.php';
 
 // ┌───────────────────────────────┐
-// │ back office                                        │
+// │ back office                   │
 // └───────────────────────────────┘
-require __DIR__.'/web/backoffice.php';
+require __DIR__.'/backoffice.php';
 
 // ┌───────────────────────────────┐
-// │ user interface                                     │
+// │ user interface                │
 // └───────────────────────────────┘
 Route::get('/', HomeController::class)->name('home');
 
-// Craftsmanships
 Route::get('craftsmanships/{slug}', [CraftsmanshipController::class, 'show'])->name('craftsmanships.show');
 
 // Authenticated routes
@@ -55,7 +54,7 @@ Route::get('buy-course/{userId}/{courseId}', [OrderService::class, 'setCourseOrd
 Route::get('buy-project/{userId}/{projectId}', [OrderService::class, 'setProjectOrder'])->name('course.setProject');
 
 // ┌───────────────────────────────┐
-// │ landing page api                                   │
+// │ landing page api              │
 // └───────────────────────────────┘
 
 // Route::get('newsletter', [NewsletterController::class, 'index']);
