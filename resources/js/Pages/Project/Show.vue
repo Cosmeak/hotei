@@ -6,7 +6,6 @@ import ArtisanResume from "@/Components/ArtisanResume.vue";
 import FollowCourse from "@/Components/FollowCourse.vue";
 import Header from "@/Pages/Project/Partials/Header.vue";
 import Skills from "@/Pages/Project/Partials/Skills.vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
 
 const { project } = defineProps<{
   project: Project;
@@ -14,11 +13,10 @@ const { project } = defineProps<{
 </script>
 
 <template>
-  <AppLayout>
     <Head :title="project.title" />
     <main>
       <Header :header="{ title: project.title, duration: project.duration }" />
-      <div class="gap-4">
+      <div class="gap-4>
         <Materials class="md:px-40" :materials="project.materials!" />
         <Skills />
         <section class="md:flex justify-around px-4 md:px-40">
@@ -32,5 +30,4 @@ const { project } = defineProps<{
         <!--<Commantary />-->
       </div>
     </main>
-  </AppLayout>
 </template>

@@ -5,7 +5,6 @@ import ArtisanResume from "@/Components/ArtisanResume.vue";
 import FollowCourse from "@/Components/FollowCourse.vue";
 import Header from "@/Pages/Course/Partials/Header.vue";
 import { Course, Project } from "@/types";
-import AppLayout from "@/Layouts/AppLayout.vue";
 
 const { course, project } = defineProps<{
   course: Course;
@@ -14,25 +13,23 @@ const { course, project } = defineProps<{
 </script>
 
 <template>
-  <AppLayout>
-    <Head :title="course.title" />
-    <main class="bg-background">
-      <Header :header="{ title: course.title, duration: course.duration }" />
-      <div class="flex px-40 gap-4">
-        <section>
-          <h3 class="mb-2 font-bold text-2xl">Description</h3>
-          <div class="min-w-[58rem]">
-            <p>{{ project.description }}</p>
-          </div>
-        </section>
-        <section>
-          <Materials :materials="course.materials!" />
-          <div class="mt-6">
-            <ArtisanResume :craftman="course.craftman" />
-          </div>
-          <FollowCourse />
-        </section>
-      </div>
-    </main>
-  </AppLayout>
+  <Head :title="course.title" />
+  <main class="bg-background">
+    <Header :header="{ title: course.title, duration: course.duration }" />
+    <div class="flex x-40 gap-4">
+      <section>
+        <h3 class="mb-2 font-bold text-2xl">Description</h3>
+        <div class="min-w-[58rem]">
+          <p>{{ project.description }}</p>
+        </div>
+      </section>
+      <section>
+        <Materials :materials="course.materials!" />
+        <div class="mt-6">
+          <ArtisanResume :craftman="course.craftman" />
+        </div>
+        <FollowCourse />
+      </section>
+    </div>
+  </main>
 </template>

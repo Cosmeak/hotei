@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import BackOfficeLayout from "@/Layouts/BackOfficeLayout.vue";
 import CourseForm from "@/Components/forms/CourseForm.vue";
 
 const { craftmen, categories, course } = defineProps([
@@ -10,11 +9,5 @@ const { craftmen, categories, course } = defineProps([
 </script>
 
 <template>
-  <BackOfficeLayout>
-    <CourseForm
-      :course="course"
-      :craftmen="craftmen"
-      :categories="categories"
-    />
-  </BackOfficeLayout>
+  <CourseForm :course="course" :craftmen="craftmen" :categories="categories" />
 </template>
