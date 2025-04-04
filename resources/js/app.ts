@@ -1,12 +1,14 @@
 import "./bootstrap";
 import "../css/app.css";
 
-import { createSSRApp, h, DefineComponent, App, Component } from "vue";
+import { createSSRApp, h, DefineComponent } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
-import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import { Link, Head } from "@inertiajs/vue3";
 import registerGlobalComponents from "./utils/meta";
+import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import BackOfficeLayout from "@/Layouts/BackOfficeLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -15,11 +17,21 @@ const appName = import.meta.env.VITE_APP_NAME || "Laravel";
  */
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
-  resolve: (name) =>
-    resolvePageComponent(
+  resolve: async (name) => {
+    const page = await resolvePageComponent(
       `./Pages/${name}.vue`,
-      import.meta.glob<DefineComponent>("./Pages/**/*.vue"),
-    ),
+      import.meta.glob<DefineComponent>([
+        "./Pages/**/*.vue",
+        "./Layouts/**/*.vue",
+      ]),
+    );
+
+    page.default.layout = name.startsWith("Backoffice/")
+      ? BackOfficeLayout
+      : AppLayout;
+
+    return page;
+  },
   setup({ el, App, props, plugin }) {
     const app = createSSRApp({ render: () => h(App, props) })
       .use(plugin)
