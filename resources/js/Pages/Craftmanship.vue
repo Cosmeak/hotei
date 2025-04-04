@@ -218,7 +218,7 @@ const experts = [
   <div class="min-h-screen w-full bg-[#F8F5F0] text-gray-800">
     <div class="h-6"></div>
 
-    <div class="mx-4 md:mx-[120px] md:px-5">
+    <div class="mx-4 md:mx-[10px] md:px-5">
       <!-- SECTION 1 : Hero arrondi, quarts de cercles -->
       <section
       class="hero-fixed-height relative mx-auto px-4 sm:px-6 py-6 md:py-10 mb-12 rounded-[20px] shadow-md overflow-hidden md:px-8"
@@ -262,13 +262,13 @@ const experts = [
         </svg>
 
         <!-- Contenu HERO -->
-        <div class="relative z-10 flex flex-col md:flex-row items-start space-y-4 md:space-y-0">
-          <!-- Titre / description à gauche -->
+        <div class="relative flex flex-col md:flex-row items-start space-y-4 md:space-y-0">
+          <!-- Titre -->
           <div class="md:w-2/3 md:pr-6 mb-2 md:mb-0 w-full">
-            <h1 class="text-2xl font-bold mb-1" style="color: #104730">
+            <h1 class="text-6xl mb-1">
               Le {{ craftsmanship.name }}
             </h1>
-            <p class="text-sm md:text-base leading-tight" style="color: #104730">
+            <p class="text-xl md:text-2xl leading-tight">
               {{ craftsmanship.description }}
             </p>
           </div>
@@ -287,7 +287,7 @@ const experts = [
       </section>
 
       <!-- SECTION 2 : Derniers cours et projets -->
-      <section class="mx-auto px-6 md:px-8 mb-12">
+      <section class="mx-auto md:px-8 mb-12">
         <h2 class="text-2xl font-bold mb-6" style="color: #104730">
           Tes derniers cours et projet
         </h2>
@@ -343,7 +343,7 @@ const experts = [
         </div>
     </section>
 
-    <h3 class="text-2xl font-bold mb-4 text-[#104730] text-center sm:text-left">
+    <h3 class="text-2xl font-bold mb-4 text-[#104730] text-center sm:text-left pl-4 sm:pl-0 md:pl-8">
         Nos compétences et projets
       </h3>
 
@@ -353,14 +353,7 @@ const experts = [
   <div class="flex flex-wrap sm:justify-center md:justify-center w-full gap-5">
 
     <!-- BLOC VERT DE FILTRES -->
-    <div 
-      class="
-        relative
-        bg-[#A0C1A6] p-3 pb-6 sm:pb-3 shadow-sm rounded-lg
-        overflow-hidden w-full sm:w-[49%] 
-        md:flex-grow  
-      "
-    >
+    <div class="relative bg-[#A0C1A6] p-3 pb-6 sm:pb-3 shadow-sm rounded-lgoverflow-hidden w-full sm:w-[49%] md:flex-grow">
       <div class="mb-2">
         <input
           type="text"
@@ -461,7 +454,7 @@ const experts = [
       sm:justify-center              
       md:justify-center              
       lg:justify-center 
-      max-w-[95vw] mx-auto /* Empêche les cartes de toucher les bords */
+      max-w-[100vw] mx-auto /* Empêche les cartes de toucher les bords */
       overflow-x-auto /* Ajoute une scrollbar si nécessaire */
       px-4 sm:px-6 md:px-8 lg:px-12 /* Ajoute de l’espace latéral */
     "
