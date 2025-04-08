@@ -31,7 +31,7 @@ const craftsmanships = usePage().props.meta.craftsmanships;
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <UserProfileModal>Mon profil</UserProfileModal>
+      <UserProfileModal />
     </div>
   </header>
 </template>
