@@ -1,42 +1,39 @@
 import "./bootstrap";
 import "../css/app.css";
 
-import { createApp, h, DefineComponent, App } from "vue";
+import { createSSRApp, h, DefineComponent } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
-import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import { Link, Head } from "@inertiajs/vue3";
+import registerGlobalComponents from "./utils/meta";
+import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import BackOfficeLayout from "@/Layouts/BackOfficeLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
-
-/**
- * Register all global UI components in the entire without having to import it on all pages
- */
-const registerGlobalComponents = (app: App) => {
-  const components = import.meta.glob("./Components/ui/**/*/index.ts", {
-    eager: true,
-  });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Object.values(components).forEach((component: any) => {
-    // const componentName: String = path.split("/").at(-1).split(".")[0];
-    for (const subcomponentName in component) {
-      app.component(subcomponentName, component[subcomponentName]);
-    }
-  });
-};
 
 /**
  * Create inertia app and mount vue inside
  */
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
-  resolve: (name) =>
-    resolvePageComponent(
+  resolve: async (name) => {
+    const page = await resolvePageComponent(
       `./Pages/${name}.vue`,
-      import.meta.glob<DefineComponent>("./Pages/**/*.vue"),
-    ),
+      import.meta.glob<DefineComponent>([
+        "./Pages/**/*.vue",
+        "./Layouts/**/*.vue",
+      ]),
+    );
+
+    page.default.layout = name.startsWith("Backoffice/")
+      ? BackOfficeLayout
+      : AppLayout;
+
+    return page;
+  },
   setup({ el, App, props, plugin }) {
-    const app = createApp({ render: () => h(App, props) })
+    const app = createSSRApp({ render: () => h(App, props) })
       .use(plugin)
       .use(ZiggyVue)
       .component("InertiaLink", Link)

@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Helpers\Video;
+use App\Supports\Video;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Http\UploadedFile;
@@ -16,7 +16,7 @@ class VideoOptimization implements ShouldQueue
      */
     public function __construct(UploadedFile $file, string $path)
     {
-        $this->onQueue('video');
+        $this->onQueue("video");
     }
 
     /**
