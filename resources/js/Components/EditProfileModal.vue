@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { watch, computed } from "vue";
-import { useForm } from "@inertiajs/vue3";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/Components/ui/dialog";
-import { Card, CardHeader, CardTitle, CardContent } from "@/Components/ui/card";
-import { Button } from "@/Components/ui/button";
-import { Input } from "@/Components/ui/input";
+import {onMounted} from 'vue';
+import {useForm} from '@inertiajs/vue3';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle
+} from '@/Components/ui/dialog';
+import {Button} from '@/Components/ui/button';
+import {Input} from '@/Components/ui/input';
+import {Label} from '@/Components/ui/label';
+import {Card, CardContent, CardHeader as CardTop} from '@/Components/ui/card';
 
 interface User {
   firstname: string;
@@ -18,65 +24,62 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "close"): void;
+  (e: 'update:open', value: boolean): void;
 }>();
 
 const form = useForm({
-  firstname: props.user.firstname,
-  lastname: props.user.lastname,
-  email: props.user.email,
+  firstname: '',
+  lastname: '',
+  email: '',
 });
 
-watch(() => props.open, (val) => {
-  if (val) {
-    form.firstname = props.user.firstname;
-    form.lastname = props.user.lastname;
-    form.email = props.user.email;
-  }
+onMounted(() => {
+  form.defaults({
+    firstname: props.user.firstname,
+    lastname: props.user.lastname,
+    email: props.user.email,
+  });
+
+  form.reset();
 });
 
-function saveChanges() {
+function onSubmit() {
   form.put(route('profile.update'), {
-    preserveScroll: true,
-    onSuccess: () => emit("close"),
+    onSuccess: () => emit('update:open', false),
   });
 }
 </script>
 
 <template>
-  <Dialog :open="open" @update:open="val => !val && emit('close')">
+  <Dialog :open="open" @update:open="emit('update:open', $event)">
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Modifier</DialogTitle>
+        <DialogTitle class="text-lg font-semibold">Modifier le Profil</DialogTitle>
       </DialogHeader>
       <Card class="w-full">
-        <CardHeader>
-          <CardTitle>Modifier ses informations</CardTitle>
-        </CardHeader>
+        <CardTop>
+        </CardTop>
         <CardContent>
-          <div class="space-y-4 text-base">
+          <form @submit.prevent="onSubmit" class="space-y-4 text-base">
             <div>
-              <label>Prénom</label>
-              <Input v-model="form.firstname" />
-              <p v-if="form.errors.firstname" class="text-red-500 text-sm">{{ form.errors.firstname }}</p>
+              <Label for="firstname">Prénom</Label>
+              <Input id="firstname" v-model="form.firstname" type="text"/>
             </div>
             <div>
-              <label>Nom</label>
-              <Input v-model="form.lastname" />
-              <p v-if="form.errors.lastname" class="text-red-500 text-sm">{{ form.errors.lastname }}</p>
+              <Label for="lastname">Nom de famille</Label>
+              <Input id="lastname" v-model="form.lastname" type="text"/>
             </div>
             <div>
-              <label>Email</label>
-              <Input v-model="form.email" />
-              <p v-if="form.errors.email" class="text-red-500 text-sm">{{ form.errors.email }}</p>
+              <Label for="email">Email</Label>
+              <Input id="email" v-model="form.email" type="email"/>
             </div>
-          </div>
-          <div class="mt-6 flex justify-end space-x-2">
-            <Button variant="outline" @click="emit('close')">Annuler</Button>
-            <Button :disabled="form.processing" class="bg-background_green_darker hover:bg-background_green_light text-white" @click="saveChanges">
-              Enregistrer
-            </Button>
-          </div>
+            <div class="flex justify-end pt-4">
+              <Button type="submit" :disabled="form.processing"
+                      class="bg-background_green_darker hover:bg-background_green_light">
+                Sauvegarder
+              </Button>
+            </div>
+          </form>
         </CardContent>
       </Card>
     </DialogContent>

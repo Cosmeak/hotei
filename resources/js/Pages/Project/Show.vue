@@ -16,7 +16,7 @@ const { project } = defineProps<{
     <Head :title="project.title" />
     <main>
       <Header :header="{ title: project.title, duration: project.duration }" />
-      <div class="gap-4>
+      <div class="gap-4">
         <Materials class="md:px-40" :materials="project.materials!" />
         <Skills />
         <section class="md:flex justify-around px-4 md:px-40">
