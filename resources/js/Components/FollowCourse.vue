@@ -24,7 +24,7 @@ function calculateCompletionPercentage(): number {
     </div>
 
     <ul class="mt-4 space-y-3">
-      <li v-for="course in courses" :key="course.id" :class="course.isFinish ? 'bg-background_green_darker' : 'bg-background_green_light'" class="flex items-center justify-between rounded-md border border-gray-400 p-3 shadow-sm">
+      <li v-for="course in courses" :key="course.id" :class="course.isFinish ? 'bg-background_green_darker' : 'bg-background_green_light'" class="flex items-center justify-between rounded-md border border-gray-400 p-3 shadow-xs">
         <span class="text-sm font-semibold">{{ course.name }}</span>
         <span class="text-sm">Durée : {{ course.duration }} heures</span>
         <span :class="course.isFinish ? 'text-white' : 'text-red-600'" class="text-sm font-bold">{{ course.isFinish ? 'Terminé' : 'A faire' }}</span>

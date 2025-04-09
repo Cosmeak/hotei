@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-    <div class="flex-1 bg-white border-2 border-[#104730] rounded-lg p-3 shadow-sm">
+    <div class="flex-1 bg-white border-2 border-[#104730] rounded-lg p-3 shadow-xs">
         <img :src="image" :alt="title" class="rounded mb-2 object-cover w-full h-24" />
         <div class="flex items-center justify-between text-xs mb-1">
             <span class="bg-[#F7DCB9] text-[#104730] px-1 py-0.5 rounded">
