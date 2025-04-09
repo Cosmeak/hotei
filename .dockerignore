@@ -1,0 +1,8 @@
+.husky/
+node_modules/
+vendor/
+.editorconfig
+.env.example
+.git*
+README.md
+Makefile
