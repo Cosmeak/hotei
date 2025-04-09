@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePage } from "@inertiajs/vue3";
 import { ChevronDown } from "lucide-vue-next";
-import UserProfileModal from "@/Components/UserProfileModal.vue";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/Components/ui/dropdown-menu";
 
 const user = usePage().props.auth.user;
 const craftsmanships = usePage().props.meta.craftsmanships;
@@ -31,7 +31,12 @@ const craftsmanships = usePage().props.meta.craftsmanships;
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <UserProfileModal />
+      <InertiaLink v-if="user" class="border border-muted shadow rounded p-2" :href="route('settings.edit')">
+        Mon compte
+      </InertiaLink>
+      <InertiaLink v-else class="border border-muted shadow rounded p-2" :href="route('login')">
+        Se connecter
+      </InertiaLink>
     </div>
   </header>
 </template>

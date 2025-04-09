@@ -5,7 +5,7 @@ import { createSSRApp, h, DefineComponent } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import { Link, Head } from "@inertiajs/vue3";
-import registerGlobalComponents from "./utils/meta";
+// import registerGlobalComponents from "./utils/meta";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import BackOfficeLayout from "@/Layouts/BackOfficeLayout.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
@@ -47,7 +47,7 @@ createInertiaApp({
         },
       });
 
-    registerGlobalComponents(app);
+    // registerGlobalComponents(app);
 
     app.mount(el);
   },

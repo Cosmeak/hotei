@@ -1,37 +1,35 @@
 <?php
 
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\CraftsmanshipController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\SkillController;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\CraftsmanshipController;
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 
 // ┌───────────────────────────────┐
 // │ authentication                │
 // └───────────────────────────────┘
-require __DIR__ . "/auth.php";
+require __DIR__ . "/web/auth.php";
 
 // ┌───────────────────────────────┐
 // │ back office                   │
 // └───────────────────────────────┘
-require __DIR__ . "/backoffice.php";
+require __DIR__ . "/web//backoffice.php";
 
 // ┌───────────────────────────────┐
 // │ user interface                │
 // └───────────────────────────────┘
 Route::get("/", function () {
-    return Inertia::render("Home", [
-        "canLogin" => Route::has("login"),
-        "canRegister" => Route::has("register"),
-    ]);
+    return Inertia::render("Home");
 })->name("home");
 
 Route::middleware('auth')->group(function () {
-    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::put('settings', [SettingController::class, 'update'])->name('settings.update')->middleware([HandlePrecognitiveRequests::class]);;
+    Route::delete('settings', [SettingController::class, 'destroy'])->name('settings.destroy');
 
     Route::prefix("projects/{project}")
         ->name("projects.")

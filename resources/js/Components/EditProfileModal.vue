@@ -44,7 +44,7 @@ onMounted(() => {
 });
 
 function onSubmit() {
-  form.put(route('profile.update'), {
+  form.put(route('settings.update'), {
     onSuccess: () => emit('update:open', false),
   });
 }
