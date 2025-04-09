@@ -7,7 +7,7 @@ const commentaries: Comment[] = [
 </script>
 
 <template>
-  <section class="rounded-lg shadow-sm px-4 md:px-40">
+  <section class="rounded-lg shadow-xs px-4 md:px-40">
     <h2 class="text-lg font-semibold leading-none tracking-tight text-primary mb-2">Commentaire :</h2>
     <div>
       <input type="text" placeholder="Rédiger un commentaire..." class="md:w-1/2 m-4 p-4 border-2 border-green-800 rounded-3xl">

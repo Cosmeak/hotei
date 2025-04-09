@@ -69,7 +69,7 @@ const generatePreview = (file: File): string => {
     @dragleave.prevent="onDragLeave"
     @drop.prevent="onDrop"
     :class="[
-      cn('p-8 border border-dashed rounded shadow-sm', props.class),
+      cn('p-8 border border-dashed rounded shadow-xs', props.class),
       isDragging ? 'border-green-500' : '',
     ]"
   >

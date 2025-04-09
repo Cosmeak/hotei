@@ -14,10 +14,10 @@ defineProps<{
         <div class="absolute top-2 left-2 bg-[#F7DCB9] text-[#104730] text-xs font-semibold px-2 py-0.5 rounded">
             Compétence
         </div>
-        <div class="flex-shrink-0 mr-4">
+        <div class="shrink-0 mr-4">
             <img :src="image" :alt="title" class="rounded object-cover" style="width: 100px; height: 70px;" />
         </div>
-        <div class="flex flex-col flex-grow justify-between">
+        <div class="flex flex-col grow justify-between">
             <div>
             <p class="text-sm font-bold text-[#104730] mb-1">{{ title }}</p>
             <p class="text-xs text-gray-600">par {{ author }}</p>

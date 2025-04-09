@@ -7,7 +7,7 @@ const props = defineProps<{ materials: Material[] }>();
 
 <template>
   <section
-    class="bg-background_component md:rounded-lg p-6 shadow-sm"
+    class="bg-background_component md:rounded-lg p-6 shadow-xs"
     :class="$attrs.class"
   >
     <h2
@@ -22,7 +22,7 @@ const props = defineProps<{ materials: Material[] }>();
       <li
         v-for="material in props.materials"
         :key="material.id"
-        class="flex items-center justify-between rounded-lg border bg-background p-4 shadow hover:shadow-lg transition"
+        class="flex items-center justify-between rounded-lg border bg-background p-4 shadow-sm hover:shadow-lg transition"
       >
         <div class="flex items-center gap-4">
           <img

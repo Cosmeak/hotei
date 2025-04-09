@@ -411,7 +411,7 @@ const experts = [
           <div class="flex w-full justify-center item-center gap-x-5">
             <!-- Bloc vert (filtres) -->
             <div
-              class="relative bg-[#A0C1A6] rounded-lg p-3 shadow-sm w-full md:w-full max-w-sm mx-auto md:mx-0 overflow-hidden"
+              class="relative bg-[#A0C1A6] rounded-lg p-3 shadow-xs w-full md:w-full max-w-sm mx-auto md:mx-0 overflow-hidden"
               style="max-width: 400px"
             >
               <!-- Barre de recherche -->
@@ -419,7 +419,7 @@ const experts = [
                 <input
                   type="text"
                   placeholder="Chercher"
-                  class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[#104730] focus:outline-none text-sm"
+                  class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[#104730] focus:outline-hidden text-sm"
                 />
               </div>
 
@@ -443,7 +443,7 @@ const experts = [
 
                 <!-- Select à droite -->
                 <select
-                  class="ml-auto border rounded-md px-2 py-1 text-gray-700 text-sm focus:outline-none"
+                  class="ml-auto border rounded-md px-2 py-1 text-gray-700 text-sm focus:outline-hidden"
                   style="min-width: 80px"
                 >
                   <option>Facile</option>
@@ -462,7 +462,7 @@ const experts = [
                   50 CT
                 </div>
 
-                <div class="flex items-center gap-1 flex-grow">
+                <div class="flex items-center gap-1 grow">
                   <input
                     type="range"
                     min="0"
