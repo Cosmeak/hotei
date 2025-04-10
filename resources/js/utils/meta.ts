@@ -16,7 +16,7 @@ const registerGlobalComponents = (app: App) => {
       if (!component) {
         console.error(`Component ${name} is null or undefined!`);
       }
-      app.component(name, component);
+      app.component(`V${name}`, component);
     });
   });
 };

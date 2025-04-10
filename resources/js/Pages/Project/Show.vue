@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Head } from "@inertiajs/vue3";
 import { Project } from "@/types";
 import Materials from "@/Components/Materials.vue";
 import ArtisanResume from "@/Components/ArtisanResume.vue";
@@ -13,10 +12,10 @@ const { project } = defineProps<{
 </script>
 
 <template>
-    <Head :title="project.title" />
+    <InertiaHead :title="project.title" />
     <main>
       <Header :header="{ title: project.title, duration: project.duration }" />
-      <div class="gap-4>
+      <div class="gap-4">
         <Materials class="md:px-40" :materials="project.materials!" />
         <Skills />
         <section class="md:flex justify-around px-4 md:px-40">

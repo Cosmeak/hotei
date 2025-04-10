@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Head } from "@inertiajs/vue3";
 import CardCraftArticle from "@/Components/ui/card/CardCraftArticle.vue";
 import CardCraftSkills from "@/Components/ui/card/CardCraftSkills.vue";
 import CardCraftProject from "@/Components/ui/card/CardCraftProject.vue";
@@ -180,7 +179,7 @@ const experts = [
 </script>
 
 <template>
-  <Head :title="`${craft.name} | Craftsmanship`" />
+  <InertiaHead :title="`${craft.name} | Craftsmanship`" />
 
   <!-- Page background -->
   <div class="min-h-screen w-full bg-[#F8F5F0] text-gray-800">

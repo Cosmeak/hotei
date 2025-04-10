@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import GuestLayout from "@/Layouts/GuestLayout.vue";
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
+import { Label } from '@/Components/ui/label';
+import { Input } from '@/Components/ui/input';
+import { Button } from '@/Components/ui/button';
+import { useForm } from '@inertiajs/vue3';
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import Footer from "@/Components/Footer.vue";
+import InputError from "@/Components/InputError.vue";
 
 const form = useForm({
   lastname: "",
@@ -25,7 +25,8 @@ const submit = () => {
 </script>
 
 <template>
-  <GuestLayout class="bg-[#d9e8dc] relative min-h-screen flex flex-col">
+  <InertiaHead title="Register" />
+  <div class="bg-[#d9e8dc] relative min-h-screen flex flex-col">
     <div
       class="absolute top-2 right-7 bg-no-repeat z-0 opacity-10 pb-[2cm]"
       style="
@@ -49,17 +50,8 @@ const submit = () => {
       <h1 class="text-center text-2xl font-semibold mb-6">Crée ton compte</h1>
       <form @submit.prevent="submit" class="space-y-4">
         <div>
-          <InputLabel for="lastname" value="Nom" />
-          <!-- <TextInput
-                        id="lastname"
-                        type="text"
-                        class="mt-1 block w-full"
-                        v-model="form.lastname"
-                        required
-                        autofocus
-                        autocomplete="lastname"
-                    /> -->
-          <TextInput
+          <Label for="lastname">Nom</Label>
+          <Input
             id="lastname"
             type="text"
             class="mt-1 block w-full"
@@ -70,47 +62,33 @@ const submit = () => {
           <InputError class="mt-2" :message="form.errors.lastname" />
         </div>
         <div>
-          <InputLabel for="firstname" value="Prénom" />
-          <TextInput
-            id="firstname"
-            type="text"
-            class="mt-1 block w-full"
-            v-model="form.firstname"
-            required
-            autocomplete="firstname"
+          <Label for="firstname">Prénom</Label>
+          <Input
+              id="name"
+              type="text"
+              class="mt-1 block w-full"
+              v-model="form.firstname"
+              required
+              autofocus
+              autocomplete="firstname"
           />
           <InputError class="mt-2" :message="form.errors.firstname" />
         </div>
         <div>
-          <InputLabel for="email" value="Email" />
-          <TextInput
-            id="email"
-            type="email"
-            class="mt-1 block w-full"
-            v-model="form.email"
-            required
-            autocomplete="email"
+         <Label for="password">Mot de passe</Label>
+          <Input
+              id="password"
+              type="password"
+              class="mt-1 block w-full"
+              v-model="form.password"
+              required
+              autocomplete="new-password"
           />
           <InputError class="mt-2" :message="form.errors.email" />
         </div>
         <div>
-          <InputLabel for="password" value="Mot de passe" />
-          <TextInput
-            id="password"
-            type="password"
-            class="mt-1 block w-full"
-            v-model="form.password"
-            required
-            autocomplete="new-password"
-          />
-          <InputError class="mt-2" :message="form.errors.password" />
-        </div>
-        <div>
-          <InputLabel
-            for="password_confirmation"
-            value="Confirmez le mot de passe"
-          />
-          <TextInput
+          <Label for="password_confirmation">Vérifier le mot de passe</Label>
+          <Input
             id="password_confirmation"
             type="password"
             class="mt-1 block w-full"
@@ -123,13 +101,19 @@ const submit = () => {
             :message="form.errors.password_confirmation"
           />
         </div>
-        <PrimaryButton
-          class="flex justify-center items-center w-full bg-yellow-500 sm:bg-[rgb(65,113,84)] hover:bg-[#e0a845] text-white font-semibold py-2 rounded"
-          :class="{ 'opacity-25': form.processing }"
-          :disabled="form.processing"
-        >
-          Créer un compte
-        </PrimaryButton>
+
+        <div class="flex items-center justify-end mt-4">
+            <InertiaLink
+                :href="route('login')"
+                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+                Already registered?
+            </InertiaLink>
+
+            <Button type="submit" class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                Register
+            </Button>
+        </div>
       </form>
       <div class="flex items-center my-4 justify-center">
         <hr class="border-t border-gray-500 border-1 w-20" />
@@ -142,10 +126,9 @@ const submit = () => {
             src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"
           />
         </a>
-        <a
-          class="btn btn-primary"
+        <!-- <a
+          class="flex btn btn-primary"
           :href="route('auth.facebook')"
-          style="display: flex"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -159,7 +142,7 @@ const submit = () => {
             />
           </svg>
           Login with Facebook
-        </a>
+        </a> -->
       </div>
       <hr class="px-4 border-t border-gray-500 w-52 border-1 mx-auto mt-6" />
       <div class="flex items-center mt-6">
@@ -171,6 +154,6 @@ const submit = () => {
         >
       </div>
     </div>
-  </GuestLayout>
+  </div>
   <Footer />
 </template>
