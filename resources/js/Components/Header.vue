@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { usePage } from "@inertiajs/vue3";
 import { ChevronDown } from "lucide-vue-next";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/Components/ui/dropdown-menu";
+import { Button } from "@/Components/ui/button";
 
-const user = usePage().props.auth.user;
 const craftsmanships = usePage().props.meta.craftsmanships;
 </script>
 

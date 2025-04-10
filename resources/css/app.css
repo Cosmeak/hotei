@@ -1,29 +1,6 @@
 @import 'tailwindcss';
 @import "tw-animate-css";
-/*
-  ---break---
-*/
 @custom-variant dark (&:is(.dark *));
-
-@config '../../tailwind.config.js';
-
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
-}
 
 @layer base {
   :root {
@@ -141,14 +118,16 @@
     --sidebar-border: oklch(0.269 0 0);
     --sidebar-ring: oklch(0.439 0 0);
   }
-}
 
-@layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  .container {
+    @apply container;
   }
 }
 
@@ -191,4 +170,10 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @variant 2xl {
+    max-width: 1400px;
+  }
+}

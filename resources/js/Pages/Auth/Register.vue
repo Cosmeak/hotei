@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Label } from '@/Components/ui/label';
+import { Input } from '@/Components/ui/input';
+import { Button } from '@/Components/ui/button';
+import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
     firstname: '',
@@ -24,99 +22,97 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Register" />
+    <InertiaHead title="Register" />
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="firstname" value="Firstname" />
+    <form @submit.prevent="submit">
+        <div>
+            <Label for="firstname">Firstname</Label>
 
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.firstname"
-                    required
-                    autofocus
-                    autocomplete="firstname"
-                />
+            <Input
+                id="name"
+                type="text"
+                class="mt-1 block w-full"
+                v-model="form.firstname"
+                required
+                autofocus
+                autocomplete="firstname"
+            />
 
-                <InputError class="mt-2" :message="form.errors.firstname" />
-            </div>
+            <InputError class="mt-2" :message="form.errors.firstname" />
+        </div>
 
-            <div class="mt-4">
-                <InputLabel for="lastname" value="Lastname" />
+        <div class="mt-4">
+            <Label for="lastname">Lastname</Label>
 
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.lastname"
-                    required
-                    autofocus
-                    autocomplete="lastname"
-                />
+            <Input
+                id="name"
+                type="text"
+                class="mt-1 block w-full"
+                v-model="form.lastname"
+                required
+                autofocus
+                autocomplete="lastname"
+            />
 
-                <InputError class="mt-2" :message="form.errors.lastname" />
-            </div>
+            <InputError class="mt-2" :message="form.errors.lastname" />
+        </div>
 
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
+        <div class="mt-4">
+            <Label for="email">Email</Label>
 
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
+            <Input
+                id="email"
+                type="email"
+                class="mt-1 block w-full"
+                v-model="form.email"
+                required
+                autocomplete="username"
+            />
 
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+            <InputError class="mt-2" :message="form.errors.email" />
+        </div>
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+        <div class="mt-4">
+            <Label for="password">Password</Label>
 
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                />
+            <Input
+                id="password"
+                type="password"
+                class="mt-1 block w-full"
+                v-model="form.password"
+                required
+                autocomplete="new-password"
+            />
 
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+            <InputError class="mt-2" :message="form.errors.password" />
+        </div>
 
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+        <div class="mt-4">
+            <Label for="password_confirmation">Confirm Password</Label>
 
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
+            <Input
+                id="password_confirmation"
+                type="password"
+                class="mt-1 block w-full"
+                v-model="form.password_confirmation"
+                required
+                autocomplete="new-password"
+            />
 
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
+            <InputError class="mt-2" :message="form.errors.password_confirmation" />
+        </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    :href="route('login')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Already registered?
-                </Link>
+        <div class="flex items-center justify-end mt-4">
+            <InertiaLink
+                :href="route('login')"
+                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+                Already registered?
+            </InertiaLink>
 
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
+            <Button class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                Register
+            </Button>
+        </div>
+    </form>
 </template>

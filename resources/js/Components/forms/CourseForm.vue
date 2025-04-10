@@ -1,12 +1,12 @@
 <script lang="ts" setup>
+import { Course } from "@/types";
 import { useForm } from "laravel-precognition-vue-inertia";
 import { Plus, Minus } from "lucide-vue-next";
 
-const { course, craftmen, craftsmanships, skills } = defineProps([
+const { course, craftmen, craftsmanships } = defineProps([
   "course",
   "craftmen",
   "craftsmanships",
-  "skills",
 ]);
 
 const form = useForm(
@@ -27,7 +27,7 @@ const form = useForm(
     ],
     difficulty: course?.difficulty,
     is_draft: course?.is_draft ?? true,
-    skills: course?.skills.map((skill: any) => skill.id),
+    skills: course?.skills.map((skill: Course) => skill.id),
 
     // ADMIN ONLY
     craftman_id: course?.craftman_id,
