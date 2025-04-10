@@ -16,7 +16,7 @@ class VideoOptimization implements ShouldQueue
      */
     public function __construct(UploadedFile $file, string $path)
     {
-        $this->onQueue("video");
+        $this->onQueue('video');
     }
 
     /**
