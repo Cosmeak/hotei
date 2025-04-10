@@ -1,12 +1,13 @@
 <?php
 
+use Inertia\Inertia;
+use App\Models\Craftman;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\CraftsmanshipController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\SkillController;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\CraftsmanshipController;
 
 // ┌───────────────────────────────┐
 // │ authentication                │
@@ -22,9 +23,9 @@ require __DIR__.'/backoffice.php';
 // │ user interface                │
 // └───────────────────────────────┘
 Route::get('/', function () {
+    $craftmen = Craftman::with('user')->limit(3)->get();
     return Inertia::render('Home', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+        'craftmen' => $craftmen
     ]);
 })->name('home');
 

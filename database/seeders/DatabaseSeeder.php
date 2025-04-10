@@ -52,7 +52,25 @@ class DatabaseSeeder extends Seeder
         $craftmanUser->save();
 
         $craftsmanship = Craftsmanship::create([
-            'name' => 'test',
+            'name' => 'Crochet',
+            'color' => '#ffffff',
+            'description' => 'dzadza dza dza dzad za',
+        ]);
+
+        Craftsmanship::create([
+            'name' => 'Coutellerie',
+            'color' => '#ffffff',
+            'description' => 'dzadza dza dza dzad za',
+        ]);
+
+        Craftsmanship::create([
+            'name' => 'Maroquinerie',
+            'color' => '#ffffff',
+            'description' => 'dzadza dza dza dzad za',
+        ]);
+
+        Craftsmanship::create([
+            'name' => 'Poterie',
             'color' => '#ffffff',
             'description' => 'dzadza dza dza dzad za',
         ]);
