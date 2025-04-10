@@ -3,19 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Model;
 
 class Craft extends Model
 {
     use HasFactory;
 
     protected $table = null;
-    public $timestamps = false;
-    protected $primaryKey = null;
-    protected $guarded = [];
 
+    public $timestamps = false;
+
+    protected $primaryKey = null;
+
+    protected $guarded = [];
 
     private static array $data = [
         [
@@ -31,20 +32,20 @@ class Craft extends Model
 
     ];
 
-
     public static function all($columns = ['*']): Collection
     {
-        $instances = array_map(fn($item) => new static($item), static::$data);
+        $instances = array_map(fn ($item) => new static($item), static::$data);
+
         return new Collection($instances);
     }
 
     public static function whereSlug(string $slug): Collection
     {
-        $filtered = array_filter(static::$data, fn($item) => $item['slug'] === $slug);
-        $instances = array_map(fn($item) => new static($item), $filtered);
+        $filtered = array_filter(static::$data, fn ($item) => $item['slug'] === $slug);
+        $instances = array_map(fn ($item) => new static($item), $filtered);
+
         return new Collection($instances);
     }
-
 
     public static function findBySlugOrFail(string $slug): static
     {
@@ -52,13 +53,13 @@ class Craft extends Model
         if ($collection->isEmpty()) {
             abort(404, 'Craft not found');
         }
+
         return $collection->first();
     }
 
-
     public function artisans()
     {
-        return collect([]); 
+        return collect([]);
     }
 
     public function courses()
