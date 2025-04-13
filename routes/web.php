@@ -28,7 +28,9 @@ Route::get("/", function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
-    Route::put('settings', [SettingController::class, 'update'])->name('settings.update')->middleware([HandlePrecognitiveRequests::class]);;
+    Route::put('settings', [SettingController::class, 'update'])->name('settings.update')->middleware([HandlePrecognitiveRequests::class]);
+    Route::put('/settings/craftout', [SettingController::class, 'updateCraftoutBilling'])->name('craftout.update');
+    Route::put('/settings/total', [SettingController::class, 'updateTotal'])->name('total.update');
     Route::delete('settings', [SettingController::class, 'destroy'])->name('settings.destroy');
 
     Route::prefix("projects/{project}")
