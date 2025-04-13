@@ -18,7 +18,7 @@ class Project extends Model
     // └───────────────────────────────┘
     protected $fillables = [
         'craftman_id',
-        'craftmanship_id',
+        'craftsmanship_id',
         'description',
         'duration',
         'is_draft',
