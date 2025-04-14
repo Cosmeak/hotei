@@ -21,6 +21,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'craftman_id',
         'firstname',
         'lastname',
         'role',
@@ -67,10 +68,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'completed')->withPivot('completed_at');
     }
 
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class);
-    }
+    // public function orders(): HasMany
+    // {
+    //     return $this->hasMany(Order::class);
+    // }
 
     public function craftman(): HasOne
     {
