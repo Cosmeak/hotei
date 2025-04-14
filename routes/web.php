@@ -1,12 +1,14 @@
 <?php
 
+use Inertia\Inertia;
+use App\Models\Craftman;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\CraftsmanshipController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\SkillController;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\CraftsmanshipController;
+use App\Http\Controllers\HomeController;
 
 // ┌───────────────────────────────┐
 // │ authentication                │
@@ -21,41 +23,19 @@ require __DIR__.'/backoffice.php';
 // ┌───────────────────────────────┐
 // │ user interface                │
 // └───────────────────────────────┘
-Route::get('/', function () {
-    return Inertia::render('Home', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-})->name('home');
+Route::get('/', HomeController::class)->name('home');
 
-Route::middleware('auth')->group(function () {
-    Route::get('profile', [ProfileController::class, 'edit'])->name(
-        'profile.edit'
-    );
-    Route::patch('profile', [ProfileController::class, 'update'])->name(
-        'profile.update'
-    );
-    Route::delete('profile', [ProfileController::class, 'destroy'])->name(
-        'profile.destroy'
-    );
+Route::get('craftsmanships/{slug}', [CraftsmanshipController::class, 'show'])->name('craftsmanships.show');
 
-    Route::prefix('projects/{project}')
-        ->name('projects.')
-        ->group(function () {
-            Route::get('/', [ProjectController::class, 'show'])->name('index');
-            Route::get('courses/{course}', [
-                CourseController::class,
-                'show',
-            ])->name('courses.show');
-        });
+Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+Route::get('projects/{project}/courses/{course}', [CourseController::class, 'show'])->name('projects.courses.show')->middleware('auth');
 
-    Route::get('craftsmanships/{slug}', [
-        CraftsmanshipController::class,
-        'show',
-    ])->name('craftsmanships.show');
-    Route::get('skills/{course}', [SkillController::class, 'show'])->name(
-        'skills.show'
-    );
+Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.show');
+
+Route::prefix('profile')->name('profile.')->middleware('auth')->controller(ProfileController::class)->group(function () {
+    Route::get('/', 'edit')->name('edit');
+    Route::patch('/', 'update')->name('update');
+    Route::delete('/', 'destroy')->name('destroy');
 });
 
 // ┌───────────────────────────────┐

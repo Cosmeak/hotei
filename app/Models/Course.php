@@ -19,7 +19,7 @@ class Course extends Model
     // └───────────────────────────────┘
     protected $fillable = [
         'craftman_id',
-        'craftmanship_id',
+        'craftsmanship_id',
         'title',
         'description',
         'duration',

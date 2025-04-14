@@ -22,6 +22,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         "google_id",
+        "craftman_id",
         "firstname",
         "lastname",
         "role",
@@ -69,10 +70,10 @@ class User extends Authenticatable
         );
     }
 
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class);
-    }
+    // public function orders(): HasMany
+    // {
+    //     return $this->hasMany(Order::class);
+    // }
 
     public function craftman(): HasOne
     {
