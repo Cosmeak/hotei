@@ -5,7 +5,6 @@ namespace App\Supports;
 use FFMpeg\FFMpeg;
 use FFMpeg\Format\Audio\Mp3;
 use FFMpeg\Format\Video\WebM;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 
 class Video
@@ -13,7 +12,7 @@ class Video
     /**
      * Transform a video file into an optimized video and a optimized audio file
      */
-    public static function optimize(UploadedFile $tempFile, string $path): array
+    public static function optimize(string $filePath, string $path): array
     {
         Log::info('Starting the optimize method.');
 
@@ -29,7 +28,7 @@ class Video
         try {
             $ffmpeg = FFMpeg::create();
             Log::info('FFmpeg initialized.');
-            $openedFile = $ffmpeg->open($tempFile->getPathname());
+            $openedFile = $ffmpeg->open($filePath);
 
             Log::info('Converting video to VP9 format...');
             $openedFile->save(new WebM, $outputVideo);
@@ -39,10 +38,6 @@ class Video
             $openedFile->save(new Mp3, $outputAudio);
             Log::info('Audio saved: '.$outputAudio);
 
-            if (file_exists($tempFile->getPathname())) {
-                unlink($tempFile);
-                Log::info('Original video file deleted: '.$tempFile);
-            }
         } catch (\Exception $e) {
             Log::error('Error processing the video: '.$e->getMessage());
             throw $e;
