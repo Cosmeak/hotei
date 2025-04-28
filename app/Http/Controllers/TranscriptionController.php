@@ -3,33 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use CodeWithKyrian\Whisper\Whisper;
-use function CodeWithKyrian\Whisper\readAudio;
+use App\Jobs\TranscribeVideo;
 
 class TranscriptionController extends Controller
 {
     public function transcribeVideo(Request $request)
     {
-        $request->validate(['videoPath' => 'required|string']);
+        $request->validate([
+            'videoPath' => 'required|string',
+        ]);
 
-        $fullPath = public_path($request->input('videoPath'));
-
-        $whisper = Whisper::fromPretrained(
-            'base',
-            baseDir: base_path('whisper_models')
-        );
-
-        $audioData = readAudio($fullPath);
-
-        $segments = $whisper->transcribe($audioData, 4);
-
-        $resultText = '';
-        foreach ($segments as $seg) {
-            $resultText .= $seg->text . ' ';
-        }
+        TranscribeVideo::dispatch($request->input('videoPath'));
 
         return response()->json([
-            'transcription' => trim($resultText)
+            'message' => 'transcription job dispatched successfully.'
         ]);
     }
 }

@@ -9,6 +9,8 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SkillController;
 use App\Models\User;
 use App\Services\OrderService;
+use App\Http\Controllers\TranscriptionController;
+use App\Http\Controllers\GetTranscriptionController;
 use Illuminate\Support\Facades\Route;
 
 // ┌───────────────────────────────┐
@@ -46,6 +48,11 @@ Route::middleware(['auth'])->group(function () {
 
     // Comments
     Route::post('comments', [CommentController::class, 'store'])->name('comments.store')->middleware(Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class);
+
+    // Transcription
+    Route::post('transcribe-video', [TranscriptionController::class, 'transcribeVideo'])->name('transcribe.video');
+    Route::post('get-transcription', GetTranscriptionController::class)->name('get.transcription');
+
 });
 
 Route::get('/buy-lemon/{productId}', [OrderService::class, 'buy'])->name('buyLemon.product');
@@ -56,5 +63,4 @@ Route::get('buy-project/{userId}/{projectId}', [OrderService::class, 'setProject
 // ┌───────────────────────────────┐
 // │ landing page api              │
 // └───────────────────────────────┘
-
 // Route::get('newsletter', [NewsletterController::class, 'index']);
