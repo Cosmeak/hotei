@@ -14,19 +14,15 @@ class VideoOptimization implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected string $filePath;
-    protected string $path;
-    protected string $language;
-
     /**
      * Create a new job instance.
      */
-    public function __construct(string $filePath, string $path, string $language)
-    {
-        $this->filePath = $filePath;
-        $this->path = $path;
-        $this->language = $language;
-        $this->onQueue('video');
+    public function __construct(
+        private UploadedFile $file,
+        private string $outputPath,
+        private string $language
+    ) {
+        $this->onQueue("video");
     }
 
     /**
@@ -34,8 +30,8 @@ class VideoOptimization implements ShouldQueue
      */
     public function handle(): void
     {
-        $paths = Video::optimize($this->filePath, $this->path);
+        $paths = Video::optimize($this->file, $this->outputPath);
 
-        TranscribeVideo::dispatch($paths['audio'], $this->language);
+        TranscribeVideo::dispatch($paths["audio"], $this->language);
     }
 }

@@ -6,46 +6,48 @@ use FFMpeg\FFMpeg;
 use FFMpeg\Format\Audio\Mp3;
 use FFMpeg\Format\Video\WebM;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\UploadedFile;
 
 class Video
 {
     /**
      * Transform a video file into an optimized video and a optimized audio file
      */
-    public static function optimize(string $filePath, string $path): array
-    {
-        Log::info('Starting the optimize method.');
+    public static function optimize(
+        UploadedFile $file,
+        string $outputPath
+    ): array {
+        Log::info("Starting the optimize method.");
 
-        $path = storage_path('app/public/'.$path.'/');
-        $outputVideo = $path.'video.webm';
-        $outputAudio = $path.'audio_original.mp3';
+        $outputPath = storage_path("app/" . rtrim($outputPath, "/") . "/");
+        $outputVideo = $outputPath . "video.webm";
+        $outputAudio = $outputPath . "audio_original.mp3";
 
-        if (! file_exists($path)) {
-            Log::info('Creating videos directory.');
+        if (!file_exists($outputPath)) {
+            Log::info("Creating videos directory.");
             mkdir($path, 0755, true);
         }
 
         try {
             $ffmpeg = FFMpeg::create();
-            Log::info('FFmpeg initialized.');
-            $openedFile = $ffmpeg->open($filePath);
+            Log::info("FFmpeg initialized.");
+            $openedFile = $ffmpeg->open($file->getPathname());
 
-            Log::info('Converting video to VP9 format...');
-            $openedFile->save(new WebM, $outputVideo);
-            Log::info('Video saved: '.$outputVideo);
+            Log::info("Converting video to VP9 format...");
+            $openedFile->save(new WebM(), $outputVideo);
+            Log::info("Video saved: " . $outputVideo);
 
-            Log::info('Extracting audio...');
-            $openedFile->save(new Mp3, $outputAudio);
-            Log::info('Audio saved: '.$outputAudio);
-
+            Log::info("Extracting audio...");
+            $openedFile->save(new Mp3(), $outputAudio);
+            Log::info("Audio saved: " . $outputAudio);
         } catch (\Exception $e) {
-            Log::error('Error processing the video: '.$e->getMessage());
+            Log::error("Error processing the video: " . $e->getMessage());
             throw $e;
         }
 
         return [
-            'video' => $outputVideo,
-            'audio' => $outputAudio,
+            "video" => $outputVideo,
+            "audio" => $outputAudio,
         ];
     }
 }

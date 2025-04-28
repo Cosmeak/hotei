@@ -9,23 +9,19 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Codewithkyrian\Whisper\Whisper;
 use function Codewithkyrian\Whisper\readAudio;
-use Symfony\Component\Console\Command\Command;
 
 class TranscribeVideo implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected string $audioPath;
-    protected string $language;
-
     /**
      * Create a new job instance.
      */
-    public function __construct(string $audioPath, string $language)
-    {
-        $this->audioPath = $audioPath;
-        $this->language = $language;
-        $this->onQueue('transcription');
+    public function __construct(
+        private string $audioPath,
+        private string $language
+    ) {
+        $this->onQueue("transcription");
     }
 
     /**
@@ -33,37 +29,40 @@ class TranscribeVideo implements ShouldQueue
      */
     public function handle(): int
     {
-        if (!extension_loaded('ffi')) {
-            throw new \RuntimeException('ffi extension is not loaded.');
+        if (!extension_loaded("ffi")) {
+            throw new \RuntimeException("ffi extension is not loaded.");
         }
 
-        $fullPath = storage_path('app/public/' . $this->audioPath);
+        $fullPath = storage_path("app/public/" . $this->audioPath);
 
         if (!file_exists($fullPath)) {
-            throw new \RuntimeException('Audio file does not exist at: ' . $fullPath);
+            throw new \RuntimeException(
+                "Audio file does not exist at: " . $fullPath
+            );
         }
 
         $whisper = Whisper::fromPretrained(
-            'base',
-            baseDir: base_path('whisper_models')
+            "base",
+            baseDir: base_path("whisper_models")
         );
 
         $audioData = readAudio($fullPath);
         $segments = $whisper->transcribe($audioData, 4);
 
-        $resultText = '';
-        foreach ($segments as $seg) {
-            $resultText .= $seg->text . ' ';
+        $output = "";
+        foreach ($segments as $segment) {
+            $output .= $segment->text . " ";
         }
 
-        $filename = storage_path('app/courses_data/' . $this->language . '/transcription.txt');
+        $path = explode($audioPath, "/");
+        unset(array_key_last($path));
+        $path = implode($path, "/");
+        $filename = storage_path("{$path}/transcription_{$this->language}.txt");
 
         if (!is_dir(dirname($filename))) {
             mkdir(dirname($filename), 0777, true);
         }
 
-        file_put_contents($filename, trim($resultText));
-
-        return Command::SUCCESS;
+        file_put_contents($filename, trim($output));
     }
 }
