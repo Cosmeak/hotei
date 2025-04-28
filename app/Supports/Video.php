@@ -13,10 +13,8 @@ class Video
     /**
      * Transform a video file into an optimized video and a optimized audio file
      */
-    public static function optimize(
-        UploadedFile $file,
-        string $outputPath
-    ): array {
+    public static function optimize(string $filePath, string $outputPath): array
+    {
         Log::info("Starting the optimize method.");
 
         $outputPath = storage_path("app/" . rtrim($outputPath, "/") . "/");
@@ -31,7 +29,7 @@ class Video
         try {
             $ffmpeg = FFMpeg::create();
             Log::info("FFmpeg initialized.");
-            $openedFile = $ffmpeg->open($file->getPathname());
+            $openedFile = $ffmpeg->open($filePath);
 
             Log::info("Converting video to VP9 format...");
             $openedFile->save(new WebM(), $outputVideo);

@@ -34,7 +34,6 @@ class CourseController extends Controller
             ->withQueryString();
 
         return Inertia::render('BackOffice/Course/Index', [
-            'skillOnly' => $skillOnly,
             'courses' => $courses,
         ]);
     }
@@ -46,16 +45,16 @@ class CourseController extends Controller
     {
         $user = Auth::user();
         $craftmen = collect();
-        if ($user->role == 'admin') {
-            $craftmen = Craftman::query()->with('user')->get();
+        if ($user->role == "admin") {
+            $craftmen = Craftman::query()->with("user")->get();
         }
-        $skills = Course::skill()->with('craftmanship')->get();
+        $skills = Course::skill()->with("craftsmanship")->get();
         $craftsmanships = Craftsmanship::all();
 
-        return Inertia::render('BackOffice/Course/Create', [
-            'craftmen' => $craftmen,
-            'craftsmanships' => $craftsmanships,
-            'skills' => $skills,
+        return Inertia::render("BackOffice/Course/Create", [
+            "craftmen" => $craftmen,
+            "craftsmanships" => $craftsmanships,
+            "skills" => $skills,
         ]);
     }
 
@@ -67,15 +66,19 @@ class CourseController extends Controller
         $user = Auth::user();
         $inputs = $request->validated();
 
-        $course = new Course;
-        $course->fill($inputs);
+        $course = new Course();
         $course->craftman_id = $request->craftman_id ?? $user->craftman->id;
         $course->save();
 
-        $video = $request->file('video');
-        VideoOptimization::dispatch($video, 'courses/'.$course->id);
+        $video = $request->file("video");
+        VideoOptimization::dispatch(
+            $video->getPathname(),
+            "courses/" . $course->id
+        );
 
-        return redirect()->route('backoffice.course.show', ['course' => $course->id]);
+        return redirect()->route("backoffice.course.show", [
+            "course" => $course->id,
+        ]);
     }
 
     /**
@@ -83,8 +86,8 @@ class CourseController extends Controller
      */
     public function show(Course $course): Response
     {
-        return Inertia::render('Course/Backoffice/Show', [
-            'course' => $course,
+        return Inertia::render("Course/Backoffice/Show", [
+            "course" => $course,
         ]);
     }
 
@@ -95,23 +98,25 @@ class CourseController extends Controller
     {
         $user = Auth::user();
         $craftmen = collect();
-        if ($user->role == 'admin') {
-            $craftmen = Craftman::query()->with('user')->get();
+        if ($user->role == "admin") {
+            $craftmen = Craftman::query()->with("user")->get();
         }
         $categories = Category::cases();
 
-        return Inertia::render('BackOffice/Course/Edit', [
-            'course' => $course,
-            'craftmen' => $craftmen,
-            'categories' => $categories,
+        return Inertia::render("BackOffice/Course/Edit", [
+            "course" => $course,
+            "craftmen" => $craftmen,
+            "categories" => $categories,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(CourseRequest $request, Course $course): RedirectResponse
-    {
+    public function update(
+        CourseRequest $request,
+        Course $course
+    ): RedirectResponse {
         $course->title = $request->title;
         $course->description = $request->description;
         $course->duration = 0;
@@ -122,7 +127,9 @@ class CourseController extends Controller
         $course->difficulty = $request->difficulty;
         $course->save();
 
-        return redirect()->route('backoffice.course.show', ['course' => $course->id]);
+        return redirect()->route("backoffice.course.show", [
+            "course" => $course->id,
+        ]);
     }
 
     /**
@@ -132,7 +139,7 @@ class CourseController extends Controller
     {
         $course->delete();
 
-        return redirect()->route('backoffice.course.index');
+        return redirect()->route("backoffice.course.index");
     }
 
     /**

@@ -18,7 +18,7 @@ class VideoOptimization implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        private UploadedFile $file,
+        private string $filePath,
         private string $outputPath,
         private string $language
     ) {
@@ -30,7 +30,7 @@ class VideoOptimization implements ShouldQueue
      */
     public function handle(): void
     {
-        $paths = Video::optimize($this->file, $this->outputPath);
+        $paths = Video::optimize($this->filePath, $this->outputPath);
 
         TranscribeVideo::dispatch($paths["audio"], $this->language);
     }
