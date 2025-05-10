@@ -8,6 +8,7 @@ import Label from '@/Components/ui/label/Label.vue';
 import Button from '@/Components/ui/button/Button.vue';
 import CardTitle from '@/Components/ui/card/CardTitle.vue';
 import {Avatar} from "@/Components/ui/avatar";
+import TableView from "@/Components/TableView.vue";
 
 // defineProps<{
 //     mustVerifyEmail?: boolean;
@@ -33,6 +34,19 @@ const updateCraftoutStatus = useForm('put', route('craftout.update'), {
   craftout_total: user.craftout_total || 0,
 });
 
+const HistoryHeaders = ['Nom', "Date d'achat", 'Tarif']
+const HistoryRows = [
+  ['Pack de 60 craftout', '19/01/24', '23€'],
+  ['Boîte surprise', '22/02/24', '15€'],
+  ['Abonnement premium', '01/03/24', '49€'],
+]
+
+const CourseHeaders = ['Nom', "Type", 'Status']
+const CourseRows = [
+  ['Echarpe', 'Projet', 'En cours'],
+  ['Rond Magique', 'Compétence', 'Fini'],
+]
+
 </script>
 
 <template>
@@ -46,7 +60,7 @@ const updateCraftoutStatus = useForm('put', route('craftout.update'), {
     <Card>
       <CardHeader>
         <CardTitle>
-          Paramètres
+          Informations Personnelles
         </CardTitle>
         <CardDescription>
           Vous pouvez mettre à jour vos informations ici.
@@ -130,7 +144,7 @@ const updateCraftoutStatus = useForm('put', route('craftout.update'), {
           </div> -->
         </CardContent>
         <CardFooter>
-          <Button variant="accent" :disabled="userProfileForm.processing">Enregistrer les modifications
+          <Button :disabled="userProfileForm.processing">Enregistrer les modifications
           </Button>
           <Transition
             enter-active-class="transition ease-in-out"
@@ -207,7 +221,7 @@ const updateCraftoutStatus = useForm('put', route('craftout.update'), {
           </div>
         </CardContent>
         <CardFooter>
-          <Button variant="accent" :disabled="updatePasswordForm.processing">Enregistrer les modifications
+          <Button :disabled="updatePasswordForm.processing">Enregistrer les modifications
           </Button>
           <Transition
             enter-active-class="transition ease-in-out"
@@ -238,7 +252,7 @@ const updateCraftoutStatus = useForm('put', route('craftout.update'), {
               <p id="craftout_subscription" class="text-sm md:text-base font-medium">
                 {{ user.craftout_subscription }} € / mois
               </p>
-              <Button variant="accent" :disabled="updateCraftoutStatus.processing">
+              <Button :disabled="updateCraftoutStatus.processing">
                 <span v-if="!updateCraftoutStatus.processing">Modifier</span>
                 <span v-else>Chargement...</span>
               </Button>
@@ -271,7 +285,6 @@ const updateCraftoutStatus = useForm('put', route('craftout.update'), {
                 </p>
               </div>
               <Button
-                variant="accent"
                 :disabled="updateCraftoutStatus.processing"
                 @click="updateCraftoutStatus.post()"
               >
@@ -303,16 +316,37 @@ const updateCraftoutStatus = useForm('put', route('craftout.update'), {
     <Card>
       <CardHeader>
         <CardTitle>
-          Supprimer mon compte
+          Historique d'achat
         </CardTitle>
-        <CardDescription>
-          Une fois que votre compte est supprimé, toutes vos ressources et données seront supprimé définitivement. <br>
-          Assurez-vous d'être certain de votre choix.
-        </CardDescription>
       </CardHeader>
       <CardContent>
-        <!-- TODO -->
+        <TableView :headers="HistoryHeaders" :rows="HistoryRows" caption="Liste des achats" />
       </CardContent>
+    </Card>
+
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          Mes Cours
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <TableView :headers="CourseHeaders" :rows="CourseRows" caption="Liste des cours" />
+      </CardContent>
+    </Card>
+
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          Supprimer mon compte
+        </CardTitle>
+        <CardDescription class="flex justify-between">
+          Une fois que votre compte est supprimé, toutes vos ressources et données seront supprimé définitivement. <br>
+          Assurez-vous d'être certain de votre choix.
+        <Button variant="destructive" :disabled="updatePasswordForm.processing">Supprimer mon compte
+        </Button>
+        </CardDescription>
+      </CardHeader>
     </Card>
   </div>
 </template>

@@ -15,6 +15,8 @@ export interface User {
   lastname: string;
   email: string;
   email_verified_at?: string;
+  craftout_subscription?: string;
+  craftout_total: number;
 }
 
 export interface Craftman {
