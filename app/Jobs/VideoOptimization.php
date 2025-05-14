@@ -19,8 +19,7 @@ class VideoOptimization implements ShouldQueue
      */
     public function __construct(
         private string $filePath,
-        private string $outputPath,
-        private string $language
+        private string $outputPath
     ) {
         $this->onQueue("video");
     }
@@ -32,6 +31,8 @@ class VideoOptimization implements ShouldQueue
     {
         $paths = Video::optimize($this->filePath, $this->outputPath);
 
-        TranscribeVideo::dispatch($paths["audio"], $this->language);
+        TranscribeVideo::dispatch(
+            str_replace(storage_path('app/'), '', $paths['audio'])
+        );
     }
 }

@@ -23,7 +23,7 @@ class Video
 
         if (!file_exists($outputPath)) {
             Log::info("Creating videos directory.");
-            mkdir($path, 0755, true);
+            mkdir($outputPath, 0755, true);
         }
 
         try {

@@ -9,8 +9,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
-        "codewithkyrian/whisper.php": "^1.1",
+        "php": "^8.2",
+        "codewithkyrian/whisper.php": "dev-main",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.8",
         "laravel/sanctum": "^4.0",

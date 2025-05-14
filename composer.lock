@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7725d8ff3f8ee9ad3376e5f53cb4d32d",
+    "content-hash": "6432b3e3e3ccfa4967a79bdfe70d51fd",
     "packages": [
         {
             "name": "brick/math",
@@ -190,16 +190,16 @@
         },
         {
             "name": "codewithkyrian/whisper.php",
-            "version": "1.1.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CodeWithKyrian/whisper.php.git",
-                "reference": "84272cd6593586c2336b19a66d3f258d62bfc755"
+                "reference": "9aa22422531b3784d1331f1b8c8b387f9fbcef95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CodeWithKyrian/whisper.php/zipball/84272cd6593586c2336b19a66d3f258d62bfc755",
-                "reference": "84272cd6593586c2336b19a66d3f258d62bfc755",
+                "url": "https://api.github.com/repos/CodeWithKyrian/whisper.php/zipball/9aa22422531b3784d1331f1b8c8b387f9fbcef95",
+                "reference": "9aa22422531b3784d1331f1b8c8b387f9fbcef95",
                 "shasum": ""
             },
             "require": {
@@ -214,6 +214,7 @@
                 "pestphp/pest": "^2.36.0|^3.5.0",
                 "symfony/var-dumper": "^6.4.11|^7.1.5"
             },
+            "default-branch": true,
             "type": "platform-package",
             "extra": {
                 "platform-urls": {
@@ -245,9 +246,9 @@
             "description": "PHP bindings for OpenAI Whisper made possible by whisper.cpp",
             "support": {
                 "issues": "https://github.com/CodeWithKyrian/whisper.php/issues",
-                "source": "https://github.com/CodeWithKyrian/whisper.php/tree/1.1.0"
+                "source": "https://github.com/CodeWithKyrian/whisper.php/tree/main"
             },
-            "time": "2024-12-14T16:46:34+00:00"
+            "time": "2025-01-11T18:46:01+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -7333,16 +7334,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v7.2.0",
+            "version": "v7.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "099581e99f557e9f16b43c5916c26380b54abb22"
+                "reference": "0feafffb843860624ddfd13478f481f4c3cd8b23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/099581e99f557e9f16b43c5916c26380b54abb22",
-                "reference": "099581e99f557e9f16b43c5916c26380b54abb22",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/0feafffb843860624ddfd13478f481f4c3cd8b23",
+                "reference": "0feafffb843860624ddfd13478f481f4c3cd8b23",
                 "shasum": ""
             },
             "require": {
@@ -7385,7 +7386,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v7.2.0"
+                "source": "https://github.com/symfony/yaml/tree/v7.2.6"
             },
             "funding": [
                 {
@@ -7401,7 +7402,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-10-23T06:56:12+00:00"
+            "time": "2025-04-04T10:10:11+00:00"
         },
         {
             "name": "tightenco/ziggy",
@@ -11015,12 +11016,14 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "codewithkyrian/whisper.php": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
