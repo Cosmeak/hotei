@@ -28,19 +28,50 @@ class TranscribeVideo implements ShouldQueue
     {
         $dst = storage_path('app/tmp_' . uniqid() . '.wav');
 
-        $cmd = sprintf(
-            'ffmpeg -y -loglevel error -i %s -ac 1 -ar 16000 '
-            .'-af "apad=pad_dur=30" -t 30 -c:a pcm_s16le %s',
+        exec(sprintf(
+            'ffmpeg -y -loglevel error -i %s -ac 1 -ar 16000 -c:a pcm_s16le %s',
             escapeshellarg($src),
             escapeshellarg($dst)
-        );
-        exec($cmd, $out, $ret);
+        ), $out, $ret);
 
         if ($ret !== 0 || !is_file($dst)) {
-            Log::error('ffmpeg failed', compact('cmd', 'out', 'ret'));
+            Log::error('ffmpeg failed', compact('src', 'dst', 'out', 'ret'));
             throw new \RuntimeException('ffmpeg conversion failed');
         }
         return $dst;
+    }
+
+    private function transcribeChunks(string $wav): string
+    {
+        $chunkDir = storage_path('app/tmp_' . uniqid());
+        mkdir($chunkDir);
+
+        exec(sprintf(
+            'ffmpeg -y -loglevel error -i %s -f segment -segment_time 60 -ac 1 -ar 16000 %s/%%03d.wav',
+            escapeshellarg($wav),
+            escapeshellarg($chunkDir)
+        ));
+
+        $model  = base_path('whisper_models/tiny.bin');
+        $buffer = '';
+
+        foreach (glob("$chunkDir/*.wav") as $chunk) {
+            $out = $chunk . '.out';
+            exec(sprintf(
+                '/usr/local/bin/whisper-cli -m %s -f %s -otxt -l auto -nt -of %s',
+                escapeshellarg($model),
+                escapeshellarg($chunk),
+                escapeshellarg($out)
+            ));
+
+            $buffer .= ' ' . trim(file_get_contents($out . '.txt'));
+            @unlink($out . '.txt');
+            @unlink($chunk);
+        }
+
+        rmdir($chunkDir);
+
+        return trim($buffer);
     }
 
     public function handle(): int
@@ -53,31 +84,17 @@ class TranscribeVideo implements ShouldQueue
         }
 
         $wav = $this->toWav16k($source);
-
-        $outBase = storage_path('app/tmp_' . uniqid());
-        $cmd = sprintf(
-            '/tmp/whisper-src/build/bin/whisper-cli -m %s -f %s -otxt -l auto -nt -of %s',
-            escapeshellarg(base_path('whisper_models/tiny.bin')),
-            escapeshellarg($wav),
-            escapeshellarg($outBase)
-        );
-        exec($cmd, $cliOut, $ret);
-
+        $text = $this->transcribeChunks($wav);
         @unlink($wav);
 
-        if ($ret !== 0 || ! is_file($outBase . '.txt')) {
-            Log::error('whisper-cli failed', compact('cmd', 'cliOut', 'ret'));
-            throw new \RuntimeException('whisper-cli failed (see logs)');
+        $destDir = storage_path('app/public/' . dirname($this->audioPath));
+        if (! is_dir($destDir)) {
+            mkdir($destDir, 0777, true);
         }
 
-        $text = trim(file_get_contents($outBase . '.txt'));
-        @unlink($outBase . '.txt');
+        file_put_contents($destDir . '/transcription.txt', $text);
 
-        $dest = storage_path('app/public/' . dirname($this->audioPath) . '/transcription.txt');
-        is_dir(dirname($dest)) || mkdir(dirname($dest), 0777, true);
-        file_put_contents($dest, $text);
-
-        Log::debug('END transcribe', ['written' => $dest]);
+        Log::debug('END transcribe', ['written' => $destDir . '/transcription.txt']);
         return Command::SUCCESS;
     }
 
