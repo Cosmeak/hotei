@@ -7,12 +7,9 @@ use App\Services\LemonSqueezyService;
 
 class LemonSqueezyController extends Controller
 {
-    protected $lemonSqueezyService;
-
-    public function __construct(LemonSqueezyService $lemonSqueezyService)
-    {
-        $this->lemonSqueezyService = $lemonSqueezyService;
-    }
+    public function __construct(
+        protected LemonSqueezyService $lemonSqueezyService
+    ) {}
 
     public function createCheckout(Request $request)
     {
