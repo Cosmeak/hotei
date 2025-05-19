@@ -1,43 +1,36 @@
-FROM alpine:latest
+FROM php:8.3-alpine
 
 WORKDIR /var/www/html
 
+# Install packages
 RUN apk add --no-cache --purge --update \
-    php83 \
-    php83-common \
-    php83-fpm \
-    php83-pdo \
-    php83-opcache \
-    php83-zip \
-    php83-phar \
-    php83-iconv \
-    php83-cli \
-    php83-curl \
-    php83-openssl \
-    php83-mbstring \
-    php83-tokenizer \
-    php83-fileinfo \
-    php83-json \
-    php83-xml \
-    php83-xmlwriter \
-    php83-simplexml \
-    php83-dom \
-    php83-pdo_pgsql \
-    php83-ctype \
-    php83-gd \
-    php83-xmlreader \
-    php83-session \
-    php83-sodium \
-    php83-bcmath \
-    libpq-dev \
+    git make \
+    curl openrc \
     nodejs npm \
     ffmpeg
 
-# Set php.ini
-COPY php.ini /usr/local/etc/php/conf.d/php.ini
+# Install php extensions installer for docker
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-# Install composer
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+# Install PHP extensions required by Laravel framework
+RUN install-php-extensions \
+    ctype curl dom fileinfo mbstring openssl pdo pdo_pgsql mysqli session tokenizer simplexml xml xmlwriter phar \
+    filter hash pcre @composer zip bcmath pcntl
+
+# Set php.ini
+COPY docker/php.ini /etc/php83/php.ini
 
 # Ensure correct authorization to the directory
+RUN mkdir -p /var/www/html
 RUN chmod -R 755 /var/www/html
+
+#  Copy project
+COPY . . 
+
+# Install dependencies
+RUN composer install -n
+RUN npm ci
+
+# Run server
+EXPOSE 8000
+CMD composer run dev
