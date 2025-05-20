@@ -1,73 +1,111 @@
-# Hotei
+
+<h1 align="center">Hotei</h1>
+
+The platform to learn a lot of craftmanship hobbies.
+
+## Table of Contents
+
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Commands](#commands)
+- [Standards / Guidelines](#standard-guidelines)
 
 ## Tech Stack
 
-- Laravel: https://laravel.com/docs/11.x/
-- Inertia: https://inertiajs.com/
-- VueJS: https://vuejs.org/
-- TypeScript: https://www.typescriptlang.org/docs/
-- TailwindCSS: https://tailwindcss.com/docs
-- Shadcn: https://www.shadcn-vue.com/
+**Client:** [VueJS](https://vuejs.org/), [Inertia](https://inertiajs.com/), [TypeScript](https://www.typescriptlang.org/docs/), [Shadcn](https://www.shadcn-vue.com/), [TailwindCSS](https://tailwindcss.com/docs)
 
-## Conventions
+**Server:** PHP 8.3, [Laravel](https://laravel.com/docs/), PostgreSQL
 
-- Git: https://www.conventionalcommits.org/en/v1.0.0/
-- PHP & Laravel: https://spatie.be/guidelines/laravel-php
-- TS: https://google.github.io/styleguide/tsguide.html
-- VueJS: _voir doc_
 
 ## Installation
 
-0. Requirements:
+0. **Prerequisites**
 
-- unix system
-- php v8.2 at least
-- composer v2.7
-- node v20 (LTS)
+All you need is Docker and git (+ a Code Editor if you want to contribute).
 
-1. Download:
+*optional: [just](https://github.com/casey/just) for command helper*
+
+1. **Fork the Repository**
+
+```sh
+git clone git@github.com:cosmeak/hotei.git
+cd hotei
+```
+    
+2. **Development Environment**
 
 ```bash
-  git clone git@github.com:Cosmeak/hotei.git && cd hotei
+docker compose up -d 
 ```
 
-2. Environment variables
+## Commands
 
-```bash
-  cp .env.example .env.local
+You can get all recipes using the `just` command and running one of the available commands below with `just <command>`:
+
+```sh
+Available recipes:
+  start                       # Start development servers (inside docker)
+  stop                        # Stop all containers
+  install                     # Run all needed scripts/command on the first installation
 ```
 
-3. Start Docker
+## Standards / Guidelines
 
-```bash
-  make up
+### a. Code Style Guidelines
+
+- PSR-12.
+- Laravel guidelines (with pint) + [Laraverse](https://laraverse.net/wiki).
+- Official VueJS and TypeScript style guides.
+
+### b. Commit Message Guidelines
+
+This project follow the "[Conventional Commits](https://www.conventionalcommits.org/)" specifications:
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer(s)]
 ```
 
-4. Generate key-pair
-```bash
-  make key-gen
+Types include:
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, etc.)
+- `refactor`: Code changes that neither fix bugs nor add features
+- `test`: Adding or modifying tests
+- `chore`: Changes to the build process or auxiliary tools
+
+### c. Branch Guidelines
+
+Like the commit guideline, the branches must follow the type pattern:
+
+```
+<type>/<reason>
 ```
 
-> [!NOTE]
-> You need to have docker desktop open.
+Types are the same as commits.
 
-5. Migrate database
+The `reason` can be the feature name, the bug fix, etc... So make it clear on what you are :)
 
-```bash
-  make migrate
-```
+On top of all this, there is two branches always present: 
+- `production`: branches used for continuous deployements 
+- `develop`: central branch of development
 
-6. Frontend dependencies
+### d. Pull Request Process
 
-```bash
-  make npm-install
-```
+1. Push all your code on one branch.
+2. Open the Pull Request compared to `develop`.
+3. CIs must be validated (tests and lint).
+4. PRs require approval from at least one maintainer.
+5. Once approuved, squash and merge.
 
-7. Run frontend server
-```bash
-  make run-dev
-```
+### e. Production deployments
 
-8. Code
-
-You are ready to go!
+1. Create a PR from `develop` to `production`.
+2. This PR need to be approved by `cosmeak`.
+3. Merge it to production.
+4. Let the CD make it's magic (but keep an eye on it, we're never safe from a remaining bug).
+5. Enjoy your coffee (most important part).
