@@ -1,88 +1,81 @@
 <script setup lang="ts">
-import { Label } from '@/Components/ui/label';
-import { Input } from '@/Components/ui/input';
-import { Checkbox } from "@/Components/ui/checkbox"
-import { Button } from '@/Components/ui/button';
-import { useForm } from 'laravel-precognition-vue-inertia';
+import { useForm } from "@inertiajs/vue3";
+import { Label } from "@/components/label";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
+import { Checkbox } from "@/components/checkbox";
 
-defineProps<{
-    canResetPassword?: boolean;
-    status?: string;
-}>();
-
-const form = useForm("post", route('login'), {
-    email: '',
-    password: '',
-    remember: false,
+const form = useForm({
+    email: "",
+    password: "", 
 });
 
 const submit = () => {
-    form.submit({
-        onFinish: () => {
-            form.reset('password');
-        },
-    });
+    form.post(route("login"), {
+        onFinish: () => form.reset("password"), 
+    });  
 };
 </script>
 
 <template>
-        <InertiaHead title="Log in" />
-
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
+    <InertiaHead title="Se connecter" />
+    <form @submit.prevent="submit">
+        <div>
+            <Label for="email">Email</Label>
+            <Input
+                id="email"
+                v-model="form.email"
+                type="email"
+                required
+                autofocus
+                autocomplete="email"
+            />
         </div>
 
-        <form @submit.prevent="submit">
-            <div>
-                <Label for="email">Email</Label>
+        <div class="mt-4">
+            <Label for="password">Mot de passe</Label>
+            <Input
+                id="password"
+                v-model="form.password"
+                type="password"
+                required
+                autocomplete="password"
+            />
+        </div>
 
-                <Input
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
+        <div class="flex items-center justify-end mt-4">
+            <InertiaLink
+                :href="route('password.request')"
+                class="underline text-sm text-gray-600 hover:text-gray-900"
+            >
+                Mot de passe oublié ?
+            </InertiaLink>
 
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+            <Button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                Se connecter
+            </Button>
+        </div>
+    </form>
+    
+    <div class="flex items-center my-4 justify-center">
+        <hr class="border-t border-gray-500 border-1 w-20" />
+        <span class="px-4 text-gray-500">ou</span>
+        <hr class="border-t border-gray-500 border-1 w-20" />
+    </div>
 
-            <div class="mt-4">
-                <Label for="password">Password</Label>
+    <div class="flex justify-center space-x-4 mt-4">
+        <a :href="route('auth.google')">
+            <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" />
+        </a>
+    </div>
 
-                <Input
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <Checkbox name="remember" :model-value="form.remember" @update:model-value="(value) => form.remember = value as boolean" />
-                    <span class="ms-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <InertiaLink
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Forgot your password?
-                </InertiaLink>
-
-                <Button class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </Button>
-            </div>
-        </form>
+    <div class="flex items-center mt-6">
+        <p>Vous n'avez pas de compte ?</p>
+        <InertiaLink
+            :href="route('register')"
+            class="flex justify-center items-center px-4 py-2 w-40 bg-transparent border-none font-bold"
+        >
+            S'inscrire
+        </InertiaLink>
+    </div>
 </template>

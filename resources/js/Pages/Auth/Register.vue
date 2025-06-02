@@ -22,7 +22,7 @@ const submit = () => {
 </script>
 
 <template>
-    <InertiaHead title="Register" />
+    <InertiaHead title="S'inscrire" />
 
     <form @submit.prevent="submit">
         <div>

@@ -8,6 +8,7 @@ import { Link, Head } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import BackOfficeLayout from "@/Layouts/BackOfficeLayout.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
+import AuthLayout from "@/Lyouts/AuthLayout.vue";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -25,9 +26,17 @@ createInertiaApp({
       ]),
     );
 
-    page.default.layout = name.startsWith("Backoffice/")
-      ? BackOfficeLayout
-      : AppLayout;
+    switch (true) {
+      case name.startsWith("Backoffice/"):
+        page.default.layout = BackOfficeLayout;
+        break;
+      case name.startsWith("Auth/"):
+        page.default.layout = AuthLayout;
+        break;
+      default:
+        page.default.layout = AppLayout;
+        break;
+    }
 
     return page;
   },
