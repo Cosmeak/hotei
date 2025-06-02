@@ -1,118 +1,95 @@
 <script setup lang="ts">
-import { Label } from '@/Components/ui/label';
-import { Input } from '@/Components/ui/input';
-import { Button } from '@/Components/ui/button';
-import { useForm } from '@inertiajs/vue3';
+import { useForm } from "@inertiajs/vue3";
+import { Label } from "@/components/label";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
+import { Checkbox } from "@/components/checkbox";
 
 const form = useForm({
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
 });
 
 const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => {
-            form.reset('password', 'password_confirmation');
-        },
-    });
+    form.post(route("login"), {
+        onFinish: () => form.reset("password", "password_confirmation"), 
+    });  
 };
 </script>
 
 <template>
-    <InertiaHead title="S'inscrire" />
-
+    <InertiaHead title="Se connecter" />
     <form @submit.prevent="submit">
         <div>
-            <Label for="firstname">Firstname</Label>
-
+            <Label for="firstname">Prénom</Label>
             <Input
-                id="name"
-                type="text"
-                class="mt-1 block w-full"
+                id="firstname"
                 v-model="form.firstname"
                 required
                 autofocus
                 autocomplete="firstname"
             />
-
-            <InputError class="mt-2" :message="form.errors.firstname" />
         </div>
 
-        <div class="mt-4">
-            <Label for="lastname">Lastname</Label>
-
+        <div>
+            <Label for="lastname">Nom</Label>
             <Input
-                id="name"
-                type="text"
-                class="mt-1 block w-full"
+                id="lastname"
                 v-model="form.lastname"
                 required
-                autofocus
                 autocomplete="lastname"
             />
-
-            <InputError class="mt-2" :message="form.errors.lastname" />
         </div>
 
-        <div class="mt-4">
+        <div>
             <Label for="email">Email</Label>
-
             <Input
                 id="email"
-                type="email"
-                class="mt-1 block w-full"
                 v-model="form.email"
+                type="email"
                 required
-                autocomplete="username"
+                autocomplete="email"
             />
-
-            <InputError class="mt-2" :message="form.errors.email" />
         </div>
 
         <div class="mt-4">
-            <Label for="password">Password</Label>
-
+            <Label for="password">Mot de passe</Label>
             <Input
                 id="password"
-                type="password"
-                class="mt-1 block w-full"
                 v-model="form.password"
-                required
-                autocomplete="new-password"
-            />
-
-            <InputError class="mt-2" :message="form.errors.password" />
-        </div>
-
-        <div class="mt-4">
-            <Label for="password_confirmation">Confirm Password</Label>
-
-            <Input
-                id="password_confirmation"
                 type="password"
-                class="mt-1 block w-full"
-                v-model="form.password_confirmation"
                 required
-                autocomplete="new-password"
+                autocomplete="password"
             />
-
-            <InputError class="mt-2" :message="form.errors.password_confirmation" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <InertiaLink
-                :href="route('login')"
-                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-                Already registered?
-            </InertiaLink>
+        <Button class="mx-auto" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            Se connecter
+        </Button>
+     </form>
+    
+    <div class="flex items-center my-4 justify-center">
+        <hr class="border-t border-gray-500 border-1 w-20" />
+        <span class="px-4 text-gray-500">ou</span>
+        <hr class="border-t border-gray-500 border-1 w-20" />
+    </div>
 
-            <Button class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Register
-            </Button>
-        </div>
-    </form>
+    <div class="flex justify-center space-x-4 mt-4">
+        <a :href="route('auth.google')">
+            <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" />
+        </a>
+    </div>
+
+    <p class="text-center">
+        Vous avez déjà un compte ?
+        <InertiaLink
+            :href="route('login')"
+            class="font-bold"
+        >
+            Se connecter
+         </InertiaLink>
+    </p>
 </template>
