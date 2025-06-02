@@ -41,7 +41,7 @@ class CourseController extends Controller
         if ($user->role == 'admin') {
             $craftmen = Craftman::query()->with('user')->get();
         }
-        $skills = Course::skill()->with('craftsmanship')->get();
+        $skills = Course::skill()->with('craftmanship')->get();
         $craftsmanships = Craftsmanship::all();
 
         return Inertia::render('BackOffice/Course/Create', [
@@ -59,15 +59,7 @@ class CourseController extends Controller
         $user = Auth::user();
 
         $course = new Course;
-        $course->craftman_id = $request->craftman_id ?? $user->craftman->id;
-        $course->title = $request->title;
-        $course->description = $request->description;
-        $course->duration = 0;
-        $course->category = $request->category;
-        $course->materials = $request->materials;
-        $course->is_draft = $request->is_draft;
-        $course->cost = $request->cost;
-        $course->difficulty = $request->difficulty;
+        $course->fill($request->validated());
         $course->save();
 
         $video = $request->file('video');
@@ -110,14 +102,7 @@ class CourseController extends Controller
      */
     public function update(CourseRequest $request, Course $course): RedirectResponse
     {
-        $course->title = $request->title;
-        $course->description = $request->description;
-        $course->duration = 0;
-        $course->category = $request->category;
-        $course->materials = $request->materials;
-        $course->is_draft = $request->is_draft;
-        $course->cost = $request->cost;
-        $course->difficulty = $request->difficulty;
+        $course->fill($request->validated());
         $course->save();
 
         return redirect()->route('backoffice.course.show', ['course' => $course->id]);

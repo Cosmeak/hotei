@@ -8,5 +8,6 @@ const { craftmen, craftsmanships } = defineProps([
 </script>
 
 <template>
+  <inertia-head title="Create a new course" />
   <CourseForm :craftmen="craftmen" :craftsmanships="craftsmanships" />
 </template>

@@ -78,6 +78,9 @@ Types include:
 - `test`: Adding or modifying tests
 - `chore`: Changes to the build process or auxiliary tools
 
+> [!NOTE]
+> A git hook will run before each commit making sure your code is linted.
+
 ### c. Branch Guidelines
 
 Like the commit guideline, the branches must follow the type pattern:

@@ -13,12 +13,12 @@ use App\Http\Controllers\HomeController;
 // ┌───────────────────────────────┐
 // │ authentication                │
 // └───────────────────────────────┘
-require __DIR__.'/auth.php';
+require __DIR__.'/web/auth.php';
 
 // ┌───────────────────────────────┐
 // │ back office                   │
 // └───────────────────────────────┘
-require __DIR__.'/backoffice.php';
+require __DIR__.'/web/backoffice.php';
 
 // ┌───────────────────────────────┐
 // │ user interface                │
