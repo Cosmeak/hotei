@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(1)->isAdmin()->create([ 'email' => 'admin@hotei.com' ]);
-        User::factory(1)->isUser()->create([ 'email' => 'user@hotei.com' ]);
-        User::factory(1)->isCraftman()->create([ 'email' => 'craftman@hotei.com' ])->each(function (User $user) {
+        User::factory(1)->isAdmin()->create(['email' => 'admin@hotei.com']);
+        User::factory(1)->isUser()->create(['email' => 'user@hotei.com']);
+        User::factory(1)->isCraftman()->create(['email' => 'craftman@hotei.com'])->each(function (User $user) {
             $user->craftman_id = Craftman::where('user_id', $user->id)->first()->id;
             $user->save();
         });

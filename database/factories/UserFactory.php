@@ -52,7 +52,7 @@ class UserFactory extends Factory
      */
     public function isUser(): Factory
     {
-        return $this->state(fn () => [ 'role' => 'user' ]);
+        return $this->state(fn () => ['role' => 'user']);
     }
 
     /**
@@ -60,7 +60,7 @@ class UserFactory extends Factory
      */
     public function isCraftman(): Factory
     {
-        return $this->state(fn () => [ 'role' => 'craftman' ])->hasCraftman(1);
+        return $this->state(fn () => ['role' => 'craftman'])->hasCraftman(1);
     }
 
     /**
@@ -68,6 +68,6 @@ class UserFactory extends Factory
      */
     public function isAdmin(): Factory
     {
-        return $this->state(fn () => [ 'role' => 'admin' ]);
+        return $this->state(fn () => ['role' => 'admin']);
     }
 }
