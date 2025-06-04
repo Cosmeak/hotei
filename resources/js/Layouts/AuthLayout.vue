@@ -3,7 +3,7 @@
   <div class="bg-secondary-lighter relative min-h-screen flex items-center justify-center">
     <img src="assets/auth/decor.svg" class="absolute  right-0 bottom-0 top-O" alt="">
 
-    <main class="bg-background p-12 rounded-xl z-10">
+    <main class="bg-background sm:p-12 rounded-xl z-10">
       <slot />
     </main>
   </div>
