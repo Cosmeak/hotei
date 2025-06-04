@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class ProjectFactory extends Factory
 {
     protected static ?string $craftman_id;
+
     protected static ?string $craftsmanship_id;
 
     /**
@@ -35,7 +36,7 @@ class ProjectFactory extends Factory
      */
     public function isDraft(): Factory
     {
-        return $this->state(fn () => [ 'is_draft' => true ]);
+        return $this->state(fn () => ['is_draft' => true]);
     }
 
     /**
@@ -43,6 +44,6 @@ class ProjectFactory extends Factory
      */
     public function isPublished(): Factory
     {
-        return $this->state(fn () => [ 'is_draft' => false ]);
+        return $this->state(fn () => ['is_draft' => false]);
     }
 }

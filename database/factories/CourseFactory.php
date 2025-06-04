@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\Difficulty;
 use App\Models\Craftman;
 use App\Models\Craftsmanship;
-use App\Enums\Difficulty;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class CourseFactory extends Factory
 {
     protected static ?string $craftman_id;
+
     protected static ?string $craftsmanship_id;
 
     /**
@@ -28,7 +29,7 @@ class CourseFactory extends Factory
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
             'duration' => fake()->numberBetween(5, 60),
-            'difficulty' =>  fake()->randomElement(Difficulty::class),
+            'difficulty' => fake()->randomElement(Difficulty::class),
             'cost' => fake()->numberBetween(0, 200),
             'materials' => [],
             'is_draft' => fake()->boolean(),
@@ -41,7 +42,7 @@ class CourseFactory extends Factory
      */
     public function isSkill(): Factory
     {
-        return $this->state(fn () => [ 'is_skill' => true ]);
+        return $this->state(fn () => ['is_skill' => true]);
     }
 
     /**
@@ -49,7 +50,7 @@ class CourseFactory extends Factory
      */
     public function isDraft(): Factory
     {
-        return $this->state(fn () => [ 'is_draft' => true ]);
+        return $this->state(fn () => ['is_draft' => true]);
     }
 
     /**
@@ -57,6 +58,6 @@ class CourseFactory extends Factory
      */
     public function isPublished(): Factory
     {
-        return $this->state(fn () => [ 'is_draft' => false ]);
+        return $this->state(fn () => ['is_draft' => false]);
     }
 }

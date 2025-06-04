@@ -1,24 +1,22 @@
 <?php
 
-use Inertia\Inertia;
-use App\Models\Craftman;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SkillController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CraftsmanshipController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SkillController;
+use Illuminate\Support\Facades\Route;
 
 // ┌───────────────────────────────┐
 // │ authentication                │
 // └───────────────────────────────┘
-require __DIR__.'/auth.php';
+require __DIR__.'/web/auth.php';
 
 // ┌───────────────────────────────┐
 // │ back office                   │
 // └───────────────────────────────┘
-require __DIR__.'/backoffice.php';
+require __DIR__.'/web/backoffice.php';
 
 // ┌───────────────────────────────┐
 // │ user interface                │

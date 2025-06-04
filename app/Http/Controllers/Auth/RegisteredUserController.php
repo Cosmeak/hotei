@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
-use Inertia\Response;
+use Inertia\Response
+use App\Enums\UserRole;
 
 class RegisteredUserController extends Controller
 {
@@ -35,6 +36,7 @@ class RegisteredUserController extends Controller
             'lastname' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'cgu' => ['required', 'accepted'],
         ]);
 
         $user = User::create([
@@ -42,13 +44,13 @@ class RegisteredUserController extends Controller
             'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'user',
+            'role' => UserRole::User->value,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('home', absolute: false));
     }
 }
