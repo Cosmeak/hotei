@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
-use Inertia\Response
+use Inertia\Response;
 use App\Enums\UserRole;
 
 class RegisteredUserController extends Controller
