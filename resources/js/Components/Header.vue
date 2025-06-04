@@ -35,7 +35,10 @@ const craftsmanships = usePage().props.meta.craftsmanships;
           <Button variant="secondary" class="bg-muted text-muted-foreground">Craftout {{ user.credits }}<span class="bg-white rounded-full p-1"><Plus /></span></Button>
           <Button>Mon profil</Button>
         </template>
-        <Button v-else :href="route('login')" :as="Link">
+        <Button v-if="user" class="border border-muted shadow rounded p-2" :href="route('profile.edit')">
+          Mon compte
+        </Button>
+        <Button v-else class="border border-muted shadow rounded p-2" :href="route('login')">
           Se connecter
         </Button>
       </div>

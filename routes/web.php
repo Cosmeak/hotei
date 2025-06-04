@@ -34,6 +34,7 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->controller(Profi
     Route::get('/', 'edit')->name('edit');
     Route::patch('/', 'update')->name('update');
     Route::delete('/', 'destroy')->name('destroy');
+    Route::put('/craftout', 'updateCraftoutBilling')->name('craftout.update');
 });
 
 // ┌───────────────────────────────┐
