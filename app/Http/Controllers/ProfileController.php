@@ -60,45 +60,4 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-
-    /**
-     * Update the user's subscription plan.
-     */
-    public function updateCraftoutBilling(Request $request): RedirectResponse
-    {
-        $validated = $request->validate([
-            'craftout_subscription' => ['nullable', 'numeric', 'min:0'],
-            'craftout_total' => ['nullable', 'numeric', 'min:0'],
-        ]);
-
-        $user = $request->user();
-
-        if (isset($validated['craftout_subscription'])) {
-            $user->craftout_subscription = $validated['craftout_subscription'];
-        }
-
-        if (isset($validated['craftout_total'])) {
-            $user->craftout_total = $validated['craftout_total'];
-        }
-
-        $user->save();
-
-        return Redirect::route('profile.edit')->with('status', 'craftout-updated');
-    }
-
-    /**
-     * Update the user's total subscription value.
-     */
-    public function updateTotal(Request $request): RedirectResponse
-    {
-        $validated = $request->validate([
-            'craftout_total' => ['required', 'numeric', 'min:0'],
-        ]);
-
-        $request->user()->update([
-            'craftout_total' => $validated['craftout_total'],
-        ]);
-
-        return Redirect::route('settings.edit')->with('status', 'total-updated');
-    }
 }

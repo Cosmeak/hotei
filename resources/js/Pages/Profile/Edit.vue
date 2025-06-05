@@ -21,10 +21,6 @@ const updatePasswordForm = useForm("put", route('password.update'), {
   password: '',
   password_confirmation: '',
 })
-const updateCraftoutStatus = useForm('put', route('profile.craftout.update'), {
-  subscription_credits: user.subscription_credits || '',
-  credits: user.credits || 0,
-});
 
 const deleteAccountForm = useForm('delete', route('profile.destroy'), {
   password: ''
@@ -60,7 +56,7 @@ const CourseRows = [
           Vous pouvez mettre à jour vos informations ici.
         </CardDescription>
       </CardHeader>
-      <form @submit="() => userProfileForm.submit">
+      <form @submit.prevent="userProfileForm.submit()">
         <CardContent class="flex flex-col gap-2">
           <div class="flex flex-col md:flex-row gap-2">
             <div class="w-full">
@@ -71,7 +67,7 @@ const CourseRows = [
               <Input
                 id="firstname"
                 type="text"
-                class="mt-1 block w-full"
+                class="mt-1 block w-full bg-background"
                 v-model="userProfileForm.firstname"
                 required
                 autofocus
@@ -88,7 +84,7 @@ const CourseRows = [
               <Input
                 id="lastname"
                 type="text"
-                class="mt-1 block w-full"
+                class="mt-1 block w-full bg-background"
                 v-model="userProfileForm.lastname"
                 required
                 autofocus
@@ -107,7 +103,7 @@ const CourseRows = [
             <Input
               id="email"
               type="email"
-              class="mt-1 block w-full"
+              class="mt-1 block w-full bg-background"
               v-model="userProfileForm.email"
               required
               autocomplete="username"
@@ -173,7 +169,7 @@ const CourseRows = [
               ref="currentPasswordInput"
               v-model="updatePasswordForm.current_password"
               type="password"
-              class="mt-1 block w-full"
+              class="mt-1 block w-full bg-background"
               autocomplete="current-password"
             />
 
@@ -190,7 +186,7 @@ const CourseRows = [
               ref="passwordInput"
               v-model="updatePasswordForm.password"
               type="password"
-              class="mt-1 block w-full"
+              class="mt-1 block w-full bg-background"
               autocomplete="new-password"
             />
 
@@ -206,7 +202,7 @@ const CourseRows = [
               id="password_confirmation"
               v-model="updatePasswordForm.password_confirmation"
               type="password"
-              class="mt-1 block w-full"
+              class="mt-1 block w-full bg-background"
               autocomplete="new-password"
             />
 
@@ -237,7 +233,7 @@ const CourseRows = [
           Vous pouvez modifier votre abonnement ainsi que votre nombre de craftout.
         </CardDescription>
       </CardHeader>
-      <form @submit="() => updateCraftoutStatus.submit">
+      <form @submit="">
         <CardContent class="grid grid-cols-2">
           <div class="flex flex-col md:flex-row md:items-center">
             <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 w-full justify-around">
@@ -245,9 +241,9 @@ const CourseRows = [
               <p id="craftout_subscription" class="text-sm md:text-base font-medium">
                 {{ user.subscription_credits }} € / mois
               </p>
-              <Button :disabled="updateCraftoutStatus.processing">
-                <span v-if="!updateCraftoutStatus.processing">Modifier</span>
-                <span v-else>Chargement...</span>
+              <Button>
+                <span>Modifier</span>
+                <span>Chargement...</span>
               </Button>
 
               <Transition
@@ -257,7 +253,6 @@ const CourseRows = [
                 leave-to-class="opacity-0"
               >
                 <div
-                  v-if="updateCraftoutStatus.recentlySuccessful"
                   class="flex items-center gap-1 text-green-600 text-sm"
                   role="status"
                 >
@@ -278,11 +273,10 @@ const CourseRows = [
                 </p>
               </div>
               <Button
-                :disabled="updateCraftoutStatus.processing"
-                @click="updateCraftoutStatus.post()"
+                @click=""
               >
-                <span v-if="!updateCraftoutStatus.processing">Mettre à jour</span>
-                <span v-else>Chargement...</span>
+                <span>Mettre à jour</span>
+                <span>Chargement...</span>
               </Button>
 
               <Transition
@@ -292,7 +286,6 @@ const CourseRows = [
                 leave-to-class="opacity-0"
               >
                 <div
-                  v-if="updateCraftoutStatus.recentlySuccessful"
                   class="flex items-center gap-1 text-green-600 text-sm"
                   role="status"
                 >
@@ -344,6 +337,7 @@ const CourseRows = [
             <Input
               id="password"
               type="password"
+              class="bg-background"
               v-model="deleteAccountForm.password"
               required
             />

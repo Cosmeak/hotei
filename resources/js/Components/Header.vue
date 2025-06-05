@@ -33,11 +33,10 @@ const craftsmanships = usePage().props.meta.craftsmanships;
         </DropdownMenu>
         <template v-if="user != undefined">
           <Button variant="secondary" class="bg-muted text-muted-foreground">Craftout {{ user.credits }}<span class="bg-white rounded-full p-1"><Plus /></span></Button>
-          <Button>Mon profil</Button>
+          <Button :href="route('profile.edit')">
+            Mon compte
+          </Button>
         </template>
-        <Button v-if="user" class="border border-muted shadow rounded p-2" :href="route('profile.edit')">
-          Mon compte
-        </Button>
         <Button v-else class="border border-muted shadow rounded p-2" :href="route('login')">
           Se connecter
         </Button>

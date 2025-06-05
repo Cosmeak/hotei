@@ -32,9 +32,8 @@ Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.sh
 
 Route::prefix('profile')->name('profile.')->middleware('auth')->controller(ProfileController::class)->group(function () {
     Route::get('/', 'edit')->name('edit');
-    Route::patch('/', 'update')->name('update');
+    Route::put('/', 'update')->name('update');
     Route::delete('/', 'destroy')->name('destroy');
-    Route::put('/craftout', 'updateCraftoutBilling')->name('craftout.update');
 });
 
 // ┌───────────────────────────────┐
