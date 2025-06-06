@@ -1,14 +1,13 @@
 <?php
 
-use Inertia\Inertia;
-use App\Models\Craftman;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SkillController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CraftsmanshipController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SkillController;
+use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
 // ┌───────────────────────────────┐
 // │ authentication                                     │
@@ -42,11 +41,14 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
 });
 
-Route::get('buy-test/{productId}', function ($productId) {
+Route::get('buy-lemon/{productId}', function ($productId) {
     $user = User::query()->first();
 
     return $user->checkout($productId);
 });
+
+Route::get('buy-course/{userId}/{courseId}', [OrderService::class, 'setCourseOrder'])->name('course.setCourse');
+Route::get('buy-project/{userId}/{projectId}', [OrderService::class, 'setProjectOrder'])->name('course.setProject');
 
 // ┌───────────────────────────────┐
 // │ landing page api                                   │

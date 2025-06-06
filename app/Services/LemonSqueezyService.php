@@ -42,4 +42,20 @@ class LemonSqueezyService
 
         return json_decode($response->getBody(), true);
     }
+
+    public function productCredits($productId) // TODO Update later
+    {
+        return match ($productId) {
+            805577 => 210,
+            805579 => 425,
+            805580 => 640,
+            805582 => 50,
+            805583 => 105,
+            805584 => 260,
+            805589 => 520,
+            805590 => 1050
+        };
+
+
+    }
 }

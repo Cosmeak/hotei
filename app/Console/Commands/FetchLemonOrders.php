@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\LemonSqueezyOrder;
+use App\Models\User;
+use App\Services\LemonSqueezyService;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
@@ -13,6 +15,14 @@ class FetchLemonOrders extends Command
     protected $signature = 'lemon:fetch-orders';
 
     protected $description = 'Récupère les commandes depuis l’API Lemon Squeezy';
+
+    protected LemonSqueezyService $lemonSqueezyService;
+
+    public function __construct(LemonSqueezyService $lemonSqueezyService)
+    {
+        parent::__construct();
+        $this->lemonSqueezyService = $lemonSqueezyService;
+    }
 
     /**
      * @throws ConnectionException
@@ -43,7 +53,7 @@ class FetchLemonOrders extends Command
         foreach ($orders as $order) {
             $orderId = $order['id'];
 
-            if (LemonSqueezyOrder::query()->where('lemon_squeezy_id', $orderId)->getModel()->exists) {
+            if (LemonSqueezyOrder::query()->where('lemon_squeezy_id', $orderId)->get()->count() !== 0) {
                 $this->warn("⏭️ Commande déjà enregistrée : $orderId");
 
                 continue;
@@ -73,6 +83,17 @@ class FetchLemonOrders extends Command
                 'refunded_at' => $attributes['created_at'],
                 'ordered_at' => $attributes['first_order_item']['created_at'],
             ]);
+
+            $user = User::query()->where('email', $attributes['user_email'])->get()->first();
+            if (! $user) {
+                $this->warn("⏭️ Pas d'utilisateur trouvé : $orderId");
+
+                continue;
+            }
+
+            $userCredits = $user->getAttribute('credits');
+            $newCredits = $this->lemonSqueezyService->productCredits($attributes['first_order_item']['variant_id']);
+            $user->setAttribute('credits', $newCredits + $userCredits)->save();
 
             $this->info("✅ Commande enregistrée : {$orderId} ({$attributes['order_number']})");
         }
