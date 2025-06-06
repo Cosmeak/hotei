@@ -81,7 +81,7 @@ You are ready to go!
 - transcription
 
 
-# entrer dans le conteneur docker
+# enter the docker container
 
 ```
 docker compose exec laravel.test sh
@@ -118,20 +118,17 @@ VideoOptimization::dispatch(
 ```
 
 
-#  afficher les processus ffmpeg actifs
-
+#  display active ffmpeg processes
 ```
 ps -o pid,etime,args | grep '[f]fmpeg'
 ```
 
-# afficher les logs enregistrés dans le laravel.log avec les timestamps dans l'execution des jobs
-
+# display logs recorded in laravel.log with timestamps during job execution
 ```
 tail -F storage/logs/laravel.log | grep -E '\[OPT\]|\[TRS\]'
 ```
 
-# afficher les 30 premières lignes de transcription
-
+# display the first 30 lines of the transcription
 ```
 head -n 30 storage/app/public/videos/transcription.txt
 ```
