@@ -33,13 +33,13 @@ const craftsmanships = usePage().props.meta.craftsmanships;
         </DropdownMenu>
         <template v-if="user != undefined">
           <Button variant="secondary" class="bg-muted text-muted-foreground">Craftout {{ user.credits }}<span class="bg-white rounded-full p-1"><Plus /></span></Button>
-          <InertiaLink :href="route('profile.edit')">
+          <Button :href="route('profile.edit')" :as="Link">
             Mon compte
-          </InertiaLink>
+          </Button>
         </template>
-        <InertiaLink v-else class="border border-muted shadow rounded p-2" :href="route('login')">
-          Se connecter
-        </InertiaLink>
+        <Button v-else :href="route('login')" :as="Link">
+          Connexion
+        </Button>
       </div>
     </div>
   </header>

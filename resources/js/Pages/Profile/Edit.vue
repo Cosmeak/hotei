@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {useForm} from 'laravel-precognition-vue-inertia';
 import {usePage} from '@inertiajs/vue3';
+import {Link} from "@inertiajs/vue3";
 import Input from '@/Components/ui/input/Input.vue';
 import Label from '@/Components/ui/label/Label.vue';
 import Button from '@/Components/ui/button/Button.vue';
@@ -42,10 +43,17 @@ const CourseRows = [
   <InertiaHead title="Paramètres du compte"/>
 
   <div class="container flex flex-col gap-4 my-12">
-    <div class="flex justify-start items-center">
-      <img class="size-24 mr-6 rounded-full" :src="craftman.avatar"/>
-      <h1 class="text-2xl">Compte</h1>
+    <div class="flex justify-between items-center">
+      <div class="flex items-center">
+        <img class="size-24 mr-6 rounded-full" :src="craftman.avatar"/>
+        <h1 class="text-2xl">Compte</h1>
+      </div>
+
+      <Button method="post" :href="route('logout')" :as="Link" variant="secondary">
+        Se déconnecter
+      </Button>
     </div>
+
     <h3 class="text-xl">
       Informations Personnelles
     </h3>
@@ -60,7 +68,7 @@ const CourseRows = [
             <Input
               id="firstname"
               type="text"
-              class="mt-1 block w-full bg-background"
+              class="mt-1 block w-full bg-white border border-secondary-darker"
               v-model="userProfileForm.firstname"
               required
               autofocus
@@ -77,7 +85,7 @@ const CourseRows = [
             <Input
               id="lastname"
               type="text"
-              class="mt-1 block w-full bg-background"
+              class="mt-1 block w-full bg-white border border-secondary-darker"
               v-model="userProfileForm.lastname"
               required
               autofocus
@@ -97,7 +105,7 @@ const CourseRows = [
             <Input
               id="email"
               type="email"
-              class="mt-1 block w-full bg-background"
+              class="mt-1 block w-full bg-white border border-secondary-darker"
               v-model="userProfileForm.email"
               required
               autocomplete="username"
@@ -140,41 +148,42 @@ const CourseRows = [
     <h3 class="text-xl">Mot de passe</h3>
     <form @submit.prevent="() => updatePasswordForm.submit({ onSuccess: () => updatePasswordForm.reset() })">
       <div class="flex flex-col gap-2">
-        <div>
-          <Label for="current_password">
-            Mot de passe actuel
-          </Label>
+        <div class="flex flex-col md:flex-row gap-2">
+          <div class="w-full">
+            <Label for="current_password">
+              Mot de passe actuel
+            </Label>
 
-          <Input
-            id="current_password"
-            ref="currentPasswordInput"
-            v-model="updatePasswordForm.current_password"
-            type="password"
-            class="mt-1 block w-full bg-background"
-            autocomplete="current-password"
-          />
+            <Input
+              id="current_password"
+              ref="currentPasswordInput"
+              v-model="updatePasswordForm.current_password"
+              type="password"
+              class="mt-1 block w-full bg-white border border-secondary-darker"
+              autocomplete="current-password"
+            />
 
-          <InputError :message="updatePasswordForm.errors.current_password" class="mt-2"/>
+            <InputError :message="updatePasswordForm.errors.current_password" class="mt-2"/>
+          </div>
+
+          <div class="w-full">
+            <Label for="password">
+              Nouveau mot de passe
+            </Label>
+
+            <Input
+              id="password"
+              ref="passwordInput"
+              v-model="updatePasswordForm.password"
+              type="password"
+              class="mt-1 block w-full bg-white border border-secondary-darker"
+              autocomplete="new-password"
+            />
+
+            <InputError :message="updatePasswordForm.errors.password" class="mt-2"/>
+          </div>
         </div>
-
-        <div>
-          <Label for="password">
-            Nouveau mot de passe
-          </Label>
-
-          <Input
-            id="password"
-            ref="passwordInput"
-            v-model="updatePasswordForm.password"
-            type="password"
-            class="mt-1 block w-full bg-background"
-            autocomplete="new-password"
-          />
-
-          <InputError :message="updatePasswordForm.errors.password" class="mt-2"/>
-        </div>
-
-        <div class="flex md:flex-row gap-2 items-end">
+        <div class="flex flex-col md:flex-row gap-2 items-end">
           <div class="w-1/2">
             <Label for="password_confirmation">
               Confirmer le nouveau mot de passe
@@ -184,25 +193,31 @@ const CourseRows = [
               id="password_confirmation"
               v-model="updatePasswordForm.password_confirmation"
               type="password"
-              class="mt-1 block w-full bg-background"
+              class="mt-1 block w-full bg-white border border-secondary-darker"
               autocomplete="new-password"
             />
 
+            <InputError :message="updatePasswordForm.errors.password_confirmation" class="mt-2"/>
           </div>
-          <Button :disabled="updatePasswordForm.processing" variant="accent">Enregistrer les modifications</Button>
-          <Transition
-            enter-active-class="transition ease-in-out"
-            enter-from-class="opacity-0"
-            leave-active-class="transition ease-in-out"
-            leave-to-class="opacity-0"
-          >
-            <p v-if="updatePasswordForm.recentlySuccessful" class="text-sm text-gray-600">Saved.</p>
-          </Transition>
+
+          <div class="flex flex-col gap-1">
+            <Button :disabled="updatePasswordForm.processing" variant="accent">
+              Enregistrer les modifications
+            </Button>
+
+            <Transition
+              enter-active-class="transition ease-in-out"
+              enter-from-class="opacity-0"
+              leave-active-class="transition ease-in-out"
+              leave-to-class="opacity-0"
+            >
+              <p v-if="updatePasswordForm.recentlySuccessful" class="text-sm text-gray-600">Saved.</p>
+            </Transition>
+          </div>
         </div>
-        <InputError :message="updatePasswordForm.errors.password_confirmation" class="mt-2"/>
+
       </div>
     </form>
-
     <h3 class="text-xl">Craftout</h3>
     <form @submit="">
       <div class="grid grid-cols-2">
@@ -274,23 +289,26 @@ const CourseRows = [
     <TableView :headers="CourseHeaders" :rows="CourseRows" caption="Liste des cours"/>
 
     <h3 class="text-xl">Supprimer mon compte</h3>
-    <div>
-      <form @submit.prevent="() => deleteAccountForm.submit()">
-        <div class="flex flex-col gap-4">
-          <Label for="password">Mot de passe</Label>
-          <Input
-            id="password"
-            type="password"
-            class="bg-background"
-            v-model="deleteAccountForm.password"
-            required
-          />
-          <InputError :message="deleteAccountForm.errors.password"/>
+    <form @submit.prevent="() => deleteAccountForm.submit()">
+      <div class="flex flex-col gap-2">
+        <div class="flex flex-col md:flex-row gap-2 items-end">
+          <div class="w-1/2">
+            <Label for="password">Mot de passe</Label>
+            <Input
+              id="password"
+              type="password"
+              class="mt-1 block w-full bg-white border border-secondary-darker"
+              v-model="deleteAccountForm.password"
+              required
+            />
+            <InputError :message="deleteAccountForm.errors.password" class="mt-2"/>
+          </div>
+
           <Button variant="destructive" :disabled="deleteAccountForm.processing">
             Supprimer mon compte
           </Button>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </template>

@@ -9,11 +9,11 @@ const props = defineProps<{
 
 <template>
   <div class="overflow-x-auto">
-    <table class="w-full border border-primary-darker rounded-xl overflow-hidden border-separate [border-spacing:0]">
+    <table class="w-full border-2 border-primary rounded-xl overflow-hidden border-separate [border-spacing:0]">
       <caption v-if="caption" class="caption-bottom text-sm text-muted-foreground mt-2">{{ caption }}</caption>
 
       <!-- Table Header -->
-      <thead class="bg-primary/10 text-black font-semibold">
+      <thead class="bg-secondary-lighter text-black font-semibold">
       <tr>
         <th v-for="(header, index) in headers" :key="index"
             class="px-4 py-3 border-b border-primary-700 text-left">

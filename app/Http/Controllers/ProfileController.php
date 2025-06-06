@@ -59,11 +59,19 @@ class ProfileController extends Controller
 
         Auth::logout();
 
+        if ($user->craftman) {
+            $user->craftman_id = null;
+            $user->save();
+            $user->craftman->delete();
+        }
+
         $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/')->withHeaders([
+            'X-Inertia-Location' => url('/'),
+        ]);
     }
 }
