@@ -1,12 +1,14 @@
 <?php
 
+use Inertia\Inertia;
+use App\Models\Craftman;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\CraftsmanshipController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\SkillController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CraftsmanshipController;
+use App\Http\Controllers\HomeController;
 
 // ┌───────────────────────────────┐
 // │ authentication                                     │
@@ -40,7 +42,14 @@ Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function
     Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
 });
 
+Route::get('buy-test/{productId}', function ($productId) {
+    $user = User::query()->first();
+
+    return $user->checkout($productId);
+});
+
 // ┌───────────────────────────────┐
 // │ landing page api                                   │
 // └───────────────────────────────┘
+
 // Route::get('newsletter', [NewsletterController::class, 'index']);
