@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table'
 const props = defineProps<{
   caption?: string
   headers: string[]
@@ -9,21 +8,29 @@ const props = defineProps<{
 </script>
 
 <template>
-  <Table>
-    <TableCaption v-if="caption">{{ caption }}</TableCaption>
-    <TableHeader>
-      <TableRow>
-        <TableHead v-for="(header, index) in headers" :key="index">
+  <div class="overflow-x-auto">
+    <table class="w-full border border-primary-darker rounded-xl overflow-hidden border-separate [border-spacing:0]">
+      <caption v-if="caption" class="caption-bottom text-sm text-muted-foreground mt-2">{{ caption }}</caption>
+
+      <!-- Table Header -->
+      <thead class="bg-primary/10 text-black font-semibold">
+      <tr>
+        <th v-for="(header, index) in headers" :key="index"
+            class="px-4 py-3 border-b border-primary-700 text-left">
           {{ header }}
-        </TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      <TableRow v-for="(row, rowIndex) in rows" :key="rowIndex">
-        <TableCell v-for="(cell, cellIndex) in row" :key="cellIndex">
+        </th>
+      </tr>
+      </thead>
+
+      <!-- Table Body -->
+      <tbody>
+      <tr v-for="(row, rowIndex) in rows" :key="rowIndex" class="bg-white">
+        <td v-for="(cell, cellIndex) in row" :key="cellIndex"
+            class="px-4 py-3 border-t border-primary-700 text-left">
           {{ cell }}
-        </TableCell>
-      </TableRow>
-    </TableBody>
-  </Table>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
