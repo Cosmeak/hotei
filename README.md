@@ -71,3 +71,67 @@
 8. Code
 
 You are ready to go!
+
+
+
+
+## laravel jobs
+- video optimization to webm with vp9 codec 
+- separate audio and video
+- transcription
+
+
+# entrer dans le conteneur docker
+
+```
+docker compose exec laravel.test sh
+
+```
+
+# terminal 1 , start the queue worker
+
+```
+pkill -f "queue:work" || true
+```
+```
+php artisan queue:flush  
+``` 
+```
+php artisan queue:work database \
+    --queue=video,transcription \
+    --timeout=0 \
+    -vvv
+```
+
+# terminal 2, start the job with tinker
+
+```
+php artisan tinker
+```
+
+```
+use App\Jobs\VideoOptimization;
+VideoOptimization::dispatch(
+    storage_path('app/videos/test.mp4'),
+    'videos'
+);
+```
+
+
+#  afficher les processus ffmpeg actifs
+
+```
+ps -o pid,etime,args | grep '[f]fmpeg'
+```
+
+# afficher les logs enregistrés dans le laravel.log avec les timestamps dans l'execution des jobs
+
+```
+tail -F storage/logs/laravel.log | grep -E '\[OPT\]|\[TRS\]'
+```
+
+# afficher les 30 premières lignes de transcription
+
+```
+head -n 30 storage/app/public/videos/transcription.txt
+```
