@@ -12,6 +12,7 @@ use LemonSqueezy\Laravel\Billable;
 class LemonSqueezyOrder extends Model
 {
     use Billable, HasFactory, HasUuids, Notifiable;
+
     protected $fillable = [
         'id',
         'billable_type',

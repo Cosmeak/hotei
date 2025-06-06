@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\LemonSqueezyOrder;
-use App\Models\Order;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
