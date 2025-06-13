@@ -18,7 +18,7 @@ const handleUpdate = (event: number) => {
     v-slot="{ page }"
     :total="paginatedResponse.total"
     :page="paginatedResponse.current_page"
-    :items-per-page="10"
+    :items-per-page="paginatedResponse.per_page"
     @update:page="handleUpdate"
   >
     <PaginationContent v-slot="{ items }" class="flex items-center gap-1">
