@@ -27,7 +27,7 @@ createInertiaApp({
     );
 
     switch (true) {
-      case name.startsWith("Backoffice/"):
+      case name.startsWith("BackOffice/"):
         page.default.layout = BackOfficeLayout;
         break;
       case name.startsWith("Auth/"):
