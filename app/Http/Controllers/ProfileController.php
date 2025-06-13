@@ -18,9 +18,13 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $user = Auth::user();
+        $craftman = $user->craftman;
+
         return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
+            'craftman' => $craftman,
         ]);
     }
 
@@ -53,11 +57,17 @@ class ProfileController extends Controller
 
         Auth::logout();
 
+        if ($user->craftman) {
+            $user->craftman_id = null;
+            $user->save();
+            $user->craftman->delete();
+        }
+
         $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return redirect()->route('home');
     }
 }

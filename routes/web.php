@@ -30,11 +30,10 @@ Route::get('projects/{project}/courses/{course}', [CourseController::class, 'sho
 
 Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.show');
 
-Route::prefix('profile')->name('profile.')->middleware('auth')->controller(ProfileController::class)->group(function () {
-    Route::get('/', 'edit')->name('edit');
-    Route::patch('/', 'update')->name('update');
-    Route::delete('/', 'destroy')->name('destroy');
-});
+Route::middleware('auth')->resource('profile', ProfileController::class)
+    ->only(['edit', 'update', 'destroy'])
+    ->parameters(['profile' => ''])
+    ->names('profile');
 
 // ┌───────────────────────────────┐
 // │ landing page api              │
