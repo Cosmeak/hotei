@@ -2,12 +2,12 @@
 import { Course } from "@/types";
 import { useForm } from "laravel-precognition-vue-inertia";
 import { Plus, Minus } from "lucide-vue-next";
-import { Label } from "@/components/ui/label";
-import { Select, SelectItem, SelectGroup, SelectValue, SelectTrigger, SelectContent } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Dropzone } from '@/components/ui/dropzone';
+import { Label } from "@/Components/ui/label";
+import { Select, SelectItem, SelectGroup, SelectValue, SelectTrigger, SelectContent } from "@/Components/ui/select";
+import { Input } from "@/Components/ui/input";
+import { Textarea } from "@/Components/ui/textarea";
+import { Button } from "@/Components/ui/button";
+import { Dropzone } from '@/Components/ui/dropzone';
 
 
 const { course, craftmen, craftsmanships } = defineProps([

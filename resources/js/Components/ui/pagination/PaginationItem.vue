@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/lib/utils'
-import { buttonVariants, type ButtonVariants } from '@/components/ui/button'
+import { buttonVariants, type ButtonVariants } from '@/Components/ui/button'
 import { reactiveOmit } from '@vueuse/core'
 import { PaginationListItem, type PaginationListItemProps } from 'reka-ui'
 
