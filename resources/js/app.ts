@@ -6,9 +6,9 @@ import { createInertiaApp } from "@inertiajs/vue3";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import { Link, Head } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
-import BackOfficeLayout from "@/layouts/BackOfficeLayout.vue";
-import AppLayout from "@/layouts/AppLayout.vue";
-import AuthLayout from "@/layouts/AuthLayout.vue";
+import BackOfficeLayout from "@Llayouts/BackOfficeLayout.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
