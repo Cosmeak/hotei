@@ -6,7 +6,7 @@ import { createInertiaApp } from "@inertiajs/vue3";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import { Link, Head } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
-import BackOfficeLayout from "@Llayouts/BackOfficeLayout.vue";
+import BackOfficeLayout from "@/Layouts/BackOfficeLayout.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 
