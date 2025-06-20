@@ -19,10 +19,10 @@ createInertiaApp({
   title: (title) => `${title} - ${appName}`,
   resolve: async (name) => {
     const page = await resolvePageComponent(
-      `./pages/${name}.vue`,
+      `./Pages/${name}.vue`,
       import.meta.glob<DefineComponent>([
-        "./pages/**/*.vue",
-        "./layouts/**/*.vue",
+        "./Pages/**/*.vue",
+        "./Layouts/**/*.vue",
       ]),
     );
 
