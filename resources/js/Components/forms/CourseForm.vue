@@ -2,6 +2,13 @@
 import { Course } from "@/types";
 import { useForm } from "laravel-precognition-vue-inertia";
 import { Plus, Minus } from "lucide-vue-next";
+import { Label } from "@/components/ui/label";
+import { Select, SelectItem, SelectGroup, SelectValue, SelectTrigger, SelectContent } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Dropzone } from '@/components/ui/dropzone';
+
 
 const { course, craftmen, craftsmanships } = defineProps([
   "course",
@@ -57,13 +64,13 @@ const removeMaterial = () => {
 <template>
   <form
     @submit.prevent="submit"
-    class="container max-w-4xl flex flex-col gap-4"
+    class="flex flex-col gap-4"
   >
     <div v-if="isAdmin()" class="flex gap-4">
       <div class="w-full">
         <Label>Craftman</Label>
         <Select v-model="form.craftman_id">
-          <SelectTrigger>
+          <SelectTrigger class="w-full">
             <SelectValue placeholder="Select a craftman" />
           </SelectTrigger>
           <SelectContent>
@@ -100,7 +107,7 @@ const removeMaterial = () => {
       <div class="w-full">
         <Label>Difficulty</Label>
         <Select v-model="form.difficulty">
-          <SelectTrigger>
+          <SelectTrigger class="w-full">
             <SelectValue placeholder="Select a difficulty" />
           </SelectTrigger>
           <SelectContent>
@@ -117,7 +124,7 @@ const removeMaterial = () => {
       <div class="w-full">
         <Label>Category</Label>
         <Select v-model="form.craftsmanship">
-          <SelectTrigger>
+          <SelectTrigger class="w-full">
             <SelectValue placeholder="Select a category" />
           </SelectTrigger>
           <SelectContent>
@@ -137,7 +144,8 @@ const removeMaterial = () => {
 
     <div>
       <Label>Video</Label>
-      <Input type="file" @input="form.video = $event.target.files[0]" />
+      <!-- <Input type="file" @input="form.video = $event.target.files[0]" /> -->
+      <Dropzone v-model="form.video" />
     </div>
 
     <div>
@@ -159,13 +167,13 @@ const removeMaterial = () => {
         </template>
         <div class="flex gap-4">
           <Button
-            class="w-full"
+          class="flex-1/2"
             @click.prevent="removeMaterial"
             :disabled="form.materials.length <= 1"
           >
             <Minus />
           </Button>
-          <Button class="w-full" @click.prevent="addMaterial">
+          <Button class="flex-1/2" @click.prevent="addMaterial">
             <Plus />
           </Button>
         </div>

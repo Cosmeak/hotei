@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CourseForm from "@/Components/forms/CourseForm.vue";
+import { Card, CardContent } from "@/Components/ui/card";
 
 const { craftmen, craftsmanships } = defineProps([
   "craftmen",
@@ -8,5 +9,9 @@ const { craftmen, craftsmanships } = defineProps([
 </script>
 
 <template>
-  <CourseForm :craftmen="craftmen" :craftsmanships="craftsmanships" />
+  <Card class="container max-w-4xl bg-white">
+    <CardContent>
+      <CourseForm :craftmen="craftmen" :craftsmanships="craftsmanships" />
+    </CardContent>
+  </Card>
 </template>

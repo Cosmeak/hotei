@@ -1,28 +1,38 @@
 <script setup lang="ts">
-import { MoreHorizontal } from "lucide-vue-next";
+import { MoreHorizontal, Plus } from "lucide-vue-next";
+import { Link } from "@inertiajs/vue3";
+import { Card, CardContent, CardFooter } from "@/Components/ui/card";
+import { Button } from "@/Components/ui/button";
+import { Table, TableHeader, TableRow, TableBody, TableCell, TableHead } from "@/Components/ui/table";
+import { Badge } from "@/Components/ui/badge";
+import { DropdownMenu, DropdownMenuLabel, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent } from "@/Components/ui/dropdown-menu";
+import { PaginatedResponse } from "@/types/laravel";
+import { Course } from "@/types";
+import LaravelPagination from "@/Components/LaravelPagination.vue";
+import { formatDate } from "@vueuse/core";
 
-const { courses } = defineProps(["courses"]);
+const { courses, skillOnly } = defineProps<{ courses: PaginatedResponse<Course>, skillOnly: boolean }>();
 </script>
 
 <template>
   <div class="flex justify-end">
     <Button
-      class="w-fit"
-      :as="InertiaLink"
+      :as="Link"
       :href="route('backoffice.course.create')"
-      ><Plus /> New Course</Button
-    >
+      >
+        <Plus /> Ajouter un cours
+    </Button>
   </div>
-  <Card>
-    <CardContent class="p-0">
+  <Card class="bg-white">
+    <CardContent>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead class="w-[100px]">Title</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Token cost</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Created at</TableHead>
+            <TableHead class="w-[100px]">Titre</TableHead>
+            <TableHead>Categorie</TableHead>
+            <TableHead>Coût</TableHead>
+            <TableHead>Statut</TableHead>
+            <TableHead>Date de création</TableHead>
             <TableHead />
           </TableRow>
         </TableHeader>
@@ -37,11 +47,11 @@ const { courses } = defineProps(["courses"]);
               </TableCell>
               <TableCell>{{ course.cost }}</TableCell>
               <TableCell>
-                <Badge :variant="course.is_draft ? 'secondary' : 'primary'">{{
-                  course.is_draft ? "Draft" : "Published"
+                <Badge :variant="course.is_draft ? 'secondary' : 'default'">{{
+                  course.is_draft ? "Draft" : "Publié"
                 }}</Badge>
               </TableCell>
-              <TableCell>{{ course.created_at }}</TableCell>
+              <TableCell>{{ formatDate(new Date(course.created_at), 'YYYY-MM-DD HH:mm:ss') }}</TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger as-child>
@@ -60,7 +70,7 @@ const { courses } = defineProps(["courses"]);
                             course: course.id,
                           })
                         "
-                        >Edit</InertiaLink
+                        >Modifier</InertiaLink
                       >
                     </DropdownMenuItem>
                     <DropdownMenuItem>
@@ -73,7 +83,7 @@ const { courses } = defineProps(["courses"]);
                             course: course.id,
                           })
                         "
-                        >Delete</InertiaLink
+                        >Supprimer</InertiaLink
                       >
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -84,47 +94,16 @@ const { courses } = defineProps(["courses"]);
           <TableRow v-else>
             <TableCell colspan="5">
               <p class="text-center font-medium">
-                No course created... <br />
-                Press the new course button to create one.
+                Vous n'avez ajouté aucun cours ou compétence pour le moment. <br />
+                Appuyer sur le bouton ajouter un cours pour en créer un.
               </p>
             </TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </CardContent>
-    <CardFooter v-if="course.last_page != 1" class="justify-center">
-      <Pagination
-        v-slot="{ page }"
-        :total="courses.total"
-        :sibling-count="2"
-        show-edges
-        :page="courses.current_page"
-      >
-        <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-          <PaginationFirst />
-          <PaginationPrev />
-
-          <template v-for="(item, index) in items">
-            <PaginationListItem
-              v-if="item.type === 'page'"
-              :key="index"
-              :value="item.value"
-              as-child
-            >
-              <Button
-                class="w-10 h-10 p-0"
-                :variant="item.value === page ? 'default' : 'outline'"
-              >
-                {{ item.value }}
-              </Button>
-            </PaginationListItem>
-            <PaginationEllipsis v-else :key="item.type" :index="index" />
-          </template>
-
-          <PaginationNext />
-          <PaginationLast />
-        </PaginationList>
-      </Pagination>
+    <CardFooter v-if="courses.last_page != 1" class="justify-center">
+      <LaravelPagination :paginatedResponse="courses" />
     </CardFooter>
   </Card>
 </template>

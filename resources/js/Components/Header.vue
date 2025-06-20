@@ -32,6 +32,9 @@ const craftsmanships = usePage().props.meta.craftsmanships;
           </DropdownMenuContent>
         </DropdownMenu>
         <template v-if="user != undefined">
+          <Button v-if="user.role != 'user'" :href="route('backoffice.dashboard')" variant="outline" :as="Link">
+            Backoffice
+          </Button>
           <Button variant="secondary" class="bg-muted text-muted-foreground">Craftout {{ user.credits }}<span class="bg-white rounded-full p-1"><Plus /></span></Button>
           <Button :href="route('profile.edit')" :as="Link">
             Mon compte
