@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\BackOffice;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
+use App\Enums\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -19,9 +20,10 @@ class ProjectController extends Controller
     {
         $user = Auth::user();
         $projects = Project::query()
-            ->when($user->role != UserRole::Admin->value, function ($query) {
-                $query->where('craftman_id', $user->craftman_id);
-            })
+            ->when(
+                $user->role != UserRole::Admin->value,
+                fn ($query) => $query->where('craftman_id', $user->craftman_id)
+            )
             ->paginate(100)
             ->withQueryString();
 

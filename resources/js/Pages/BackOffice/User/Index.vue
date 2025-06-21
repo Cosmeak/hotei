@@ -5,16 +5,36 @@ import { PaginatedResponse } from '@/types/laravel';
 import { Card, CardContent, CardFooter } from '@/Components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import { DropdownMenu, DropdownMenuLabel, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent } from "@/Components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/Components/ui/select';
+import { Input } from "@/Components/ui/input";
 import LaravelPagination from '@/Components/LaravelPagination.vue';
 import { Button } from "@/Components/ui/button";
-
 import { formatDate } from '@vueuse/core';
+import { router } from "@inertiajs/vue3";
 
+const { users, roles } = defineProps<{ users: PaginatedResponse<User>, roles: string[] }>();
 
-const { users } = defineProps<{ users: PaginatedResponse<User>}>();
+let timeout: number|undefined = undefined;
+const handleSearch = (event: KeyboardEvent) => {
+  clearTimeout(timeout);
+  timeout = setTimeout(() => router.get(route('backoffice.user.index', { email: event.target?.value })), 100);
+};
+
+const handleUpdateRole = (user_id: string, role: string) => {
+  router.put(route('backoffice.user.update', { user: user_id }), { role: role });
+};
 </script>
 
 <template>
+  <Input id="search" name="search" type="text" @keyup="handleSearch" class="bg-white" placeholder="Rechercher un utilisateur via email" style="max-width: 320px;" />
   <Card class="bg-white">
     <CardContent>
       <Table>
@@ -23,7 +43,7 @@ const { users } = defineProps<{ users: PaginatedResponse<User>}>();
             <TableHead>Email</TableHead>
             <TableHead>Prénom</TableHead>
             <TableHead>Nom</TableHead>
-            <TableHead>Statut</TableHead>
+            <TableHead>Role</TableHead>
             <TableHead>Date de création</TableHead>
             <TableHead />
           </TableRow>
@@ -33,7 +53,20 @@ const { users } = defineProps<{ users: PaginatedResponse<User>}>();
             <TableCell>{{ user.email }}</TableCell>
             <TableCell>{{ user.firstname }}</TableCell>
             <TableCell>{{ user.lastname }}</TableCell>
-            <TableCell>{{ '-' }}</TableCell>
+            <TableCell>
+              <Select :defaultValue="user.role" @update:modelValue="(role: string) => handleUpdateRole(user.id, role)">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem v-for="(role, index) in roles" :key="index" :value="role">
+                        {{ role }}
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+            </TableCell>
             <TableCell>{{ formatDate(new Date(user.created_at), 'YYYY-MM-DD HH:mm:ss') }}</TableCell>
             <TableCell>
               <DropdownMenu>

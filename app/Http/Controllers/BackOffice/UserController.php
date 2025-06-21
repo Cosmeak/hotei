@@ -4,6 +4,8 @@ namespace App\Http\Controllers\BackOffice;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Enums\UserRole;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -22,45 +24,35 @@ class UserController extends Controller
             ->when(! empty(request()->query('email')), function ($query) {
                 $query->where('email', 'like', '%'.request()->query('email').'%');
             })
-            ->paginate(100)
+            ->orderBy('email')
+            ->paginate(25)
             ->withQueryString();
 
         return Inertia::render('BackOffice/User/Index', [
             'users' => $users,
+            'roles' => UserRole::cases(),
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update the role for a specified user.
      */
-    public function store(Request $request)
+    public function update(Request $request, User $user): RedirectResponse
     {
-        $inputs = $request->validated();
-        $user = new User($inputs);
-        $user->save();
-
-        return redirect()->route('backoffice.user.index');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $id)
-    {
-        $inputs = $request->validated();
+        $inputs = $request->validate([ 'role' => ['required', 'string'] ]);
         $user->fill($inputs);
         $user->save();
 
-        return redirect()->route('backoffice.user.index');
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         $user->delete();
 
-        return redirect()->route('backoffice.user.index');
+        return redirect()->back();
     }
 }
