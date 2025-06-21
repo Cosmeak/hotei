@@ -18,6 +18,9 @@ export interface User {
   email_verified_at?: string;
   credits: number;
   subscription_credits: string;
+  created_at: string;
+  updated_at: string;
+  role: 'user'|'admin'|'craftman';
 }
 
 export interface Craftman {
@@ -53,7 +56,10 @@ export interface Course {
   created_at: string;
   updated_at: string;
   project?: Project;
+  is_draft: bool;
   craftman: Craftman;
+  category: string;
+  cost: number;
 }
 
 export interface Project {

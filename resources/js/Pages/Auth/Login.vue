@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useForm } from "@inertiajs/vue3";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Label } from "@/Components/ui/label";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
 
 const form = useForm({
     email: "",
@@ -21,7 +21,7 @@ const submit = () => {
 
     <h1 class="text-3xl mb-8 text-center">Connectez-vous !</h1>
 
-    <form @submit.prevent="submit">
+    <form @submit.prevent="submit" class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
             <Label for="email">Email</Label>
             <Input
@@ -34,7 +34,7 @@ const submit = () => {
             />
         </div>
 
-        <div class="flex flex-col gap-2 mt-4">
+        <div class="flex flex-col gap-2">
             <Label for="password">Mot de passe</Label>
             <Input
                 id="password"
@@ -45,7 +45,11 @@ const submit = () => {
             />
         </div>
 
-        <div class="flex items-center gap-4  justify-end mt-4">
+      <p v-if="form.errors.length > 0">
+        L'adresse email ou le mot de passe est incorrect.
+      </p>
+
+        <div class="flex items-center gap-4  justify-end">
             <InertiaLink
                 :href="route('password.request')"
                 class="underline text-sm text-gray-600 hover:text-gray-900"

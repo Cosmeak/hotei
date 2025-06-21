@@ -28,17 +28,17 @@ class DatabaseSeeder extends Seeder
             $user->craftman_id = Craftman::where('user_id', $user->id)->first()->id;
             $user->save();
         });
-        User::factory(5)->isUser()->create();
+        User::factory(150)->isUser()->create();
 
         $craftmanships = ['Crochet', 'Coutellerie', 'Maroquinerie', 'Poterie'];
         Craftsmanship::factory(count($craftmanships))->state(new Sequence(fn (Sequence $sequence) => ['name' => $craftmanships[$sequence->index]]))->create();
 
-        Project::factory()->count(10)->hasCourses(5, function (array $attributes, Project $project) {
+        Project::factory()->count(150)->hasCourses(5, function (array $attributes, Project $project) {
             return [
                 'craftman_id' => $project->craftman_id,
                 'craftsmanship_id' => $project->craftsmanship_id,
             ];
         })->create();
-        Course::factory()->count(10)->isSkill()->create();
+        Course::factory()->count(150)->isSkill()->create();
     }
 }

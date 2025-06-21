@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useForm } from '@inertiajs/vue3';
 import { Label } from '@/Components/ui/label';
 import { Input } from '@/Components/ui/input';
 import { Button } from '@/Components/ui/button';
-import { useForm } from '@inertiajs/vue3';
 
 defineProps<{
     status?: string;

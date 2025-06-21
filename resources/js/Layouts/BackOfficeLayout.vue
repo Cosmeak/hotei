@@ -9,40 +9,39 @@ import {
   DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
-import { CircleUser, Menu, Package2, Moon, Sun } from "lucide-vue-next";
-
-const updateTheme = (mode: string) => {
-  const body = document.querySelector("body");
-  if (mode == "dark") body?.classList.add("dark");
-  else if (mode == "light") body?.classList.remove("dark");
-  else if (mode == "system") return;
-};
+import { CircleUser, Menu, Package2 } from "lucide-vue-next";
 </script>
 
 <template>
   <div class="flex min-h-screen w-full flex-col">
     <header
-      class="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6"
+      class="sticky top-0 flex h-16 items-center gap-4 border-b px-4 md:px-8 bg-white z-10"
     >
       <nav
         class="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6"
       >
-        <a
-          href="#"
-          class="flex items-center gap-2 text-lg font-semibold md:text-base"
-        >
-          <Package2 class="h-6 w-6" />
-          <span class="sr-only">Acme Inc</span>
-        </a>
-        <a :href="route('backoffice.dashboard')" class="hover:text-foreground">
+        <InertiaLink href="/">
+          <img src="/logo.svg" class="h-24" alt="">
+        </InertiaLink>
+        <InertiaLink :href="route('backoffice.dashboard')" class="hover:text-foreground">
           Dashboard
-        </a>
-        <a
+        </InertiaLink>
+        <InertiaLink :href="route('backoffice.project.index')" class="hover:text-foreground">
+          Projets
+        </InertiaLink>
+        <InertiaLink
           :href="route('backoffice.course.index')"
           class="text-muted-foreground hover:text-foreground"
         >
-          Courses
-        </a>
+          Cours
+        </InertiaLink>
+        <InertiaLink
+          v-if="$page.props.auth.user.role == 'admin'"
+          :href="route('backoffice.user.index')"
+          class="text-muted-foreground hover:text-foreground"
+        >
+          Utilisateurs
+        </InertiaLink>
         <!-- <a
             :href="route('backoffice.project.index')"
             class="text-muted-foreground hover:text-foreground"
@@ -100,28 +99,6 @@ const updateTheme = (mode: string) => {
             />
           </div>
         </form> -->
-        <DropdownMenu>
-          <DropdownMenuTrigger as-child>
-            <Button variant="outline">
-              <Moon
-                class="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:-rotate-0 dark:scale-100"
-              />
-              <Sun
-                class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-100 transition-all dark:rotate-0 dark:scale-0"
-              />
-              <span class="sr-only">Toggle theme</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem @click="updateTheme('light')">
-              Light
-            </DropdownMenuItem>
-            <DropdownMenuItem @click="updateTheme('dark')">
-              Dark
-            </DropdownMenuItem>
-            <!-- <DropdownMenuItem @click="mode = 'auto'"> System </DropdownMenuItem> -->
-          </DropdownMenuContent>
-        </DropdownMenu>
 
         <DropdownMenu>
           <DropdownMenuTrigger as-child>
@@ -141,7 +118,7 @@ const updateTheme = (mode: string) => {
         </DropdownMenu>
       </div>
     </header>
-    <main class="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+    <main class="flex flex-1 flex-col gap-4 m-4 md:gap-8 md:m-8">
       <slot />
     </main>
   </div>

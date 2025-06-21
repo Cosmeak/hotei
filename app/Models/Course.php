@@ -70,12 +70,12 @@ class Course extends Model
     // ┌───────────────────────────────┐
     // │ scope queries                 │
     // └───────────────────────────────┘
-    public function scopeSkill(Builder $query): void
+    public function scopeIsSkill(Builder $query): void
     {
         $query->where('is_skill', '=', true);
     }
 
-    public function scopeNotSkill(Builder $query): void
+    public function scopeIsNotSkill(Builder $query): void
     {
         $query->where('is_skill', '!=', false);
     }

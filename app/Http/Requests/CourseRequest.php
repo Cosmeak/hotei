@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -33,7 +32,7 @@ class CourseRequest extends FormRequest
             'skills' => ['exclude_unless:type,project', 'array'],
             'title' => ['string', 'min:3', 'max:255', 'required'],
             'description' => ['string', 'max:255', 'required'],
-            'category' => ['string', 'required', 'in:'.Category::casesToString()],
+            'category' => ['string', 'required'],
             'materials' => ['array', 'required'],
             'cost' => ['integer', 'nullable'],
             'difficulty' => ['integer', 'required'],

@@ -21,12 +21,20 @@ class CourseController extends Controller
     public function index(): Response
     {
         $user = Auth::user();
+        $skillOnly = request()->query('skill_only', true) == true;
+
         $courses = Course::query()
             ->when($user->role != 'admin', function ($query) use ($user) {
                 $query->where('craftman_id', $user->craftman_id);
-            })->paginate(100);
+            })
+            ->when($skillOnly, function ($query) {
+                $query->isSkill();
+            })
+            ->paginate(100)
+            ->withQueryString();
 
         return Inertia::render('BackOffice/Course/Index', [
+            'skillOnly' => $skillOnly,
             'courses' => $courses,
         ]);
     }
@@ -41,7 +49,7 @@ class CourseController extends Controller
         if ($user->role == 'admin') {
             $craftmen = Craftman::query()->with('user')->get();
         }
-        $skills = Course::skill()->with('craftsmanship')->get();
+        $skills = Course::skill()->with('craftmanship')->get();
         $craftsmanships = Craftsmanship::all();
 
         return Inertia::render('BackOffice/Course/Create', [
@@ -131,5 +139,13 @@ class CourseController extends Controller
         $course->delete();
 
         return redirect()->route('backoffice.course.index');
+    }
+
+    /**
+     * Admin - Validate and publish a project
+     */
+    public function validateAndPublish(Course $course): RedirectResponse
+    {
+        //
     }
 }
