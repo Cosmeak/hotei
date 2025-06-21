@@ -9,34 +9,38 @@ use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
 
 // ┌───────────────────────────────┐
-// │ authentication                │
+// │ authentication                                     │
 // └───────────────────────────────┘
 require __DIR__.'/web/auth.php';
 
 // ┌───────────────────────────────┐
-// │ back office                   │
+// │ back office                                        │
 // └───────────────────────────────┘
 require __DIR__.'/web/backoffice.php';
 
 // ┌───────────────────────────────┐
-// │ user interface                │
+// │ user interface                                     │
 // └───────────────────────────────┘
 Route::get('/', HomeController::class)->name('home');
 
+// Craftsmanships
 Route::get('craftsmanships/{slug}', [CraftsmanshipController::class, 'show'])->name('craftsmanships.show');
 
+// Projects
 Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 Route::get('projects/{project}/courses/{course}', [CourseController::class, 'show'])->name('projects.courses.show')->middleware('auth');
 
+// Courses / Skills
 Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.show');
 
-Route::middleware('auth')->resource('profile', ProfileController::class)
-    ->only(['edit', 'update', 'destroy'])
-    ->parameters(['profile' => ''])
-    ->names('profile');
+// User profile
+Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 // ┌───────────────────────────────┐
-// │ landing page api              │
+// │ landing page api                                   │
 // └───────────────────────────────┘
-
 // Route::get('newsletter', [NewsletterController::class, 'index']);
