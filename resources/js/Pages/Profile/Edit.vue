@@ -45,7 +45,9 @@ const CourseRows = [
   <div class="container flex flex-col gap-4 my-12">
     <div class="flex justify-between items-center">
       <div class="flex items-center">
-        <img class="size-24 mr-6 rounded-full" :src="craftman.avatar"/>
+        <div v-if="craftman">
+          <img class="size-24 mr-6 rounded-full" alt="profile picture" :src="craftman.avatar"/>
+        </div>
         <h1 class="text-2xl">Compte</h1>
       </div>
 
