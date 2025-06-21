@@ -35,9 +35,9 @@ Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.sh
 
 // User profile
 Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
-    Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+    Route::put('/', [ProfileController::class, 'update'])->name('update');
+    Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
 });
 
 // ┌───────────────────────────────┐
