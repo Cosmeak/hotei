@@ -26,6 +26,16 @@ import { CircleUser, Menu, Package2 } from "lucide-vue-next";
         <InertiaLink :href="route('backoffice.dashboard')" class="hover:text-foreground">
           Dashboard
         </InertiaLink>
+        <InertiaLink
+          v-if="$page.props.auth.user.role == 'admin'"
+          :href="route('backoffice.user.index')"
+          class="text-muted-foreground hover:text-foreground"
+        >
+          Utilisateurs
+        </InertiaLink>
+        <InertiaLink v-if="$page.props.auth.user.role == 'admin'" :href="route('backoffice.craftsmanship.index')" class="hover:text-foreground">
+          Artisanats
+        </InertiaLink>
         <InertiaLink :href="route('backoffice.project.index')" class="hover:text-foreground">
           Projets
         </InertiaLink>
@@ -35,19 +45,6 @@ import { CircleUser, Menu, Package2 } from "lucide-vue-next";
         >
           Cours
         </InertiaLink>
-        <InertiaLink
-          v-if="$page.props.auth.user.role == 'admin'"
-          :href="route('backoffice.user.index')"
-          class="text-muted-foreground hover:text-foreground"
-        >
-          Utilisateurs
-        </InertiaLink>
-        <!-- <a
-            :href="route('backoffice.project.index')"
-            class="text-muted-foreground hover:text-foreground"
-        >
-            Projects
-        </a> -->
       </nav>
       <Sheet>
         <SheetTrigger as-child>

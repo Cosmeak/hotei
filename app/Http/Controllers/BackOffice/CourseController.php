@@ -65,17 +65,11 @@ class CourseController extends Controller
     public function store(CourseRequest $request): RedirectResponse
     {
         $user = Auth::user();
+        $inputs = $request->validated();
 
         $course = new Course;
+        $course->fill($inputs);
         $course->craftman_id = $request->craftman_id ?? $user->craftman->id;
-        $course->title = $request->title;
-        $course->description = $request->description;
-        $course->duration = 0;
-        $course->category = $request->category;
-        $course->materials = $request->materials;
-        $course->is_draft = $request->is_draft;
-        $course->cost = $request->cost;
-        $course->difficulty = $request->difficulty;
         $course->save();
 
         $video = $request->file('video');
