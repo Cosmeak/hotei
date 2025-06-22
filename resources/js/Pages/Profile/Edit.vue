@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import {useForm} from 'laravel-precognition-vue-inertia';
-import {usePage} from '@inertiajs/vue3';
-import {Link} from "@inertiajs/vue3";
-import Input from '@/Components/ui/input/Input.vue';
-import Label from '@/Components/ui/label/Label.vue';
-import Button from '@/Components/ui/button/Button.vue';
+import { useForm } from 'laravel-precognition-vue-inertia';
+import { usePage } from '@inertiajs/vue3';
+import { Link } from "@inertiajs/vue3";
+import { Input } from '@/Components/ui/input';
+import { Label } from '@/Components/ui/label';
+import { Button } from '@/Components/ui/button';
 import TableView from "@/Components/TableView.vue";
+import { Check } from "lucide-vue-next";
 
 const user = usePage().props.auth.user;
-const {craftman} = usePage().props as any;
+const { craftman } = usePage().props;
 
 const userProfileForm = useForm("put", route('profile.update'), {
   firstname: user.firstname,
@@ -77,7 +78,7 @@ const CourseRows = [
               autocomplete="firstname"
             />
 
-            <InputError class="mt-2" :message="userProfileForm.errors.firstname"/>
+            <!-- <InputError class="mt-2" :message="userProfileForm.errors.firstname"/> -->
           </div>
           <div class="w-full">
             <Label for="lastname">
@@ -94,7 +95,7 @@ const CourseRows = [
               autocomplete="lastname"
             />
 
-            <InputError class="mt-2" :message="userProfileForm.errors.lastname"/>
+            <!-- <InputError class="mt-2" :message="userProfileForm.errors.lastname"/> -->
           </div>
         </div>
 
@@ -124,7 +125,7 @@ const CourseRows = [
             <p v-if="userProfileForm.recentlySuccessful" class="text-sm text-gray-600">Saved.</p>
           </Transition>
         </div>
-        <InputError class="mt-2" :message="userProfileForm.errors.email"/>
+        <!-- <InputError class="mt-2" :message="userProfileForm.errors.email"/> -->
 
         <!-- <div v-if="mustVerifyEmail && user.email_verified_at === null">
             <p class="text-sm mt-2 text-gray-800">
@@ -165,7 +166,7 @@ const CourseRows = [
               autocomplete="current-password"
             />
 
-            <InputError :message="updatePasswordForm.errors.current_password" class="mt-2"/>
+            <!-- <InputError :message="updatePasswordForm.errors.current_password" class="mt-2"/> -->
           </div>
 
           <div class="w-full">
@@ -182,7 +183,7 @@ const CourseRows = [
               autocomplete="new-password"
             />
 
-            <InputError :message="updatePasswordForm.errors.password" class="mt-2"/>
+            <!-- <InputError :message="updatePasswordForm.errors.password" class="mt-2"/> -->
           </div>
         </div>
         <div class="flex flex-col md:flex-row gap-2 items-end">
@@ -199,7 +200,7 @@ const CourseRows = [
               autocomplete="new-password"
             />
 
-            <InputError :message="updatePasswordForm.errors.password_confirmation" class="mt-2"/>
+            <!-- <InputError :message="updatePasswordForm.errors.password_confirmation" class="mt-2"/> -->
           </div>
 
           <div class="flex flex-col gap-1">
@@ -221,7 +222,7 @@ const CourseRows = [
       </div>
     </form>
     <h3 class="text-xl">Craftout</h3>
-    <form @submit="">
+    <form>
       <div class="grid grid-cols-2">
         <div class="flex flex-col md:flex-row md:items-center">
           <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 w-full justify-around">
@@ -244,7 +245,7 @@ const CourseRows = [
                 class="flex items-center gap-1 text-green-600 text-sm"
                 role="status"
               >
-                <CheckIcon class="w-4 h-4"/>
+                <Check class="w-4 h-4"/>
                 <span>Modifié avec succès</span>
               </div>
             </Transition>
@@ -275,7 +276,7 @@ const CourseRows = [
                 class="flex items-center gap-1 text-green-600 text-sm"
                 role="status"
               >
-                <CheckIcon class="w-4 h-4"/>
+                <Check class="w-4 h-4"/>
                 <span>Modifié avec succès</span>
               </div>
             </Transition>
@@ -303,7 +304,7 @@ const CourseRows = [
               v-model="deleteAccountForm.password"
               required
             />
-            <InputError :message="deleteAccountForm.errors.password" class="mt-2"/>
+            <!-- <InputError :message="deleteAccountForm.errors.password" class="mt-2"/> -->
           </div>
 
           <Button variant="destructive" :disabled="deleteAccountForm.processing">

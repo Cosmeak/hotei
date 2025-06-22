@@ -42,7 +42,7 @@ const form = useForm({
                     autocomplete="lastname"
                 />
 
-                <InputError class="mt-2" :message="form.errors.lastname" />
+                <!-- <InputError class="mt-2" :message="form.errors.lastname" /> -->
             </div>
 
             <div>
@@ -57,7 +57,7 @@ const form = useForm({
                     autocomplete="username"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <!-- <InputError class="mt-2" :message="form.errors.email" /> -->
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">

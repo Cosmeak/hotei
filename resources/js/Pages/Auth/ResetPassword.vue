@@ -42,7 +42,7 @@ const submit = () => {
                 autocomplete="username"
             />
 
-            <InputError class="mt-2" :message="form.errors.email" />
+            <!-- <InputError class="mt-2" :message="form.errors.email" /> -->
         </div>
 
         <div class="mt-4">
@@ -57,7 +57,7 @@ const submit = () => {
                 autocomplete="new-password"
             />
 
-            <InputError class="mt-2" :message="form.errors.password" />
+            <!-- <InputError class="mt-2" :message="form.errors.password" /> -->
         </div>
 
         <div class="mt-4">
@@ -72,7 +72,7 @@ const submit = () => {
                 autocomplete="new-password"
             />
 
-            <InputError class="mt-2" :message="form.errors.password_confirmation" />
+            <!-- <InputError class="mt-2" :message="form.errors.password_confirmation" /> -->
         </div>
 
         <div class="flex items-center justify-end mt-4">
