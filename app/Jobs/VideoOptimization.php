@@ -3,20 +3,20 @@
 namespace App\Jobs;
 
 use App\Supports\Video;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Contracts\Queue\ShouldBeUnique; 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Jobs\TranscribeVideo;
 
-class VideoOptimization implements ShouldQueue, ShouldBeUnique
+class VideoOptimization implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $timeout = 7200;
-    public int $tries   = 1;
+
+    public int $tries = 1;
 
     /**
      * Create a new job instance.
@@ -25,7 +25,7 @@ class VideoOptimization implements ShouldQueue, ShouldBeUnique
         private string $filePath,
         private string $outputPath
     ) {
-        $this->onQueue("video");
+        $this->onQueue('video');
     }
 
     public function uniqueId(): string

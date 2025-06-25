@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use Inertia\Inertia;
 use Inertia\Response;
-use Inertia\LazyProp;
 
 class ProjectController extends Controller
 {
