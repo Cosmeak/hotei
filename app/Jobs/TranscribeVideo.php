@@ -35,10 +35,10 @@ class TranscribeVideo implements ShouldQueue
         }
 
         $wav = $this->toWav16k($source);
-        $text = $this->transcribeChunks($wav);
+        [$text, $lang] = $this->transcribeChunks($wav);
         @unlink($wav);
 
-        $destDir = storage_path('app/public/' . dirname($this->audioPath));
+        $destDir = storage_path('app/public/' . dirname($this->audioPath) . "/{$lang}");
         if (! is_dir($destDir)) {
             mkdir($destDir, 0777, true);
         }
@@ -69,7 +69,7 @@ class TranscribeVideo implements ShouldQueue
         return $dst;
     }
 
-    private function transcribeChunks(string $wav): string
+    private function transcribeChunks(string $wav): array
     {
         $chunkDir = storage_path('app/tmp_' . uniqid());
         mkdir($chunkDir);
@@ -83,22 +83,45 @@ class TranscribeVideo implements ShouldQueue
         $model  = base_path('whisper_models/tiny.bin');
         $buffer = '';
 
+        $langDetected = 'unk';
+        $firstChunk   = true;
+
         foreach (glob("$chunkDir/*.wav") as $chunk) {
             $out = $chunk . '.out';
-            exec(sprintf(
-                '/usr/local/bin/whisper-cli -m %s -f %s -otxt -l auto -nt -of %s',
+            $cmd = sprintf(
+                '/usr/local/bin/whisper-cli -m %s -f %s -otxt -l auto -nt -of %s 2>&1',
                 escapeshellarg($model),
                 escapeshellarg($chunk),
                 escapeshellarg($out)
-            ));
+            );
+            $cliOut = [];
+            exec($cmd, $cliOut, $ret);
+            if ($ret !== 0) {
+                Log::error('Whisper CLI failed', compact('cmd', 'ret', 'cliOut'));
+                throw new \RuntimeException('Whisper CLI failed');
+            }
 
-            $buffer .= ' ' . trim(file_get_contents($out . '.txt'));
+            if ($firstChunk) {
+                foreach ($cliOut as $line) {
+                    if (preg_match('/auto-detected language:\s+(\w+)/i', $line, $m)) {
+                        $langDetected = strtolower($m[1]);
+                        break;
+                    }
+                }
+                $firstChunk = false;
+            }
+
+            $buffer .= PHP_EOL . trim(file_get_contents($out . '.txt'));
+            @unlink($out);
             @unlink($out . '.txt');
             @unlink($chunk);
         }
 
         rmdir($chunkDir);
 
-        return trim(str_replace("[BLANK_AUDIO]", '', $buffer));
+        return [
+            trim(str_replace('[BLANK_AUDIO]', '', $buffer)),
+            $langDetected
+        ];
     }
 }

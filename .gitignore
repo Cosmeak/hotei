@@ -27,3 +27,10 @@ yarn-error.log
 whisper_models/
 .bash_history
 .config/
+bootstrap/cache/*.php
+/storage/*
+!/storage/.gitignore
+!/storage/*/.gitignore
+/storage/app/videos/
+/storage/logs/
+/storage/framework/views/
