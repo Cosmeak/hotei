@@ -81,7 +81,6 @@ RUN chmod -R 755 /var/www/html
 
 RUN printf '%s\n' \
 '#!/bin/sh' \
-'# recrée les liens dans le volume monté à chaque démarrage' \
 'VENDOR=/var/www/html/vendor/codewithkyrian/whisper.php/lib/linux-arm64' \
 'mkdir -p "$VENDOR"' \
 'ln -sf /usr/lib/libwhisper.so  "$VENDOR/libwhisper.so"' \

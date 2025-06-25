@@ -84,7 +84,7 @@ You are ready to go!
 # enter the docker container
 
 ```
-docker compose exec laravel.test sh
+docker compose exec  app sh
 
 ```
 

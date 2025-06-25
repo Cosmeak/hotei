@@ -82,7 +82,7 @@ class TranscribeVideo implements ShouldQueue
             escapeshellarg($chunkDir)
         ));
 
-        $model = base_path('whisper_models/tiny.bin');
+        $model = base_path('whisper_models/ggml-tiny.bin');
         $buffer = '';
 
         $langDetected = 'unk';
