@@ -56,6 +56,5 @@ class LemonSqueezyService
             805590 => 1050
         };
 
-
     }
 }

@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Services\LemonSqueezyService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class LemonSqueezyController extends Controller
 {
