@@ -6,9 +6,17 @@ use App\Models\Course;
 use App\Models\Order;
 use App\Models\Project;
 use App\Models\User;
+use LemonSqueezy\Laravel\Checkout;
 
 class OrderService
 {
+    public function buy($productId): Checkout
+    {
+        $user = User::query()->first();
+        return $user->checkout($productId);
+    }
+
+
     public function setCourseOrder($userId, $courseId): void
     {
         $user = User::query()->find($userId);

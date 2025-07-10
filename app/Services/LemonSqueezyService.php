@@ -43,7 +43,7 @@ class LemonSqueezyService
         return json_decode($response->getBody(), true);
     }
 
-    public function productCredits($productId) // TODO Update later
+    public function productCredits($productId): int // TODO Update later
     {
         return match ($productId) {
             805577 => 210,

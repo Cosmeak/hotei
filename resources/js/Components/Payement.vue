@@ -1,6 +1,11 @@
 <script setup>
 import { ref } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { Button } from "@/Components/ui/button/index.js";
+import { Label } from "@/Components/ui/label/index.js";
+import { Input } from "@/Components/ui/input/index.js";
+import {useForm} from "@inertiajs/vue3";
+
 
 const steps = ref(["Étape 1 : Début", "Étape 2 : Milieu", "Étape 3 : Fin"]);
 const currentStep = ref(0);
@@ -17,33 +22,49 @@ const prevStep = () => {
   }
 };
 
+const form = useForm({
+  email: "",
+  password: "",
+});
+
+const submit = () => {
+  form.post(route("login"), {
+    onSuccess: () => {
+      nextStep();
+    },
+    onFinish: () => form.reset("password"),
+  });
+};
+
 const activeBlock = ref('bloc1');
 const selectedArticle = ref(null);
 const open = ref(false);
 
-// Liste des abonnements avec différents prix
 const articlesAbonnement = ref([
-  { id: 1, price: "30€", credits: "200 + 10 crédits bonus" },
-  { id: 2, price: "50€", credits: "400 + 20 crédits bonus" },
-  { id: 3, price: "80€", credits: "700 + 50 crédits bonus" }
+  { id: 805577, price: "30€", credits: "200 + 10 crédits bonus" },
+  { id: 805579, price: "60€", credits: "400 + 25 crédits bonus" },
+  { id: 805580, price: "90€", credits: "600 + 50 crédits bonus" }
 ]);
 
-// Liste des packs avec différents prix
 const articlesPack = ref([
-  { id: 4, price: "15€", credits: "100 crédits" },
-  { id: 5, price: "25€", credits: "180 crédits" },
-  { id: 6, price: "40€", credits: "320 crédits" },
-  { id: 7, price: "60€", credits: "500 crédits" },
-  { id: 8, price: "100€", credits: "900 crédits" }
+  { id: 805582, price: "10€", credits: "50 crédits" },
+  { id: 805583, price: "20€", credits: "100 crédits + 5 bonus" },
+  { id: 805584, price: "50€", credits: "250 crédit + 10 bonus" },
+  { id: 805589, price: "100€", credits: "500 crédit + 20 bonus" },
+  { id: 805590, price: "200€", credits: "1000 crédit + 50 bonus" },
 ]);
+
+function confirmPurchase() {
+  if (selectedArticle.value) {
+    const url = route('buyLemon.product', { productId: selectedArticle.value.id });
+    window.open(url, '_blank');
+  }
+}
 </script>
 
+
 <template>
-  <div class="flex justify-center mt-5">
-    <button @click="open = true" class="px-4 py-2 bg-green-600 text-white rounded-md  shadow hover:bg-background_green_darker">
-      Ouvrir la modal
-    </button>
-  </div>
+  <Button @click="open = true" variant="accent" class="font-bold text-lg">Je m'abonne</Button>
 
   <TransitionRoot as="template" :show="open">
     <Dialog class="relative z-10" @close="open = false">
@@ -62,9 +83,9 @@ const articlesPack = ref([
                   </svg>
                   </button>
                 </div>
-                <h1 class="w-1/3 text-2xl font-bold text-center p-4">HOTEI</h1>
+                <img src="/logo.svg" class="h-16" alt="">
                 <div class="w-1/3 flex justify-end">
-                  <button @click="open = false" v-if="currentStep === 0" class="top-2 right-2 text-gray-600 hover:text-gray-900">✖</button>
+                  <button @click="open = false" class="top-2 right-2 text-gray-600 hover:text-gray-900">✖</button>
                 </div>
               </div>
               <div class="flex justify-around">
@@ -72,28 +93,30 @@ const articlesPack = ref([
                   <div class="flex justify-center">
                     <div class="flex">
                       <div v-for="(step, index) in steps" :key="index" class="flex items-center">
-                        <div class="w-10 h-10 flex items-center justify-center rounded-full text-white font-bold" :class="{'bg-background_green_darker': index <= currentStep,'bg-gray-300': index > currentStep}">{{ index + 1 }}</div>
-                        <div v-if="index < steps.length - 1" class="h-1 w-16 m-2" :class="{'bg-background_green_darker': index < currentStep,'bg-gray-300': index >= currentStep}"></div>
+                        <div class="w-10 h-10 flex items-center justify-center rounded-full text-white font-bold" :class="{'bg-primary': index <= currentStep,'bg-gray-300': index > currentStep}">{{ index + 1 }}</div>
+                        <div v-if="index < steps.length - 1" class="h-1 w-16 m-2" :class="{'bg-primary': index < currentStep,'bg-gray-300': index >= currentStep}"></div>
                       </div>
                     </div>
                   </div>
 
                   <!-- Étape 1 -->
                   <div v-if="currentStep === 0" class="flex flex-col items-center p-8">
-                    <h2 class="font-bold text-2xl p-8">Obtenir des craftouts</h2>
+                    <h2 class="font-bold text-2xl p-8 my-2">Obtenir des craftouts</h2>
+                    <p>Hotei propose un système de crédits, les Craftout, pour accéder aux cours. Obtenez-les via un abonnement mensuel, qui offre un nombre fixe de Craftouts chaque mois à un tarif avantageux, ou achetez des packs ponctuels selon vos besoins. Optez pour la flexibilité tout en profitant d’un apprentissage structuré et immersif avec nos artisans experts.</p>
+                    <p class="font-bold my-2">Consultez notre infographie pour plus d’informations sur les Craftout</p>
 
-                    <div class="mx-auto border items-center rounded-xl border-green-800 border-2 w-4/5 bg-background_component">
+                    <div class="mx-auto border items-center rounded-xl w-4/5 bg-secondary-lighter">
                       <div class="flex">
                         <div
-                          class="w-1/2 text-center cursor-pointer rounded-tl-lg border-green-800 border-2"
-                          :class="{ 'bg-background_green_darker text-white': activeBlock === 'bloc1', 'bg-background_component': activeBlock !== 'bloc1' }"
+                          class="w-1/2 text-center cursor-pointer rounded-tl-lg border-primary border-b-2 p-1"
+                          :class="{ 'bg-primary text-white': activeBlock === 'bloc1', 'bg-background_component': activeBlock !== 'bloc1' }"
                           @click="activeBlock = 'bloc1'"
                         >
                           Abonnement
                         </div>
                         <div
-                          class="w-1/2 text-center cursor-pointer rounded-tr-lg border-green-800 border-2"
-                          :class="{ 'bg-background_green_darker text-white': activeBlock === 'bloc2', 'bg-background_component': activeBlock !== 'bloc2' }"
+                          class="w-1/2 text-center cursor-pointer rounded-tr-lg border-primary border-b-2 p-1"
+                          :class="{ 'bg-primary text-white': activeBlock === 'bloc2', 'bg-background_component': activeBlock !== 'bloc2' }"
                           @click="activeBlock = 'bloc2'"
                         >
                           Pack
@@ -108,18 +131,19 @@ const articlesPack = ref([
                             v-for="article in articlesAbonnement"
                             :key="article.id"
                             class="relative rounded-3xl p-8 border-4 m-4 cursor-pointer transition-all duration-300 border-background_green_darker"
-                            @click="selectedArticle = article.id"
+                            @click="selectedArticle = { ...article, type: 'abonnement' }"
                             :class="{
-                                'bg-background_green_light': selectedArticle !== article.id,
-                                'bg-green-500': selectedArticle === article.id
-                              }"
+                              'bg-white': selectedArticle?.id !== article.id,
+                              'bg-primary-foreground': selectedArticle?.id === article.id
+                            }"
+
                           >
                             <!-- Rond de sélection -->
                             <div
                               class="absolute top-2 right-2 w-6 h-6 rounded-full transition-all duration-300"
                               :class="{
-                                'bg-gray-300': selectedArticle !== article.id,
-                                'bg-yellow-400': selectedArticle === article.id
+                                'bg-gray-300': selectedArticle?.id !== article.id,
+                                'bg-accent': selectedArticle?.id === article.id
                               }"
                             ></div>
                             <h3 class="font-bold">{{ article.price }} / mois</h3>
@@ -132,20 +156,21 @@ const articlesPack = ref([
                           <article
                             v-for="article in articlesPack"
                             :key="article.id"
-                            class="relative rounded-3xl p-8 border-4 cursor-pointer transition-all duration-300 border-green-800"
-                            @click="selectedArticle = article.id"
+                            class="relative rounded-3xl p-8 cursor-pointer transition-all duration-300"
+                            @click="selectedArticle = { ...article, type: 'pack' }"
                             :class="{
-                              'bg-background_green_light': selectedArticle !== article.id,
-                              'bg-green-500': selectedArticle === article.id
-                             }"
+                              'bg-white': selectedArticle?.id !== article.id,
+                              'bg-primary-foreground': selectedArticle?.id === article.id
+                            }"
+
                           >
                             <!-- Rond de sélection -->
                             <div
                               class="absolute top-2 right-2 w-6 h-6 rounded-full transition-all duration-300"
                               :class="{
-                                  'bg-gray-300': selectedArticle !== article.id,
-                                  'bg-yellow-400': selectedArticle === article.id
-                                }"
+                                'bg-gray-300': selectedArticle?.id !== article.id,
+                                'bg-accent': selectedArticle?.id === article.id
+                              }"
                             ></div>
                             <h3 class="font-bold">{{ article.price }}</h3>
                             <p>{{ article.credits }}</p>
@@ -162,71 +187,94 @@ const articlesPack = ref([
 
                     </button>
                   </div>
+
+
                   <div v-if="currentStep === 1" class="flex flex-col items-center p-4 w-auto">
                     <h2 class="font-bold text-2xl p-4">Connectez-vous</h2>
-                    <div class="rounded-xl border-green-800 border-2 p-4 bg-background_component">
-                      <div>
-                        <article>
-                          <p>Adresse mail</p>
-                          <input type="text" class="w-full">
-                        </article>
-                        <article>
-                          <p>Mot de passe</p>
-                          <input type="text" class="w-full" >
-                        </article>
-                        <button @click="nextStep" :disabled="currentStep === 2" class="bg-yellow-500 px-12 py-1 rounded-xl font-bold mt-4 w-full">
-                          Connexion
-                        </button>
+                    <form @submit.prevent="submit" class="flex flex-col gap-4">
+                      <div class="flex flex-col gap-2">
+                        <Label for="email">Email</Label>
+                        <Input
+                          id="email"
+                          v-model="form.email"
+                          type="email"
+                          required
+                          autofocus
+                          autocomplete="email"
+                        />
                       </div>
-                      <div class="flex justify-between flex items-center">
-                        <div class="h-0.5 w-16 m-2 bg-gray-300"></div>
-                        <p>ou</p>
-                        <div class="h-0.5 w-16 m-2 bg-gray-300"></div>
+
+                      <div class="flex flex-col gap-2">
+                        <Label for="password">Mot de passe</Label>
+                        <Input
+                          id="password"
+                          v-model="form.password"
+                          type="password"
+                          required
+                          autocomplete="password"
+                        />
                       </div>
-                      <div class="flex justify-center w-full">
-                        <a href="" class="p-4">
-                          <img class="h-8" src="https://img.icons8.com/?size=512&id=17949&format=png" alt="">
-                        </a>
-                        <a href="" class="p-4">
-                          <img class="h-8" src="https://get-picto.com/wp-content/uploads/2023/08/logo-facebook-blanc.webp" alt="">
-                        </a>
+
+                      <p v-if="form.errors.length > 0">
+                        L'adresse email ou le mot de passe est incorrect.
+                      </p>
+
+                      <div class="flex items-center gap-4  justify-end">
+                        <InertiaLink
+                          :href="route('password.request')"
+                          class="underline text-sm text-gray-600 hover:text-gray-900"
+                        >
+                          Mot de passe oublié ?
+                        </InertiaLink>
+
+                        <Button variant="accent" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                          Se connecter
+                        </Button>
                       </div>
-                      <div class="text-xs">
-                        <p>Vous n'avez pas de compte ? <a href="" class="font-bold">S'inscrire</a></p>
-                      </div>
+                    </form>
+
+                    <div class="flex items-center my-4 justify-center">
+                      <hr class="border-t border-gray-500 border-1 w-full" />
+                      <span class="px-4 text-gray-500">ou</span>
+                      <hr class="border-t border-gray-500 border-1 w-full" />
                     </div>
+
+                    <div class="flex justify-center space-x-4 mt-4">
+                      <a :href="route('auth.google')">
+                        <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" />
+                      </a>
+                    </div>
+
+                    <hr class="px-4 border-t border-gray-500 border-1 w-full my-4" />
+
+                    <p class="text-sm text-center">
+                      Vous n'avez pas de compte ?
+                      <InertiaLink
+                        :href="route('register')"
+                        class="font-bold"
+                      >
+                        Se connecter
+                      </InertiaLink>
+                    </p>
                   </div>
+
+
                   <div v-if="currentStep === 2" class="flex flex-col items-center p-4 w-auto">
-                    <h2 class="font-bold p-4 text-2xl">Informations de paiement</h2>
-                    <div class="rounded-xl border-green-800 border-2 p-4 bg-background_component">
+                    <div v-if="selectedArticle" class="text-center space-y-2">
+                      <p class="text-xl font-bold">Résumé de votre choix</p>
+                      <p>Id : {{ selectedArticle.id }}</p>
+                      <p>Type : {{ selectedArticle.type }}</p>
+                      <p>Prix : {{ selectedArticle.price }}</p>
+                      <p>Crédits : {{ selectedArticle.credits }}</p>
 
+                      <button
+                        class="bg-accent p-2 rounded-xl"
+                        @click="confirmPurchase"
+                      >
+                        Confirmer l'achat
+                      </button>
 
-                      <!--<div class="md:flex">
-                        <article>
-                          <p>Nom sur la carte</p>
-                          <input type="text">
-                        </article>
-                        <article>
-                          <p>Date d'expiration</p>
-                          <input type="text">
-                        </article>
-                      </div>
-                      <div class="md:flex">
-                        <article>
-                          <p>Numéro de carte</p>
-                          <input type="text">
-                        </article>
-                        <article>
-                          <p>CVV</p>
-                          <input type="text">
-                        </article>
-                      </div>-->
                     </div>
-                    <button @click="nextStep" :disabled="currentStep === 2" class="bg-yellow-500 px-12 py-1 rounded-xl font-bold mt-4 flex">
-                      Payer <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9 16.8703L4.83 12.7003L3.41 14.1103L9 19.7003L21 7.70028L19.59 6.29028L9 16.8703Z" fill="#111111"/>
-                    </svg>
-                    </button>
                   </div>
                 </div>
               </div>
