@@ -6,7 +6,7 @@ import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
 import { Button } from '@/Components/ui/button';
 import TableView from "@/Components/TableView.vue";
-import { Check } from "lucide-vue-next";
+// import { Check } from "lucide-vue-next";
 
 const user = usePage().props.auth.user;
 const { craftman } = usePage().props;
@@ -235,7 +235,7 @@ const CourseRows = [
               <span>Chargement...</span>
             </Button>
 
-            <Transition
+            <!-- <Transition
               enter-active-class="transition-opacity duration-300"
               enter-from-class="opacity-0"
               leave-active-class="transition-opacity duration-300"
@@ -248,7 +248,7 @@ const CourseRows = [
                 <Check class="w-4 h-4"/>
                 <span>Modifié avec succès</span>
               </div>
-            </Transition>
+            </Transition> -->
           </div>
         </div>
 
@@ -265,7 +265,7 @@ const CourseRows = [
               <span>Mettre à jour</span>
               <span>Chargement...</span>
             </Button>
-
+<!--
             <Transition
               enter-active-class="transition-opacity duration-300"
               enter-from-class="opacity-0"
@@ -279,7 +279,7 @@ const CourseRows = [
                 <Check class="w-4 h-4"/>
                 <span>Modifié avec succès</span>
               </div>
-            </Transition>
+            </Transition> -->
           </div>
         </div>
       </div>

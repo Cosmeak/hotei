@@ -67,19 +67,21 @@ function getAnimationProps(index) {
 
 <template>
   <img src="/assets/home-page/hero.svg" class="hidden md:block absolute top-0 left-0 -z-10" alt="">
-  <section class="container flex flex-col md:flex-row gap-12 justify-between items-center my-6 md:my-24 relative">
+  <section class="container flex flex-col md:flex-row gap-12 justify-between items-center my-6 md:my-24 relative w-full overflow-x-hidden">
       <div>
           <h1 class="text-5xl relative">Apprenez à maîtriser :
-            <motion.span
-              v-for="(craftsmanship, index) in craftsmanships"
-              :key="index"
-              :initial="getAnimationProps(index).initial"
-              :animate="getAnimationProps(index).animate"
-              :transition="{ duration: 1.2, ease: 'easeInOut' }"
-              class="absolute font-bold ms-4 text-transparent bg-clip-text underline underline-offset-10 decoration-primary bg-gradient-to-r from-primary to-primary/80 whitespace-nowrap text-center"
-            >
-              {{ craftsmanship.name.toLowerCase() }}
-            </motion.span>
+            <span class="relative block h-[60px] overflow-hidden mt-2 md:mt-0">
+              <motion.span
+                v-for="(craftsmanship, index) in craftsmanships"
+                :key="index"
+                :initial="getAnimationProps(index).initial"
+                :animate="getAnimationProps(index).animate"
+                :transition="{ duration: 1.2, ease: 'easeInOut' }"
+                class="absolute font-bold text-transparent bg-clip-text underline underline-offset-10 decoration-primary bg-gradient-to-r from-primary to-primary/80 text-center"
+              >
+                {{ craftsmanship.name.toLowerCase() }}
+              </motion.span>
+            </span>
           </h1>
           <p class="md:w-1/2 my-4 text-xl">Grâce à des cours en ligne réaliser par des artisans professionnels.</p>
           <Button variant="accent" class="font-bold text-lg">Je m'abonne</Button>
