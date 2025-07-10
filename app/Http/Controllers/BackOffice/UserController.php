@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\BackOffice;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Enums\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -39,7 +39,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user): RedirectResponse
     {
-        $inputs = $request->validate([ 'role' => ['required', 'string'] ]);
+        $inputs = $request->validate(['role' => ['required', 'string']]);
         $user->fill($inputs);
         $user->save();
 

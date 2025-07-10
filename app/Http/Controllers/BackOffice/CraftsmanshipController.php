@@ -34,7 +34,6 @@ class CraftsmanshipController extends Controller
             'description' => ['required', 'string'],
         ]);
 
-
         $craftsmanship = new Craftsmanship($inputs);
         $craftsmanship->save();
 
