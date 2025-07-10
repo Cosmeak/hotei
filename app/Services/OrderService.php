@@ -13,9 +13,9 @@ class OrderService
     public function buy($productId): Checkout
     {
         $user = User::query()->first();
+
         return $user->checkout($productId);
     }
-
 
     public function setCourseOrder($userId, $courseId): void
     {
