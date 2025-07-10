@@ -82,7 +82,7 @@ const billingCategories = {
             <p>{{ element.description}}</p>
           </div>
         </div>
-        <Button variant="accent" class="flex-none">Je m'abonne</Button>
+        <Button variant="accent" class="flex-none" disabled>Je m'abonne</Button>
       </div>
     </div>
   </section>

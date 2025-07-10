@@ -83,7 +83,7 @@ function getAnimationProps(index) {
               </motion.span>
             </span>
           </h1>
-          <p class="md:w-1/2 my-4 text-xl">Grâce à des cours en ligne réaliser par des artisans professionnels.</p>
+          <p class="md:w-2/3 my-4 text-xl">Grâce à des cours en ligne réaliser par des artisans professionnels.</p>
           <Button variant="accent" class="font-bold text-lg">Je m'abonne</Button>
       </div>
 
