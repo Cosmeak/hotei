@@ -36,3 +36,13 @@ jobs:
         run: npm ci
       - name: Execute lint
         run: npm run lint
+
+  validate-js-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Npm Dependencies
+        run: npm ci
+      - name: Execute build
+        run: npm run build
