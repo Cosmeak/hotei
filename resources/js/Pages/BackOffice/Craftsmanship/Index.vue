@@ -2,7 +2,7 @@
 import { Craftsmanship } from '@/types';
 import { PaginatedResponse } from '@/types/laravel';
 import { Button } from '@/Components/ui/button';
-import { Plus, MoreHorizontal } from "lucide-vue-next";
+import { MoreHorizontal } from "lucide-vue-next";
 import { Card, CardContent, CardFooter } from "@/Components/ui/card";
 import { Table, TableHeader, TableRow, TableBody, TableCell, TableHead } from "@/Components/ui/table";
 import { DropdownMenu, DropdownMenuLabel, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent } from "@/Components/ui/dropdown-menu";

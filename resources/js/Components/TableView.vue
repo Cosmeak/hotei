@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
-const props = defineProps<{
+const { caption, headers, rows } = defineProps<{
   caption?: string
   headers: string[]
   rows: Array<Array<string | number>>

@@ -11,7 +11,7 @@ import { Course } from "@/types";
 import LaravelPagination from "@/Components/LaravelPagination.vue";
 import { formatDate } from "@vueuse/core";
 
-const { courses, skillOnly } = defineProps<{ courses: PaginatedResponse<Course>, skillOnly: boolean }>();
+const { courses } = defineProps<{ courses: PaginatedResponse<Course>, skillOnly: boolean }>();
 </script>
 
 <template>

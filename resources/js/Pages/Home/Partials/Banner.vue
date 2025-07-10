@@ -2,8 +2,9 @@
 import { Button } from '@/Components/ui/button';
 import { usePage } from '@inertiajs/vue3';
 import { ArrowRight } from 'lucide-vue-next';
+import { Link } from "@inertiajs/vue3";
 
-const craftmanships = usePage().props.meta.craftsmanships;
+const craftsmanships = usePage().props.meta.craftsmanships;
 </script>
 
 <template>
@@ -14,7 +15,7 @@ const craftmanships = usePage().props.meta.craftsmanships;
       <h2 class="text-3xl mb-4">Découvrez nos artisanats</h2>
 
       <div class="flex justify-between gap-2 flex-wrap">
-        <Button v-for="craftmanship in craftmanships" :key="craftmanship.id" class="flex justify-between w-full md:w-48 bg-background text-foreground hover:bg-background/80 rounded-lg">{{ craftmanship.name }} <ArrowRight /></Button>
+        <Button v-for="index in 3" :key="index" :as="Link" :href="route('craftsmanships.show', { slug: craftsmanships[index-1].id })" class="flex justify-between w-full md:w-48 bg-background text-foreground hover:bg-background/80 rounded-lg">{{ craftsmanships[index-1].name }} <ArrowRight /></Button>
       </div>
     </div>
   </section>

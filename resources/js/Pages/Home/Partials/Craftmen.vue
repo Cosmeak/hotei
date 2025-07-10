@@ -24,7 +24,7 @@ const props = defineProps([
         <CardContent class="flex flex-col gap-6">
           <p>Découvrez notre communauté d'artisans passionnés, experts dans leur domaine qui  partagent avec vous leur <b>savoir-faire</b> unique, leurs <b>astuces</b> et <b>techniques personnelles</b>.</p>
           <p>Enrichissez votre expérience en <b>participant à nos webinaires</b> où vous pourrez <b>échanger directement avec eux</b> et perfectionner vos compétences créatives.</p>
-          <Button variant="accent" class="w-fit mx-auto">S'inscrire à un webinaires</Button>
+          <Button variant="accent" class="w-fit mx-auto" disabled>S'inscrire à un webinaires</Button>
         </CardContent>
       </Card>
     </div>
