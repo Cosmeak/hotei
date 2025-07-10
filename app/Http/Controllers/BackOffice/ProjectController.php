@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\BackOffice;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
-use App\Enums\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
