@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap');
 @import 'tailwindcss';
 @import "tw-animate-css";
 @custom-variant dark (&:is(.dark *));
@@ -180,4 +181,12 @@
   @variant 2xl {
     max-width: 1400px;
   }
+}
+
+@layer {
+    h1, h2 {
+        font-family: "Yusei Magic", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
 }
