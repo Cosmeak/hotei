@@ -21,8 +21,9 @@ class CraftsmanshipController extends Controller
 
         $projects = Project::query()
             ->where('craftsmanship_id', $slug->id)
+            ->with('craftman.user')
             ->inRandomOrder()
-            ->paginate(25);
+            ->paginate(6);
 
         return Inertia::render('Craftsmanship/Show', [
             'craftsmanship' => $slug,

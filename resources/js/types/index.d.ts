@@ -62,6 +62,7 @@ export interface Course {
   category?: string;
   cost?: number;
   difficulty?: number;
+  thumbnail: string;
 }
 
 export interface Project {

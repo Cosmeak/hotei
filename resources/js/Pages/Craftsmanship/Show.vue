@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import CardCraftArticle from "@/Components/ui/card/CardCraftArticle.vue";
-import CardCraftSkills from "@/Components/ui/card/CardCraftSkills.vue";
+import CardCraftSkills from "@/Components/SkillCard.vue";
 import CardCraftProject from "@/Components/ui/card/CardCraftProject.vue";
 import CardCraftExperts from "@/Components/ui/card/CardCraftExperts.vue";
 import {Course, Craftsmanship, Project} from "@/types";
 import {PaginatedResponse} from "@/types/laravel";
 import LaravelPagination from "@/Components/LaravelPagination.vue";
+import ThumbnailCard from "@/Components/ThumbnailCard.vue";
 
 const {craftsmanship, projects, skills} = defineProps<{
   craftsmanship: Craftsmanship,
@@ -13,7 +14,6 @@ const {craftsmanship, projects, skills} = defineProps<{
   skills: Course[]
 }>();
 
-console.log(projects)
 </script>
 
 <template>
@@ -37,7 +37,7 @@ console.log(projects)
     </div>
   </section>
 
-  <section class="flex flex-row gap-16 rounded justify-around items-center bg-muted px-6 py-16 lg:px-8">
+  <section class="flex flex-row rounded justify-around items-center bg-muted px-6 py-16 lg:px-8">
     <div class="bg-secondary-lighter max-w-[450px] px-4 py-8 rounded-lg">
       <h3 class="text-4xl pb-3">Découvrez le crochet !</h3>
       <p class="text-justify">
@@ -55,8 +55,16 @@ console.log(projects)
     </div>
   </section>
 
-  <section>
-    <LaravelPagination :paginated-response="projects" />
+  <section class="container mx-auto">
+    <h4 class="text-5xl my-8">Nos compétences et projets</h4>
+    <div v-if="projects.total > 0">
+      <div class="grid grid-cols-4 gap-6">
+        <template v-for="project in projects.data" :key="project.id">
+          <ThumbnailCard :scope="project" type="Project"/>
+        </template>
+      </div>
+      <LaravelPagination :paginated-response="projects" class="py-8" />
+    </div>
   </section>
 
 </template>
