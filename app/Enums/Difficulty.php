@@ -20,15 +20,15 @@ enum Difficulty: int
             case self::Expert:
                 return 'expert';
             case self::Hard:
-                return 'hard';
+                return 'difficile';
             case self::Intermediate:
-                return 'intermediate';
+                return 'intermédiaire';
             case self::Easy:
-                return 'easy';
+                return 'facile';
             case self::Noob:
-                return 'knowing nothing :)';
+                return 'super facile';
             default:
-                return 'Unknown';
+                return 'inconnu';
         }
     }
 }
