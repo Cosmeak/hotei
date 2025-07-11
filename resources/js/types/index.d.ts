@@ -56,10 +56,12 @@ export interface Course {
   created_at: string;
   updated_at: string;
   project?: Project;
-  is_draft: bool;
-  craftman: Craftman;
-  category: string;
-  cost: number;
+  is_draft: boolean;
+  is_skill?: boolean;
+  craftman?: Craftman;
+  category?: string;
+  cost?: number;
+  difficulty?: number;
 }
 
 export interface Project {

@@ -1,38 +1,46 @@
 <script setup lang="ts">
+import {Course} from "@/types";
+import {Button} from "@/Components/ui/button";
+import {Link} from "@inertiajs/vue3"
+
 defineProps<{
-    image: string;
-    title: string;
-    author: string;
-    description: string;
-    difficulty: string;
-    duration: string;
+  skill: Course;
 }>();
+
+function displayDifficulty(level?: number) {
+  if (level === 1) return 'Débutant';
+  if (level === 2) return 'Intermédiaire';
+  if (level === 3) return 'Avancé';
+  return 'Niveau inconnu';
+}
 </script>
 
 <template>
-    <div class="card-fixed-width relative border-2 border-[#104730] rounded-lg bg-white p-4 flex ml-auto mt-5 mr-2" style="width: 320px;">
-        <div class="absolute top-2 left-2 bg-[#F7DCB9] text-[#104730] text-xs font-semibold px-2 py-0.5 rounded">
-            Compétence
-        </div>
-        <div class="shrink-0 mr-4">
-            <img :src="image" :alt="title" class="rounded object-cover" style="width: 100px; height: 70px;" />
-        </div>
-        <div class="flex flex-col grow justify-between">
-            <div>
-            <p class="text-sm font-bold text-[#104730] mb-1">{{ title }}</p>
-            <p class="text-xs text-gray-600">par {{ author }}</p>
-            <hr class="my-2 border-gray-300" />
-            <p class="text-xs text-gray-600 mb-2">{{ description }}</p>
-            </div>
-            <div class="flex items-center justify-between">
-            <div class="text-xs text-gray-600 leading-tight">
-                <p>{{ difficulty }}</p>
-                <p>{{ duration }}</p>
-            </div>
-            <span class="inline-block text-white bg-[#104730] px-2 py-1 text-xs rounded">
-                Offert
-            </span>
-            </div>
-        </div>
+  <div class="relative rounded-lg bg-white p-4 flex max-w-[500px] m-4">
+    <div class="absolute top-2 left-2 text-xs font-semibold px-2 py-0.5 rounded bg-accent">
+      Compétence
     </div>
+    <div>
+      <img :src="skill.project?.description || '../assets/default/placeholder.jpg'" :alt="skill.title"
+           class="rounded object-cover pr-3 max-w-[200px]"/>
+    </div>
+    <div class="flex flex-col grow justify-between">
+      <div>
+        <p class="text-sm font-bold mb-1">{{ skill.title }}</p>
+        <p class="text-xs text-gray-600">par {{ skill.craftman?.user?.firstname || 'Auteur inconnu' }}</p>
+        <hr class="my-2 border-gray-300"/>
+        <p class="text-xs text-gray-600 mb-2">
+          {{ skill.description.length > 125 ? skill.description.substring(0, 125) + '…' : skill.description }}
+        </p></div>
+      <div class="flex justify-between items-center">
+        <div class="text-xs">
+          <p class="bg-secondary p-1 rounded mb-1">{{ displayDifficulty(skill.difficulty) }}</p>
+          <p>{{ skill.duration }}h</p>
+        </div>
+        <Button class="text-white text-xs rounded" :as="Link" :href="route('skills.show', { course: skill.id })">
+          Lire
+        </Button>
+      </div>
+    </div>
+  </div>
 </template>

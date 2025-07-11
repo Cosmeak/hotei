@@ -62,9 +62,9 @@ class Course extends Model
         return $this->belongsTo(Craftsmanship::class);
     }
 
-    public function project(): BelongsToMany
+    public function projects(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class, 'projects_courses');
+        return $this->belongsToMany(Project::class, 'projects_courses', 'course_id', 'project_id');
     }
 
     // ┌───────────────────────────────┐

@@ -21,7 +21,7 @@ class CraftmanFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => self::$user_id ?? User::where('role', UserRole::Craftman->value)->first()?->id ?? User::factory(1)->create()->id,
+            'user_id' => self::$user_id ?? User::where('role', UserRole::Craftman->value)->first()?->id ?? User::factory()->create()->id,
             'avatar' => 'https://thispersondoesnotexist.com/',
             'website' => 'https://'.fake()->safeEmailDomain(),
             'phone' => fake()->phoneNumber(),
