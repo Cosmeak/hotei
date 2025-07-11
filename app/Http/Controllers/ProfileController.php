@@ -44,7 +44,6 @@ class ProfileController extends Controller
         $priceInEuros = $subscription / 100;
         $formattedPrice = number_format($priceInEuros, 2, ',', '');
 
-
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
