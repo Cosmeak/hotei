@@ -8,13 +8,6 @@ defineProps<{
   course: Course
 }>()
 
-function displayDifficulty(level?: number) {
-  if (level === 1) return 'Débutant';
-  if (level === 2) return 'Intermédiaire';
-  if (level === 3) return 'Avancé';
-  return 'Niveau inconnu';
-}
-
 </script>
 
 <template>
@@ -31,7 +24,7 @@ function displayDifficulty(level?: number) {
       <p>par {{ course.craftman.user.firstname }}</p>
       <hr class="bg-primary my-2" />
       <div class="flex flex-row justify-between">
-        <Badge class="bg-secondary-lighter text-black">{{ displayDifficulty() ?? 'Facile' }}</Badge>
+        <Badge class="bg-secondary-lighter text-black">{{course.difficulty}}</Badge>
         <p>{{ course.duration }} heures</p>
       </div>
     </div>
