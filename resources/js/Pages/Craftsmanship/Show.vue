@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import CardCraftArticle from "@/Components/ui/card/CardCraftArticle.vue";
-import CardCraftSkills from "@/Components/SkillCard.vue";
-import CardCraftProject from "@/Components/ui/card/CardCraftProject.vue";
-import CardCraftExperts from "@/Components/ui/card/CardCraftExperts.vue";
+import SkillCard from "@/Components/SkillCard.vue";
 import {Course, Craftsmanship, Project} from "@/types";
 import {PaginatedResponse} from "@/types/laravel";
 import LaravelPagination from "@/Components/LaravelPagination.vue";
@@ -47,7 +44,7 @@ const {craftsmanship, projects, skills} = defineProps<{
       </p>
     </div>
     <div v-if="skills">
-      <CardCraftSkills
+      <SkillCard
         v-for="skill in skills"
         :key="skill.id"
         :skill="skill"

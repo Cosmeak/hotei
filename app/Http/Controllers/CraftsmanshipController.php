@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Craftsmanship;
 use App\Models\Project;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
-use App\Models\Craftsmanship;
 
 class CraftsmanshipController extends Controller
 {
@@ -28,7 +27,7 @@ class CraftsmanshipController extends Controller
         return Inertia::render('Craftsmanship/Show', [
             'craftsmanship' => $slug,
             'projects' => $projects,
-            'skills' => $skills
+            'skills' => $skills,
         ]);
     }
 }
