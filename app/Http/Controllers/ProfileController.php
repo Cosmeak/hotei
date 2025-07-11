@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\LemonSqueezyOrder;
+use App\Models\LemonSqueezySubscription;
+use App\Services\LemonSqueezyService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +16,13 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    protected LemonSqueezyService $lemonSqueezyService;
+
+    public function __construct(LemonSqueezyService $lemonSqueezyService)
+    {
+        $this->lemonSqueezyService = $lemonSqueezyService;
+    }
+
     /**
      * Display the user's profile form.
      */
@@ -21,10 +31,26 @@ class ProfileController extends Controller
         $user = Auth::user();
         $craftman = $user->craftman;
 
+        $orders = LemonSqueezyOrder::where('billable_id', $user->getAuthIdentifier())
+            ->where('billable_type', get_class($user))
+            ->get()
+            ->map(fn ($order) => [
+                'name' => $order->product_name ?? 'Commande #'.$order->order_number,
+                'date' => $order->created_at->format('d/m/y'),
+                'price' => number_format($order->total / 100, 2).'€',
+            ]);
+        $subscriptionsId = LemonSqueezySubscription::where('billable_id', $user->getAuthIdentifier())->get()->last()->getAttribute('product_id');
+        $subscription = LemonSqueezyOrder::where('product_id', $subscriptionsId)->get()->last()->getAttribute('total');
+        $priceInEuros = $subscription / 100;
+        $formattedPrice = number_format($priceInEuros, 2, ',', '');
+
+
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
             'craftman' => $craftman,
+            'history' => $orders,
+            'subscription_price' => $formattedPrice,
         ]);
     }
 

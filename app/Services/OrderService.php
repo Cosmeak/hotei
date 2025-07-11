@@ -23,7 +23,6 @@ class OrderService
 
         $checkout = $user->checkout($productId);
         $userCredits = $user->getAttribute('credits');
-
         $newCredits = $this->lemonSqueezyService->productCredits(intval($productId));
         $user->setAttribute('credits', $userCredits + $newCredits);
         $user->save();

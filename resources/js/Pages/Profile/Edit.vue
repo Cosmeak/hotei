@@ -6,6 +6,7 @@ import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
 import { Button } from '@/Components/ui/button';
 import TableView from "@/Components/TableView.vue";
+import Payement from "@/Components/Payement.vue";
 // import { Check } from "lucide-vue-next";
 
 const user = usePage().props.auth.user;
@@ -27,12 +28,9 @@ const deleteAccountForm = useForm('delete', route('profile.destroy'), {
   password: ''
 });
 
-const HistoryHeaders = ['Nom', "Date d'achat", 'Tarif']
-const HistoryRows = [
-  ['Pack de 60 craftout', '19/01/24', '23€'],
-  ['Boîte surprise', '22/02/24', '15€'],
-  ['Abonnement premium', '01/03/24', '49€'],
-]
+const { history, subscription_price } = usePage().props;
+const HistoryRows = history;
+const SubscriptionPrice = subscription_price;
 const CourseHeaders = ['Nom', "Type", 'Status']
 const CourseRows = [
   ['Echarpe', 'Projet', 'En cours'],
@@ -228,11 +226,10 @@ const CourseRows = [
           <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 w-full justify-around">
             <Label for="craftout_subscription">Abonnement (mensuel)</Label>
             <p id="craftout_subscription" class="text-sm md:text-base font-medium">
-              {{ user.subscription_credits }} € / mois
+              {{ SubscriptionPrice }} € / mois
             </p>
             <Button variant="accent">
-              <span>Modifier</span>
-              <span>Chargement...</span>
+              <Payement />
             </Button>
 
             <!-- <Transition
@@ -258,12 +255,11 @@ const CourseRows = [
             <div class="flex items-center">
               <Label for="craftout_total" class="mr-2">Total des craftout :</Label>
               <p id="craftout_total" class="text-sm md:text-base font-medium">
-                {{ user.subscription_credits }} €
+                {{ user.credits }}
               </p>
             </div>
             <Button variant="accent">
-              <span>Mettre à jour</span>
-              <span>Chargement...</span>
+              <Payement />
             </Button>
 <!--
             <Transition
