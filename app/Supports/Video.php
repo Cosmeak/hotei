@@ -20,7 +20,7 @@ class Video
         Log::info('↳ [OPT] start');
 
         $outputPath = storage_path('app/'.rtrim($outputPath, '/').'/');
-        $outputVideo = $outputPath.'video.webm';
+        $outputVideo = $outputPath.'video.mp4';
         $outputAudio = $outputPath.'audio_original.mp3';
 
         if (! file_exists($outputPath)) {
@@ -29,35 +29,33 @@ class Video
         }
 
         try {
-            $ffmpeg = FFMpeg::create([
-                'timeout' => 0,
-                'ffprobe.timeout' => 0,
-            ]);
-            Log::info('FFmpeg initialized.');
-            $openedFile = $ffmpeg->open($filePath);
+            $threads = 4;
 
-            Log::info('Converting video to VP9 format...');
+            Log::info('Converting video to H.264 format...');
 
             $t1 = hrtime(true);
 
-            $threads = max(1, (int) trim(shell_exec('nproc')));
+            $cmd1 = sprintf(
+                'ffmpeg -y -loglevel error -i %s -c:v libx264 -preset veryfast -crf 28 -threads %d -c:a aac -b:a 128k %s',
+                escapeshellarg($filePath),
+                $threads,
+                escapeshellarg($outputVideo)
+            );
 
-            $vp9 = (new WebM)
-                ->setAudioKiloBitrate(96)
-                ->setAdditionalParameters([
-                    '-crf',      '37',
-                    '-b:v',      '0',
-                    '-cpu-used', '8',
-                    '-deadline', 'realtime',
-                    '-row-mt',   '1',
-                    '-tile-columns', '2',
-                    '-threads',  (string) $threads,
-                ]);
+            Log::info('[OPT] Running ffmpeg command', ['cmd' => $cmd1]);
 
-            $openedFile->save($vp9, $outputVideo);
+            exec($cmd1, $out1, $ret1);
+
+            Log::info('[OPT] ffmpeg return code', ['ret' => $ret1]);
+            Log::info('[OPT] ffmpeg output', ['out' => $out1]);
+
+            if ($ret1 !== 0) {
+                Log::error('[OPT] Video encoding failed', compact('cmd1', 'out1'));
+                throw new \RuntimeException('Video encoding failed');
+            }
 
             $d1 = (hrtime(true) - $t1) / 1e9;
-            Log::info("↳ [OPT] video → VP9 : {$d1}s");
+            Log::info("↳ [OPT] video → H.264 : {$d1}s");
 
             Log::info('Video saved: '.$outputVideo);
 
@@ -65,7 +63,18 @@ class Video
 
             $t2 = hrtime(true);
 
-            $openedFile->save(new Mp3, $outputAudio);
+            $cmd2 = sprintf(
+                'ffmpeg -y -loglevel error -i %s -vn -acodec libmp3lame -ab 128k %s',
+                escapeshellarg($filePath),
+                escapeshellarg($outputAudio)
+            );
+
+            exec($cmd2, $out2, $ret2);
+            if ($ret2 !== 0) {
+                Log::error('[OPT] Audio extraction failed', compact('cmd2', 'out2'));
+                throw new \RuntimeException('Audio extraction failed');
+            }
+
             Log::info('Audio saved: '.$outputAudio);
 
             $d2 = (hrtime(true) - $t2) / 1e9;

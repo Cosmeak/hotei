@@ -76,7 +76,7 @@ You are ready to go!
 
 
 ## laravel jobs
-- video optimization to webm with vp9 codec 
+- video optimization to webm with h.264 codec
 - separate audio and video
 - transcription
 
@@ -128,7 +128,7 @@ ps -o pid,etime,args | grep '[f]fmpeg'
 tail -F storage/logs/laravel.log | grep -E '\[OPT\]|\[TRS\]'
 ```
 
-# display the first 30 lines of the transcription
+# display the first 30 lines of the transcription 
 ```
-head -n 30 storage/app/public/videos/transcription.txt
+head -n 30 storage/app/public/videos/en/transcription.txt 
 ```

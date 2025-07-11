@@ -26,11 +26,7 @@ class VideoOptimization implements ShouldBeUnique, ShouldQueue
         private string $outputPath
     ) {
         $this->onQueue('video');
-    }
-
-    public function uniqueId(): string
-    {
-        return md5($this->filePath);
+        \Log::info('Constructed job', ['file' => $filePath]);
     }
 
     /**
@@ -38,6 +34,10 @@ class VideoOptimization implements ShouldBeUnique, ShouldQueue
      */
     public function handle(): void
     {
+        \Log::info('VideoOptimization is ALIVE', [
+            'file' => $this->filePath
+        ]);
+
         $paths = Video::optimize($this->filePath, $this->outputPath);
 
         TranscribeVideo::dispatch(
