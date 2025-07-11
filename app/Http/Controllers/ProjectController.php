@@ -26,12 +26,14 @@ class ProjectController extends Controller
         $skills = $skills->map(function ($skill) use ($completed, $possessed) {
             $skill->is_completed = $completed->contains('id', $skill->id);
             $skill->is_possessed = $possessed->contains('id', $skill->id);
+
             return $skill;
         });
 
         $courses = $courses->map(function ($course) use ($completed, $possessed) {
             $course->is_completed = $completed->contains('id', $course->id);
             $course->is_possessed = $possessed->contains('id', $course->id);
+
             return $course;
         });
 
