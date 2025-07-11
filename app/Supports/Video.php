@@ -2,9 +2,6 @@
 
 namespace App\Supports;
 
-use FFMpeg\FFMpeg;
-use FFMpeg\Format\Audio\Mp3;
-use FFMpeg\Format\Video\WebM;
 use Illuminate\Support\Facades\Log;
 
 class Video

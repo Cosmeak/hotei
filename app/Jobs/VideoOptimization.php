@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class VideoOptimization implements ShouldBeUnique, ShouldQueue
 {
@@ -26,7 +27,7 @@ class VideoOptimization implements ShouldBeUnique, ShouldQueue
         private string $outputPath
     ) {
         $this->onQueue('video');
-        \Log::info('Constructed job', ['file' => $filePath]);
+        Log::info('Constructed job', ['file' => $filePath]);
     }
 
     /**
@@ -34,8 +35,8 @@ class VideoOptimization implements ShouldBeUnique, ShouldQueue
      */
     public function handle(): void
     {
-        \Log::info('VideoOptimization is ALIVE', [
-            'file' => $this->filePath
+        Log::info('VideoOptimization is ALIVE', [
+            'file' => $this->filePath,
         ]);
 
         $paths = Video::optimize($this->filePath, $this->outputPath);
