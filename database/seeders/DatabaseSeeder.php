@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Course;
 use App\Models\Craftman;
 use App\Models\Craftsmanship;
+use App\Models\Order;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -17,7 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(1)->isAdmin()->create(['email' => 'admin@hotei.com']);
+            User::factory(1)->isAdmin()->create(['email' => 'admin@hotei.com']);
         User::factory(1)->isUser()->create(['email' => 'user@hotei.com']);
         User::factory(1)->isCraftman()->create(['email' => 'craftman@hotei.com'])->each(function (User $user) {
             $user->craftman_id = Craftman::where('user_id', $user->id)->first()->id;
@@ -40,5 +41,6 @@ class DatabaseSeeder extends Seeder
             ];
         })->create();
         Course::factory()->count(150)->isSkill()->create();
+        // Order::factory(1)->create(['user_id' => User::query()->get()->first()->getAttribute('id'), 'project_id' => Project::query()->get()->first()->getAttribute('id'), 'course_id' => Course::query()->get()->first()->getAttribute('id')]);
     }
 }

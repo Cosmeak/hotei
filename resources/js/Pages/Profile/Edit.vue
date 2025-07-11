@@ -28,14 +28,12 @@ const deleteAccountForm = useForm('delete', route('profile.destroy'), {
   password: ''
 });
 
-const { history, subscription_price } = usePage().props;
+const { history, subscription_price, course_orders } = usePage().props;
 const HistoryRows = history;
 const SubscriptionPrice = subscription_price;
 const CourseHeaders = ['Nom', "Type", 'Status']
-const CourseRows = [
-  ['Echarpe', 'Projet', 'En cours'],
-  ['Rond Magique', 'Compétence', 'Fini'],
-]
+const CourseRows = course_orders
+
 </script>
 
 <template>

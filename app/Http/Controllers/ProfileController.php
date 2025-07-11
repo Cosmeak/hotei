@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Course;
 use App\Models\LemonSqueezyOrder;
 use App\Models\LemonSqueezySubscription;
+use App\Models\Order;
 use App\Services\LemonSqueezyService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -39,17 +41,34 @@ class ProfileController extends Controller
                 'date' => $order->created_at->format('d/m/y'),
                 'price' => number_format($order->total / 100, 2).'€',
             ]);
-        $subscriptionsId = LemonSqueezySubscription::where('billable_id', $user->getAuthIdentifier())->get()->last()->getAttribute('product_id');
-        $subscription = LemonSqueezyOrder::where('product_id', $subscriptionsId)->get()->last()->getAttribute('total');
-        $priceInEuros = $subscription / 100;
-        $formattedPrice = number_format($priceInEuros, 2, ',', '');
+        if (LemonSqueezySubscription::where('billable_id', $user->getAuthIdentifier())->get()->last() !== null) {
+            $subscriptionsId = LemonSqueezySubscription::where('billable_id', $user->getAuthIdentifier())->get()->last()->getAttribute('product_id');
+            $subscription = LemonSqueezyOrder::where('product_id', $subscriptionsId)->get()->last()->getAttribute('total');
+            $priceInEuros = $subscription / 100;
+            $formattedPrice = number_format($priceInEuros, 2, ',', '');
+        }
+
+        $courseOrders = Order::where('user_id', $user->getAuthIdentifier())->whereNotNull('course_id')->get();
+        $courses = [];
+        foreach ($courseOrders as $courseOrder) {
+            $courseData = Course::where('id', $courseOrder->getAttribute('course_id'))->get()->first();
+            $course = [$courseData->getAttribute('title'), 'Cours', 'Non commencé'];
+            $courses[] = $course;
+        }
+        $projectOrders = Order::where('user_id', $user->getAuthIdentifier())->whereNotNull('project_id')->get();
+        foreach ($projectOrders as $projectOrder) {
+            $projectData = Course::where('id', $projectOrder->getAttribute('course_id'))->get()->first();
+            $project = ['Title', 'Projet', 'Non commencé'];
+            $courses[] = $project;
+        }
 
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
             'craftman' => $craftman,
             'history' => $orders,
-            'subscription_price' => $formattedPrice,
+            'subscription_price' => $formattedPrice ?? 0,
+            'course_orders' => $courses,
         ]);
     }
 
