@@ -25,6 +25,8 @@ class ProjectFactory extends Factory
         return [
             'craftman_id' => self::$craftman_id ?? Craftman::first()?->id ?? Craftman::factory(1)->create()->id,
             'craftsmanship_id' => self::$craftsmanship_id ?? Craftsmanship::first()?->id ?? Craftsmanship::factory(1)->create()->id,
+            'title' => fake()->sentence(),
+            'difficulty' => fake()->numberBetween(0,4),
             'description' => fake()->paragraph(),
             'duration' => fake()->numberBetween(30, 200),
             'is_draft' => false,

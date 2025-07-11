@@ -2,30 +2,35 @@
 import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
 import { Link } from "@inertiajs/vue3";
-import type { Course } from "@/types";
+import type { Course, Project } from "@/types";
 
 defineProps<{
-  course: Course
+  type: string
+  scope: Course | Project
 }>()
 
 </script>
 
 <template>
-  <div class="flex flex-col max-w-[250px] bg-white rounded-lg">
+  <div class="flex flex-col bg-white rounded-lg overflow-hidden">
     <div class="relative">
-      <img :src="course.imageSrc || '../assets/default/placeholder.jpg'" class="rounded-t-lg" alt="Course image" />
-      <Button class="absolute -bottom-4 right-2" variant="secondary" :as="Link" :href="route('projects.show', course.id)">
+      <div class="w-full h-42 bg-gray-300">
+        <img v-if="scope.thumbnail" :src="scope.thumbnail" />
+      </div>
+      <Button class="absolute -bottom-4 right-2" :as="Link" :href="route('projects.show', scope.id)">
         Lire
       </Button>
     </div>
     <div class="mt-2 p-2">
-      <Badge class="bg-accent text-black">{{ course.category }}</Badge>
-      <p class="text-xl">{{ course.title }}</p>
-      <p>par {{ course.craftman.user.firstname }}</p>
-      <hr class="bg-primary my-2" />
+      <Badge variant="accent">{{ type }}</Badge>
+      <p class="text-lg">{{ scope.title }}</p>
+      <p>par {{ scope.craftman.user.firstname }} {{ scope.craftman.user.lastname }}</p>
+    </div>
+    <div class="mt-auto p-2">
+      <hr class="border-primary my-2" />
       <div class="flex flex-row justify-between">
-        <Badge class="bg-secondary-lighter text-black">{{course.difficulty}}</Badge>
-        <p>{{ course.duration }} heures</p>
+        <Badge variant="secondary">{{ scope.difficulty }}</Badge>
+        <p>{{ scope.duration }} heures</p>
       </div>
     </div>
   </div>

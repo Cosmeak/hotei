@@ -13,11 +13,17 @@ class ProjectController extends Controller
      */
     public function show(Project $project): Response
     {
-        $project->load('courses', 'craftman.user');
+        $project->load(['craftman.user']);
+        $skills = $project->courses()->isSkill()->with('craftman.user')->get();
+        $courses = $project->courses()->isSkill(false)->get();
+
+        // TODO: validate already completed courses (add is_completed to all courses -> default to false - cast in model?)
 
         return Inertia::render('Project/Show', [
+            'courses' => $courses,
+            'materials' => $courses->map(fn ($course) => $course->materials)->collapse(),
             'project' => $project,
-            'materials' => $project->courses->map(fn ($course) => $course->materials)->collapse(),
+            'skills' => $skills,
         ]);
     }
 }

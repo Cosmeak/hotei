@@ -9,6 +9,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import BackOfficeLayout from "@/Layouts/BackOfficeLayout.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
+import { formatDuration } from "./utils/time";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 

@@ -52,14 +52,18 @@ export interface Course {
   title: string;
   description: string;
   duration: number;
+  difficulty: string;
   materials?: Material[];
   created_at: string;
   updated_at: string;
   project?: Project;
   is_draft: bool;
+  is_completed: bool;
   craftman: Craftman;
   category: string;
   cost: number;
+  video: ?string;
+  thumbnail: ?string;
 }
 
 export interface Project {
@@ -67,9 +71,11 @@ export interface Project {
   title: string;
   description: string;
   duration: number;
+  difficulty: string;
   created_at: string;
   updated_at: string;
   courses?: Course[];
   craftman: Craftman;
   materials?: Material[];
+  thumbnail: ?string;
 }

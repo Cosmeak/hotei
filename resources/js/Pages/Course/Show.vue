@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import Materials from "@/Components/Materials.vue";
-import ArtisanResume from "@/Components/ArtisanResume.vue";
-import FollowCourse from "@/Components/FollowCourse.vue";
 import Header from "@/Pages/Course/Partials/Header.vue";
 import { Course, Project } from "@/types";
 
@@ -23,11 +20,8 @@ const { course, project } = defineProps<{
         </div>
       </section>
       <section>
-        <Materials :materials="course.materials!" />
         <div class="mt-6">
-          <ArtisanResume :craftman="course.craftman" />
         </div>
-        <FollowCourse />
       </section>
     </div>
   </main>
