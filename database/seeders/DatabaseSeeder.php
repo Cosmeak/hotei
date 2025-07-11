@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             for ($i = 1; $i <= 5; $i++) {
                 $course = Course::factory()->create([
                     'craftman_id' => $project->craftman_id,
-                    'craftsmanship_id' => $project->craftsmanship_id
+                    'craftsmanship_id' => $project->craftsmanship_id,
                 ]);
 
                 $project->courses()->attach($course->id, [
