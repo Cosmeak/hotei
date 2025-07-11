@@ -10,6 +10,7 @@ import ThumbnailCard from "@/Components/ThumbnailCard.vue";
 const { project } = defineProps<{
   courses: Course[],
   materials: Material[],
+  percentageCompleted: number,
   project: Project;
   skills: Course[],
 }>();
@@ -17,16 +18,16 @@ const { project } = defineProps<{
 
 <template>
   <InertiaHead :title="project.title" />
-  <div class="flex flex-col gap-4 container mx-auto">
-    <header class="flex justify-between md:py-10">
-      <h1 class="w-1/2">{{ project.title }}</h1>
+  <div class="flex flex-col gap-4 container mx-auto mt-6">
+    <header class="flex flex-col md:flex-row justify-between gap-4">
+      <h1 class="md:w-1/2">{{ project.title }}</h1>
       <div class="flex items-center gap-4">
         <Badge variant="secondary" class="text-base">{{ project.difficulty }}</Badge>
         <span class="flex gap-1 items-center"><Timer /> {{ formatDuration(project.duration) }}</span>
       </div>
     </header>
 
-    <main class="flex flex-col md:flex-row justify-between object-center py-10">
+    <main class="flex flex-col-reverse md:flex-row justify-between object-center my-6">
       <div class="md:w-1/2 py-4 text-lg" v-html="project.description" />
 
       <!-- this image can be not set by the craftman, so the placeholder is used in this case. -->
@@ -40,7 +41,6 @@ const { project } = defineProps<{
           class="bg-gray-300 w-140 h-80"
         />
       </div>
-      <!-- TODO: add placeholder thumbnail -->
     </main>
   </div>
 
@@ -69,8 +69,8 @@ const { project } = defineProps<{
     v-if="skills.length > 0"
     class="container mx-auto my-8"
   >
-    <h2>Ces compétences technique seront utilisées dans ce projet</h2>
-    <div class="grid grid-cols-4 gap-4 mt-4">
+    <h2>Ces compétences techniques seront utilisées dans ce projet</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 mt-4">
       <template
         v-for="skill in skills"
         :key="skill.id"
@@ -80,21 +80,20 @@ const { project } = defineProps<{
     </div>
   </section>
 
-  <div class="container mx-auto mb-8 flex justify-between gap-8">
+  <div class="container mx-auto mb-8 flex flex-col md:flex-row justify-between gap-8">
     <!-- Courses -->
     <section class="md:w-2/3 bg-muted p-8 rounded-lg">
-      <div class="flex justify-between items-center">
+      <div class="flex flex-col md:flex-row gap-4 md:justify-between md:items-center">
         <h2>Maintenant à votre tour !</h2>
         <Button variant="accent" disabled>Continuer le cours</Button>
       </div>
       <!-- Completion -->
       <!-- TODO: complete percentage -->
       <div class="my-8 flex gap-4 items-center">
-        <div class="flex rounded-full overflow-x-hidden w-full h-4">
-          <div class="bg-secondary-darker w-1/2" />
-          <div class="bg-white w-1/2" />
+        <div class="flex rounded-full bg-white overflow-x-hidden w-full h-3">
+          <div class="bg-secondary-darker" :style="`width: ${percentageCompleted}%;`" />
         </div>
-        <p>50%</p>
+        <p>{{ percentageCompleted }}%</p>
       </div>
       <!-- Courses list -->
       <div class="flex flex-col gap-4">
@@ -111,13 +110,13 @@ const { project } = defineProps<{
     </section>
 
     <!-- Craftman -->
-    <article class="bg-secondary w-1/3 h-full p-4 rounded-lg flex flex-col gap-4">
+    <article class="bg-secondary md:w-1/3 h-full p-4 rounded-lg flex flex-col gap-4">
       <div class="w-full h-48 bg-white rounded-lg overflow-hidden">
         <img src="" alt="">
       </div>
       <p class="font-bold">{{ project.craftman.user.firstname }} {{ project.craftman.user.lastname }}</p>
       <div v-html="project.craftman.description" />
-      <Button class="w-fit mx-auto" variant="accent" :as="Link" href="">En savoir plus</Button>
+      <Button class="md:w-fit md:mx-auto" variant="accent" :as="Link" href="">En savoir plus</Button>
     </article>
   </div>
 </template>

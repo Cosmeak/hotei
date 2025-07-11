@@ -59,6 +59,7 @@ export interface Course {
   project?: Project;
   is_draft: bool;
   is_completed: bool;
+  is_possessed: bool;
   craftman: Craftman;
   category: string;
   cost: number;
@@ -78,4 +79,6 @@ export interface Project {
   craftman: Craftman;
   materials?: Material[];
   thumbnail: ?string;
+  is_completed: bool;
+  is_possessed: bool;
 }
