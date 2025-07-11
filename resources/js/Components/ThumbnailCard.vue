@@ -4,7 +4,7 @@ import { Button } from "@/Components/ui/button";
 import { Link } from "@inertiajs/vue3";
 import type { Course } from "@/types";
 
-const props = defineProps<{
+defineProps<{
   course: Course
 }>()
 
