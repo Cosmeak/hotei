@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\Difficulty;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +17,7 @@ class Course extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     // ┌───────────────────────────────┐
-    // │ attributes                    │
+    // │ attributes                                         │
     // └───────────────────────────────┘
     protected $fillable = [
         'craftman_id',
@@ -34,8 +36,19 @@ class Course extends Model
         'materials' => 'json',
     ];
 
+    /*
+     * Cast Enum difficulty to readable value
+     */
+    public function difficulty(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Difficulty::tryFrom($value)->toString(),
+            set: fn ($value) => $value instanceof Difficulty ? $value->value : (is_int($value) ? $value : null),
+        );
+    }
+
     // ┌───────────────────────────────┐
-    // │ relations                     │
+    // │ relations                                          │
     // └───────────────────────────────┘
     public function craftman(): BelongsTo
     {
@@ -68,15 +81,15 @@ class Course extends Model
     }
 
     // ┌───────────────────────────────┐
-    // │ scope queries                 │
+    // │ scope queries                                      │
     // └───────────────────────────────┘
-    public function scopeIsSkill(Builder $query): void
+    public function scopeIsSkill(Builder $query, bool $bool = true): void
     {
-        $query->where('is_skill', '=', true);
+        $query->where('is_skill', '=', $bool);
     }
 
-    public function scopeIsNotSkill(Builder $query): void
+    public function scopeIsPublished(Builder $query, bool $bool = false): void
     {
-        $query->where('is_skill', '!=', false);
+        $query->where('is_draft', $bool);
     }
 }
