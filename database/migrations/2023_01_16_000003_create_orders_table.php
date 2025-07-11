@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('lemon_squeezy_orders', function (Blueprint $table) {
             $table->id();
-            $table->morphs('billable');
+            $table->uuidMorphs('billable');
             $table->string('lemon_squeezy_id')->unique();
             $table->string('customer_id');
             $table->uuid('identifier')->unique();

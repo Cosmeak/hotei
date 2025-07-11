@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { Button } from '@/Components/ui/button';
+import Payment from "@/Components/Payement.vue";
 
 const subscriptionsChoice = ref('subscriptions');
 const billingCategories = {
@@ -72,7 +72,6 @@ const billingCategories = {
             <span>Packs</span>
           </label>
         </div>
-
       </div>
 
       <div class="flex flex-col flex-wrap gap-6 md:gap-12 items-center w-full">
@@ -82,8 +81,7 @@ const billingCategories = {
             <p>{{ element.description}}</p>
           </div>
         </div>
-        <Button variant="accent" class="flex-none" disabled>Je m'abonne</Button>
-      </div>
+        <Payment as="template" :show="open" /></div>
     </div>
   </section>
 </template>

@@ -10,11 +10,25 @@ use LemonSqueezy\Laravel\Checkout;
 
 class OrderService
 {
+    protected LemonSqueezyService $lemonSqueezyService;
+
+    public function __construct(LemonSqueezyService $lemonSqueezyService)
+    {
+        $this->lemonSqueezyService = $lemonSqueezyService;
+    }
+
     public function buy($productId): Checkout
     {
         $user = User::query()->first();
 
-        return $user->checkout($productId);
+        $checkout = $user->checkout($productId);
+        $userCredits = $user->getAttribute('credits');
+
+        $newCredits = $this->lemonSqueezyService->productCredits(intval($productId));
+        $user->setAttribute('credits', $userCredits + $newCredits);
+        $user->save();
+
+        return $checkout;
     }
 
     public function setCourseOrder($userId, $courseId): void
