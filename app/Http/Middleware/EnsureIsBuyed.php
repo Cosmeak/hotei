@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureUserIsAdmin
+class EnsureIsBuyed
 {
     /**
      * Handle an incoming request.
@@ -18,10 +18,17 @@ class EnsureUserIsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
+        $isBuyed = $user->orders()
+            ->exists();
 
-        if (! $user || $user->role != UserRole::Admin) {
-            return redirect()->route('backoffice.dashboard');
-        }
+        // Redirect back user if it has not buyed the projet or course
+        // and if it's not a admin
+        if (! $isBuyed && $user->role != UserRole::Admin) return back()->with([
+            'toast' => [
+              'type' => 'error',
+              'message' => 'Vous n\'avez pas accès à cette ressource.'
+            ],
+        ]);
 
         return $next($request);
     }

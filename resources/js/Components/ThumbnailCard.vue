@@ -24,7 +24,7 @@ defineProps<{
     <div class="mt-2 p-2">
       <Badge variant="accent">{{ type }}</Badge>
       <p class="text-lg">{{ scope.title }}</p>
-      <p>par {{ scope.craftman.user.firstname }} {{ scope.craftman.user.lastname }}</p>
+      <p>par {{ scope.craftman.user.fullname }}</p>
     </div>
     <div class="mt-auto p-2">
       <hr class="border-primary my-2" />

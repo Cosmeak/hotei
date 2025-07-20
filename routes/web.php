@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CraftsmanshipController;
 use App\Http\Controllers\HomeController;
@@ -30,10 +31,10 @@ Route::get('craftsmanships/{slug}', [CraftsmanshipController::class, 'show'])->n
 Route::middleware(['auth'])->group(function () {
     // Projects
     Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-    Route::get('projects/{project}/courses/{course}', [CourseController::class, 'show'])->name('projects.courses.show');
+    Route::get('projects/{project}/courses/{course}', [CourseController::class, 'show'])->name('projects.courses.show')->middleware(App\Http\Middleware\EnsureIsBuyed::class);
 
     // Skills
-    Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.show');
+    Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.show')->middleware(App\Http\Middleware\EnsureIsBuyed::class);
 
     // Profile
     Route::prefix('profile')->name('profile.')->group(function () {
@@ -41,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/', [ProfileController::class, 'update'])->name('update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
     });
+
+    // Comments
+    Route::post('comments', [CommentController::class, 'store'])->name('comments.store')->middleware(Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class);
 });
 
 // ┌───────────────────────────────┐

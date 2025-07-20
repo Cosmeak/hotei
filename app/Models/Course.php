@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
@@ -17,7 +18,7 @@ class Course extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     // ┌───────────────────────────────┐
-    // │ attributes                                         │
+    // │ attributes                                         |
     // └───────────────────────────────┘
     protected $fillable = [
         'craftman_id',
@@ -57,7 +58,7 @@ class Course extends Model
 
     public function skills(): BelongsToMany
     {
-        return $this->belongsToMany(Course::class, 'skills', 'skill_id');
+        return $this->belongsToMany(Course::class, 'skills', 'course_id', 'skill_id');
     }
 
     public function completed(): BelongsToMany
@@ -78,6 +79,11 @@ class Course extends Model
     public function project(): BelongsToMany
     {
         return $this->belongsToMany(Project::class, 'projects_courses');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
     // ┌───────────────────────────────┐
