@@ -23,12 +23,14 @@ class EnsureIsBuyed
 
         // Redirect back user if it has not buyed the projet or course
         // and if it's not a admin
-        if (! $isBuyed && $user->role != UserRole::Admin) return back()->with([
-            'toast' => [
-              'type' => 'error',
-              'message' => 'Vous n\'avez pas accès à cette ressource.'
-            ],
-        ]);
+        if (! $isBuyed && $user->role != UserRole::Admin) {
+            return back()->with([
+                'toast' => [
+                    'type' => 'error',
+                    'message' => 'Vous n\'avez pas accès à cette ressource.',
+                ],
+            ]);
+        }
 
         return $next($request);
     }

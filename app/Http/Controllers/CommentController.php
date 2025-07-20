@@ -22,7 +22,7 @@ class CommentController extends Controller
         $comment = new Comment;
         $comment->user_id = $user->id;
         $comment->text = $validated['text'];
-        $comment->{$validated['scope'] . '_id'} = $validated['scope_id'];
+        $comment->{$validated['scope'].'_id'} = $validated['scope_id'];
         $comment->save();
 
         return back();

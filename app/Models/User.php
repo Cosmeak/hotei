@@ -72,7 +72,7 @@ class User extends Authenticatable
     protected function fullname(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => ucfirst($attributes['firstname']) . ' ' . ucfirst($attributes['lastname']),
+            get: fn (mixed $value, array $attributes) => ucfirst($attributes['firstname']).' '.ucfirst($attributes['lastname']),
         );
     }
 

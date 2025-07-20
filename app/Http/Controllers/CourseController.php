@@ -6,7 +6,6 @@ use App\Models\Course;
 use App\Models\Project;
 use App\Supports\CommentsTree;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -31,7 +30,7 @@ class CourseController extends Controller
             'project' => $project,
             'comments' => $comments,
             'course' => $course,
-            'skills' => $skills
+            'skills' => $skills,
         ]);
     }
 }
