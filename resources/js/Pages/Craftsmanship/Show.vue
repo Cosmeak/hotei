@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import SkillCard from "@/Components/SkillCard.vue";
-import {Course, Craftsmanship, Project} from "@/types";
 import {PaginatedResponse} from "@/types/laravel";
 import LaravelPagination from "@/Components/LaravelPagination.vue";
 import ThumbnailCard from "@/Components/ThumbnailCard.vue";
+import SearchCard from "@/Components/SearchCard.vue";
+import type {Course, Craftsmanship, Project} from "@/types";
 
 const {craftsmanship, projects, skills} = defineProps<{
   craftsmanship: Craftsmanship,
   projects: PaginatedResponse<Project>,
   skills: Course[]
 }>();
-
 </script>
 
 <template>
@@ -53,11 +53,15 @@ const {craftsmanship, projects, skills} = defineProps<{
   </section>
 
   <section class="container mx-auto">
-    <h4 class="text-5xl my-8">Nos compétences et projets</h4>
+    <h4 class="text-5xl my-8">Nos projets</h4>
     <div v-if="projects.total > 0">
       <div class="grid grid-cols-4 gap-6">
+        <div class="col-span-2">
+          <SearchCard scope="Project" type="Project"/>
+        </div>
+
         <template v-for="project in projects.data" :key="project.id">
-          <ThumbnailCard :scope="project" type="Project"/>
+          <ThumbnailCard :scope="project" type="Project" />
         </template>
       </div>
       <LaravelPagination :paginated-response="projects" class="py-8" />

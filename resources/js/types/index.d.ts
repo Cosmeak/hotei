@@ -79,6 +79,7 @@ export interface Project {
   craftman: Craftman;
   materials?: Material[];
   thumbnail: ?string;
+  cost: number;
   is_completed: bool;
   is_possessed: bool;
 }

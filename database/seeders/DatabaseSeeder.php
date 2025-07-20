@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
                 $course = Course::factory()->create([
                     'craftman_id' => $project->craftman_id,
                     'craftsmanship_id' => $project->craftsmanship_id,
+                    'cost' => 0
                 ]);
 
                 $project->courses()->attach($course->id, [

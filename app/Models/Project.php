@@ -25,6 +25,7 @@ class Project extends Model
         'title',
         'description',
         'difficulty',
+        'cost',
         'duration',
         'is_draft',
     ];
