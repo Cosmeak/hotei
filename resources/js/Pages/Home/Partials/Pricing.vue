@@ -81,7 +81,7 @@ const billingCategories = {
             <p>{{ element.description}}</p>
           </div>
         </div>
-        <Payment as="template" :show="open" /></div>
+        <Payment :show="open" /></div>
     </div>
   </section>
 </template>

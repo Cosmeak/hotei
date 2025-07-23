@@ -28,11 +28,8 @@ const deleteAccountForm = useForm('delete', route('profile.destroy'), {
   password: ''
 });
 
-const { history, subscription_price, course_orders } = usePage().props;
-const HistoryRows = history;
-const SubscriptionPrice = subscription_price;
+const { history, subscriptionPrice, courseOrders } = usePage().props;
 const CourseHeaders = ['Nom', "Type", 'Status']
-const CourseRows = course_orders
 
 </script>
 
@@ -224,7 +221,7 @@ const CourseRows = course_orders
           <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 w-full justify-around">
             <Label for="craftout_subscription">Abonnement (mensuel)</Label>
             <p id="craftout_subscription" class="text-sm md:text-base font-medium">
-              {{ SubscriptionPrice }} € / mois
+              {{ subscriptionPrice }} € / mois
             </p>
             <Button variant="accent">
               <Payement />
@@ -280,10 +277,10 @@ const CourseRows = course_orders
     </form>
 
     <h3 class="text-xl">Historique des achats</h3>
-    <TableView :headers="HistoryHeaders" :rows="HistoryRows" caption="Liste des achats"/>
+    <TableView :headers="HistoryHeaders" :rows="history" caption="Liste des achats"/>
 
     <h3 class="text-xl">Mes Cours</h3>
-    <TableView :headers="CourseHeaders" :rows="CourseRows" caption="Liste des cours"/>
+    <TableView :headers="CourseHeaders" :rows="courseOrders" caption="Liste des cours"/>
 
     <h3 class="text-xl">Supprimer mon compte</h3>
     <form @submit.prevent="() => deleteAccountForm.submit()">

@@ -86,7 +86,7 @@ const open = ref(false);
             </span>
           </h1>
           <p class="md:w-1/2 my-4 text-xl">Grâce à des cours en ligne réaliser par des artisans professionnels.</p>
-          <Payment as="template" :show="open" />
+          <Payment :show="open" />
       </div>
 
       <div>

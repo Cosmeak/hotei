@@ -18,12 +18,7 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    protected LemonSqueezyService $lemonSqueezyService;
-
-    public function __construct(LemonSqueezyService $lemonSqueezyService)
-    {
-        $this->lemonSqueezyService = $lemonSqueezyService;
-    }
+    public function __construct(protected LemonSqueezyService $lemonSqueezyService) {}
 
     /**
      * Display the user's profile form.
