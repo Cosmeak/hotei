@@ -28,7 +28,14 @@ const deleteAccountForm = useForm('delete', route('profile.destroy'), {
   password: ''
 });
 
-const { history, subscriptionPrice, courseOrders } = usePage().props;
+interface Props {
+  history: Array<Array<string | number>>;
+  subscriptionPrice: number;
+  courseOrders: Array<Array<string | number>>;
+}
+
+const props = defineProps<Props>();
+
 const CourseHeaders = ['Nom', "Type", 'Status']
 
 </script>
@@ -221,7 +228,7 @@ const CourseHeaders = ['Nom', "Type", 'Status']
           <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 w-full justify-around">
             <Label for="craftout_subscription">Abonnement (mensuel)</Label>
             <p id="craftout_subscription" class="text-sm md:text-base font-medium">
-              {{ subscriptionPrice }} € / mois
+              {{ props.subscriptionPrice }} € / mois
             </p>
             <Button variant="accent">
               <Payement />
@@ -277,10 +284,10 @@ const CourseHeaders = ['Nom', "Type", 'Status']
     </form>
 
     <h3 class="text-xl">Historique des achats</h3>
-    <TableView :headers="HistoryHeaders" :rows="history" caption="Liste des achats"/>
+    <TableView :headers="HistoryHeaders" :rows="props.history" caption="Liste des achats"/>
 
     <h3 class="text-xl">Mes Cours</h3>
-    <TableView :headers="CourseHeaders" :rows="courseOrders" caption="Liste des cours"/>
+    <TableView :headers="CourseHeaders" :rows="props.courseOrders" caption="Liste des cours"/>
 
     <h3 class="text-xl">Supprimer mon compte</h3>
     <form @submit.prevent="() => deleteAccountForm.submit()">
