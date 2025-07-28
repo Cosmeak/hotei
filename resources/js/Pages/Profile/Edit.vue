@@ -36,6 +36,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const HistoryHeaders = ['Nom', "Date", 'Prix']
 const CourseHeaders = ['Nom', "Type", 'Status']
 
 </script>

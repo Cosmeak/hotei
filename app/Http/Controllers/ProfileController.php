@@ -36,25 +36,48 @@ class ProfileController extends Controller
                 'date' => $order->created_at->format('d/m/y'),
                 'price' => number_format($order->total / 100, 2).'€',
             ]);
-        if (LemonSqueezySubscription::where('billable_id', $user->getAuthIdentifier())->get()->last() !== null) {
-            $subscriptionsId = LemonSqueezySubscription::where('billable_id', $user->getAuthIdentifier())->get()->last()->getAttribute('product_id');
-            $subscription = LemonSqueezyOrder::where('product_id', $subscriptionsId)->get()->last()->getAttribute('total');
-            $priceInEuros = $subscription / 100;
-            $formattedPrice = number_format($priceInEuros, 2, ',', '');
+
+        $lastSubscription = LemonSqueezySubscription::where('billable_id', $user->getAuthIdentifier())
+            ->latest()
+            ->first();
+
+        $formattedPrice = 0;
+        if ($lastSubscription) {
+            $lastOrder = LemonSqueezyOrder::where('product_id', $lastSubscription->product_id)
+                ->latest()
+                ->first();
+
+            if ($lastOrder) {
+                $formattedPrice = number_format($lastOrder->total / 100, 2, ',', '');
+            }
         }
 
-        $courseOrders = Order::where('user_id', $user->getAuthIdentifier())->whereNotNull('course_id')->get();
+        $courseOrders = Order::where('user_id', $user->getAuthIdentifier())
+            ->whereNotNull('course_id')
+            ->get();
+
+        $projectOrders = Order::where('user_id', $user->getAuthIdentifier())
+            ->whereNotNull('project_id')
+            ->get();
+
+        $courseIds = $courseOrders->pluck('course_id')->merge($projectOrders->pluck('project_id'))->unique();
+
+        $allCourses = Course::whereIn('id', $courseIds)->get()->keyBy('id');
+
         $courses = [];
-        foreach ($courseOrders as $courseOrder) {
-            $courseData = Course::where('id', $courseOrder->getAttribute('course_id'))->get()->first();
-            $course = [$courseData->getAttribute('title'), 'Cours', 'Non commencé'];
-            $courses[] = $course;
+
+        foreach ($courseOrders as $order) {
+            $courseId = $order->course_id;
+            if (isset($allCourses[$courseId])) {
+                $courses[] = [$allCourses[$courseId]->title, 'Cours', 'Non commencé'];
+            }
         }
-        $projectOrders = Order::where('user_id', $user->getAuthIdentifier())->whereNotNull('project_id')->get();
-        foreach ($projectOrders as $projectOrder) {
-            $projectData = Course::where('id', $projectOrder->getAttribute('course_id'))->get()->first();
-            $project = ['Title', 'Projet', 'Non commencé'];
-            $courses[] = $project;
+
+        foreach ($projectOrders as $order) {
+            $projectId = $order->project_id;
+            if (isset($allCourses[$projectId])) {
+                $courses[] = [$allCourses[$projectId]->title, 'Projet', 'Non commencé'];
+            }
         }
 
         return Inertia::render('Profile/Edit', [
@@ -62,8 +85,8 @@ class ProfileController extends Controller
             'status' => session('status'),
             'craftman' => $craftman,
             'history' => $orders,
-            'subscription_price' => $formattedPrice ?? 0,
-            'course_orders' => $courses,
+            'subscriptionPrice' => $formattedPrice,
+            'courseOrders' => $courses,
         ]);
     }
 
