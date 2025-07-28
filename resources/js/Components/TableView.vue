@@ -9,7 +9,7 @@ const { caption, headers, rows } = defineProps<{
 
 <template>
   <div class="overflow-x-auto">
-    <table class="w-full border-2 border-primary rounded-xl overflow-hidden border-separate [border-spacing:0]">
+    <table class="w-full bg-white border-2 border-primary rounded-xl overflow-hidden border-separate [border-spacing:0]">
       <caption v-if="caption" class="caption-bottom text-sm text-muted-foreground mt-2">{{ caption }}</caption>
 
       <!-- Table Header -->
@@ -24,7 +24,7 @@ const { caption, headers, rows } = defineProps<{
 
       <!-- Table Body -->
       <tbody>
-      <tr v-for="(row, rowIndex) in rows" :key="rowIndex" class="bg-white">
+      <tr v-for="(row, rowIndex) in rows" :key="rowIndex">
         <td v-for="(cell, cellIndex) in row" :key="cellIndex"
             class="px-4 py-3 border-t border-primary-700 text-left">
           {{ cell }}

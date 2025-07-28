@@ -1,5 +1,5 @@
 <script setup>
-import { Button } from '@/Components/ui/button';
+import Payment from "@/Components/Payement.vue";
 import { usePage } from '@inertiajs/vue3';
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { motion } from "motion-v";
@@ -63,6 +63,8 @@ function getAnimationProps(index) {
     animate: { top: `${topPosition}px`, x: `${rightOffset}px`, opacity: 0 },
   };
 }
+const open = ref(false);
+
 </script>
 
 <template>
@@ -83,8 +85,8 @@ function getAnimationProps(index) {
               </motion.span>
             </span>
           </h1>
-          <p class="md:w-2/3 my-4 text-xl">Grâce à des cours en ligne réaliser par des artisans professionnels.</p>
-          <Button variant="accent" class="font-bold text-lg">Je m'abonne</Button>
+          <p class="md:w-1/2 my-4 text-xl">Grâce à des cours en ligne réaliser par des artisans professionnels.</p>
+          <Payment :show="open" />
       </div>
 
       <div>
