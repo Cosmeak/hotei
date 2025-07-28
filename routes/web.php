@@ -7,6 +7,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SkillController;
+use App\Models\User;
+use App\Services\OrderService;
 use Illuminate\Support\Facades\Route;
 
 // ┌───────────────────────────────┐
@@ -47,7 +49,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('comments', [CommentController::class, 'store'])->name('comments.store')->middleware(Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class);
 });
 
+Route::get('/buy-lemon/{productId}', [OrderService::class, 'buy'])->name('buyLemon.product');
+
+Route::get('buy-course/{userId}/{courseId}', [OrderService::class, 'setCourseOrder'])->name('course.setCourse');
+Route::get('buy-project/{userId}/{projectId}', [OrderService::class, 'setProjectOrder'])->name('course.setProject');
+
 // ┌───────────────────────────────┐
 // │ landing page api                                   │
 // └───────────────────────────────┘
+
 // Route::get('newsletter', [NewsletterController::class, 'index']);
