@@ -15,7 +15,7 @@ const { skills } = defineProps<{ skills: Course[] }>();
             <span class="text-gray-700 text-sm bg-yellow-500 p-2 rounded-xl">Projet</span>
             <div>
               <span class="text-gray-700 text-sm">{{ skill.title }}</span>
-              <span class="text-gray-700 text-sm">par {{ skill.craftman.user.firstname }} {{ skill.craftman.user.lastname }}</span>
+              <span class="text-gray-700 text-sm">par {{ skill.craftman.user.fullname }}</span>
             </div>
             <hr>
             <div>

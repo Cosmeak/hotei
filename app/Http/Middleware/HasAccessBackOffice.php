@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserRole;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class HasAccessBackOffice
     {
         $user = Auth::user();
 
-        if (! $user || ! in_array($user->role, ['admin', 'craftman'])) {
+        if (! $user || ! in_array($user->role, [UserRole::Admin, UserRole::Craftman])) {
             return redirect()->route('home');
         }
 

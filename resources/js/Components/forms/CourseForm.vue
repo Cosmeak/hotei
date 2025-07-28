@@ -45,7 +45,6 @@ const form = useForm(
 const submit = () =>
   form.submit({
     preserveScroll: true,
-    onError: () => console.log(form.errors),
   });
 
 const addMaterial = () => {
@@ -80,7 +79,7 @@ const removeMaterial = () => {
                 :key="craftman.id"
                 :value="craftman.id"
               >
-                {{ craftman.user.firstname }} {{ craftman.user.lastname }}
+                {{ craftman.user.fullname }}
               </SelectItem>
             </SelectGroup>
           </SelectContent>
