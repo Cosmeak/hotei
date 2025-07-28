@@ -28,18 +28,21 @@ Route::get('/', HomeController::class)->name('home');
 // Craftsmanships
 Route::get('craftsmanships/{slug}', [CraftsmanshipController::class, 'show'])->name('craftsmanships.show');
 
-// Projects
-Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-Route::get('projects/{project}/courses/{course}', [CourseController::class, 'show'])->name('projects.courses.show')->middleware('auth');
+// Authenticated routes
+Route::middleware(['auth'])->group(function () {
+    // Projects
+    Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::get('projects/{project}/courses/{course}', [CourseController::class, 'show'])->name('projects.courses.show');
 
-// Courses / Skills
-Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.show');
+    // Skills
+    Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.show');
 
-// User profile
-Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
-    Route::get('/', [ProfileController::class, 'edit'])->name('edit');
-    Route::put('/', [ProfileController::class, 'update'])->name('update');
-    Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    // Profile
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::put('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
 });
 
 Route::get('/buy-lemon/{productId}', [OrderService::class, 'buy'])->name('buyLemon.product');
