@@ -4,11 +4,9 @@ import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessu
 import { Button } from "@/Components/ui/button/index.js";
 import { Label } from "@/Components/ui/label/index.js";
 import { Input } from "@/Components/ui/input/index.js";
-import { useForm } from "@inertiajs/vue3";
-import { usePage } from '@inertiajs/vue3'
+import { useForm, usePage } from "@inertiajs/vue3";
 
-const { props } = usePage()
-const isAuthenticated = props.auth?.user !== null && props.auth?.user !== undefined
+const isAuthenticated = usePage().props.auth?.user !== null && usePage().props.auth?.user !== undefined
 
 const steps = ref(["Étape 1 : Début", "Étape 2 : Milieu", "Étape 3 : Fin"]);
 const currentStep = ref(0);
