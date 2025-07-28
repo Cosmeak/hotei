@@ -33,12 +33,19 @@ class DatabaseSeeder extends Seeder
         $craftmanships = ['Crochet', 'Coutellerie', 'Maroquinerie', 'Poterie'];
         Craftsmanship::factory(count($craftmanships))->state(new Sequence(fn (Sequence $sequence) => ['name' => $craftmanships[$sequence->index]]))->create();
 
-        Project::factory()->count(150)->hasCourses(5, function (array $attributes, Project $project) {
-            return [
-                'craftman_id' => $project->craftman_id,
-                'craftsmanship_id' => $project->craftsmanship_id,
-            ];
-        })->create();
+        Project::factory()->count(150)->has(Course::factory()->isSkill()->count(3))->create()->each(function ($project) {
+            for ($i = 1; $i <= 5; $i++) {
+                $course = Course::factory()->create([
+                    'craftman_id' => $project->craftman_id,
+                    'craftsmanship_id' => $project->craftsmanship_id,
+                ]);
+
+                $project->courses()->attach($course->id, [
+                    'position' => $i,
+                ]);
+            }
+        });
+
         Course::factory()->count(150)->isSkill()->create();
     }
 }

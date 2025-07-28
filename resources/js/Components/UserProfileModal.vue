@@ -4,7 +4,6 @@ import { usePage } from "@inertiajs/vue3";
 import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog";
 import { Button } from "@/Components/ui/button";
-import EditProfileModal from "@/Components/EditProfileModal.vue";
 const user = usePage().props.auth.user;
 const showProfileModal = ref(false);
 const showEditProfileModal = ref(false);
@@ -42,10 +41,4 @@ const showEditProfileModal = ref(false);
       </Card>
     </DialogContent>
   </Dialog>
-
-  <EditProfileModal
-    :open="showEditProfileModal"
-    :user="user"
-    @update:open="showEditProfileModal = $event"
-  />
 </template>

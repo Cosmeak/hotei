@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CraftsmanshipController;
 use App\Http\Controllers\HomeController;
@@ -28,18 +29,24 @@ Route::get('/', HomeController::class)->name('home');
 // Craftsmanships
 Route::get('craftsmanships/{slug}', [CraftsmanshipController::class, 'show'])->name('craftsmanships.show');
 
-// Projects
-Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-Route::get('projects/{project}/courses/{course}', [CourseController::class, 'show'])->name('projects.courses.show')->middleware('auth');
+// Authenticated routes
+Route::middleware(['auth'])->group(function () {
+    // Projects
+    Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::get('projects/{project}/courses/{course}', [CourseController::class, 'show'])->name('projects.courses.show')->middleware(App\Http\Middleware\EnsureIsBuyed::class);
 
-// Courses / Skills
-Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.show');
+    // Skills
+    Route::get('skills/{course}', [SkillController::class, 'show'])->name('skills.show')->middleware(App\Http\Middleware\EnsureIsBuyed::class);
 
-// User profile
-Route::middleware(['auth'])->prefix('profile')->name('profile.')->group(function () {
-    Route::get('/', [ProfileController::class, 'edit'])->name('edit');
-    Route::put('/', [ProfileController::class, 'update'])->name('update');
-    Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    // Profile
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::put('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+
+    // Comments
+    Route::post('comments', [CommentController::class, 'store'])->name('comments.store')->middleware(Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class);
 });
 
 Route::get('/buy-lemon/{productId}', [OrderService::class, 'buy'])->name('buyLemon.product');

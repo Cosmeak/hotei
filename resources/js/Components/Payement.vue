@@ -7,7 +7,6 @@ import { Input } from "@/Components/ui/input/index.js";
 import { useForm, usePage } from "@inertiajs/vue3";
 
 const isAuthenticated = usePage().props.auth?.user !== null && usePage().props.auth?.user !== undefined
-
 const steps = ref(["Étape 1 : Début", "Étape 2 : Milieu", "Étape 3 : Fin"]);
 const currentStep = ref(0);
 

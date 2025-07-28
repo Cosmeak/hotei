@@ -27,7 +27,6 @@ const open = ref(false);
 const handleSubmit = () => {
   form.submit({
     preserveScroll: true,
-    onError: () => console.error(form.errors),
     onSuccess: () => (open.value = false),
   });
 };
