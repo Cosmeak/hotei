@@ -17,6 +17,7 @@ class HomeController extends Controller
 
         return Inertia::render('Home/Index', [
             'craftmen' => $craftmen,
+            'authUser' => auth()->check(),
         ]);
     }
 }
