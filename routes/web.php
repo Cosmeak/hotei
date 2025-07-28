@@ -1,20 +1,17 @@
 <?php
 
 use App\Http\Controllers\CommentController;
-use Inertia\Inertia;
-use App\Models\Craftman;
-use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CraftsmanshipController;
+use App\Http\Controllers\GetTranscriptionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\TranscriptionController;
 use App\Models\User;
 use App\Services\OrderService;
-use App\Http\Controllers\TranscriptionController;
-use App\Http\Controllers\GetTranscriptionController;
+use Illuminate\Support\Facades\Route;
 
 // ┌───────────────────────────────┐
 // │ authentication                │
