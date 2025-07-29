@@ -10,6 +10,11 @@ const {craftsmanship, projects, skills} = defineProps<{
   craftsmanship: Craftsmanship,
   projects: PaginatedResponse<Project>,
   skills: Course[]
+  filters: {
+    difficulties: string[],
+    min_price: number,
+    max_price: number
+  }
 }>();
 </script>
 
@@ -57,14 +62,21 @@ const {craftsmanship, projects, skills} = defineProps<{
     <div v-if="projects.total > 0">
       <div class="grid grid-cols-4 gap-6">
         <div class="col-span-2">
-          <SearchCard scope="Project" type="Project"/>
+          <SearchCard
+            scope="Project"
+            type="Project"
+            :slug="craftsmanship.id"
+            :initialDifficulties="filters.difficulties"
+            :initialMinPrice="filters.min_price"
+            :initialMaxPrice="filters.max_price"
+          />
         </div>
 
         <template v-for="project in projects.data" :key="project.id">
-          <ThumbnailCard :scope="project" type="Project" />
+          <ThumbnailCard :scope="project" type="Project"/>
         </template>
       </div>
-      <LaravelPagination :paginated-response="projects" class="py-8" />
+      <LaravelPagination :paginated-response="projects" class="py-8"/>
     </div>
   </section>
 

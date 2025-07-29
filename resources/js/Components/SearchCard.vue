@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, onMounted, computed} from "vue"
+import {ref, computed, watchEffect} from "vue"
 import {Course, Project} from "@/types"
 import {Search} from "lucide-vue-next"
 import {Input} from "@/Components/ui/input"
@@ -11,10 +11,29 @@ import {
 } from "@/Components/ui/popover"
 import {Checkbox} from "@/Components/ui/checkbox"
 import {Label} from "@/Components/ui/label"
+import { router } from '@inertiajs/vue3'
+
+function applyFilters() {
+  router.get(
+    route('craftsmanships.show', { slug: props.slug }),
+    {
+      difficulties: selectedDifficulties.value.join(','),
+      min_price: minPrice.value,
+      max_price: maxPrice.value,
+    },
+    {
+      preserveScroll: true,
+      preserveState: false,
+    }
+  )
+}
 
 const props = defineProps<{
-  type: string
   scope: Project | Course
+  slug: string
+  initialDifficulties?: string[]
+  initialMinPrice?: number
+  initialMaxPrice?: number
 }>()
 
 const selectedDifficulties = ref<string[]>([])
@@ -27,8 +46,12 @@ const maxPrice = ref(200)
 
 const sliderRef = ref<HTMLElement | null>(null)
 
-onMounted(async () => {
+watchEffect(async () => {
   difficulties.value = await fetchDifficulties()
+
+  selectedDifficulties.value = (props.initialDifficulties ?? []).filter(Boolean)
+  minPrice.value = props.initialMinPrice ?? 0
+  maxPrice.value = props.initialMaxPrice ?? 200
 })
 
 async function fetchDifficulties() {
@@ -151,5 +174,6 @@ function onThumbMouseDown(which: "min" | "max") {
         <p>Craftout</p>
       </div>
     </div>
+    <Button @click="applyFilters" class="w-full">Appliquer les filtres</Button>
   </div>
 </template>
