@@ -87,6 +87,7 @@ class ProfileController extends Controller
             'history' => $orders,
             'subscriptionPrice' => $formattedPrice,
             'courseOrders' => $courses,
+            'authUser' => auth()->check(),
         ]);
     }
 
