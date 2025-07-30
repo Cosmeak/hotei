@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Header from "@/Pages/Course/Partials/Header.vue";
 import { Course, Project, Comment } from "@/types";
 import { formatDuration } from "@/utils/time";
 import { Badge } from "@/Components/ui/badge";

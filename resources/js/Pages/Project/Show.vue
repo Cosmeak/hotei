@@ -4,7 +4,6 @@ import { Badge } from "@/Components/ui/badge";
 import { Timer } from "lucide-vue-next";
 import { formatDuration } from "@/utils/time";
 import { Button } from "@/Components/ui/button";
-import { Link } from "@inertiajs/vue3";
 import ThumbnailCard from "@/Components/ThumbnailCard.vue";
 import CraftsmanResume from "@/Components/CraftsmanResume.vue";
 

@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue';
-import { Button } from '@/Components/ui/button';
 import Payment from "@/Components/Payement.vue";
 
 const subscriptionsChoice = ref('subscriptions');
