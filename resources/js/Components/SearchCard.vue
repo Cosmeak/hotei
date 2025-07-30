@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {ref, computed, watchEffect} from "vue"
 import {Course, Project} from "@/types"
-import {Search} from "lucide-vue-next"
 import {Input} from "@/Components/ui/input"
 import {Button} from "@/Components/ui/button"
 import {
