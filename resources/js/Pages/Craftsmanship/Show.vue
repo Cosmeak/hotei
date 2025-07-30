@@ -11,11 +11,13 @@ const {craftsmanship, projects, skills} = defineProps<{
   projects: PaginatedResponse<Project>,
   skills: Course[]
   filters: {
+    search: string,
     difficulties: string[],
     min_price: number,
     max_price: number
   }
 }>();
+
 </script>
 
 <template>
@@ -59,25 +61,39 @@ const {craftsmanship, projects, skills} = defineProps<{
 
   <section class="container mx-auto">
     <h4 class="text-5xl my-8">Nos projets</h4>
-    <div v-if="projects.total > 0">
-      <div class="grid grid-cols-4 gap-6">
-        <div class="col-span-2">
-          <SearchCard
-            scope="Project"
-            type="Project"
-            :slug="craftsmanship.id"
-            :initialDifficulties="filters.difficulties"
-            :initialMinPrice="filters.min_price"
-            :initialMaxPrice="filters.max_price"
-          />
-        </div>
 
-        <template v-for="project in projects.data" :key="project.id">
-          <ThumbnailCard :scope="project" type="Project"/>
-        </template>
+    <div class="grid grid-cols-4 gap-6">
+      <div class="col-span-2">
+        <SearchCard
+          scope="Project"
+          type="Project"
+          :slug="craftsmanship.id"
+          :initialSearch="filters.search"
+          :initialDifficulties="filters.difficulties"
+          :initialMinPrice="+filters.min_price"
+          :initialMaxPrice="+filters.max_price"
+        />
       </div>
-      <LaravelPagination :paginated-response="projects" class="py-8"/>
+
+      <template v-if="projects.total > 0">
+        <template v-for="project in projects.data" :key="project.id">
+          <ThumbnailCard :scope="project" type="Project" />
+        </template>
+      </template>
+
+      <template v-else>
+        <div class="col-span-2 flex items-center justify-center text-gray-500 italic">
+          Aucun projet ne correspond à vos filtres.
+        </div>
+      </template>
     </div>
+
+    <LaravelPagination
+      v-if="projects.total > 0"
+      :paginated-response="projects"
+      class="py-8"
+    />
   </section>
+
 
 </template>

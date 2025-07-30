@@ -14,17 +14,25 @@ class CraftsmanshipController extends Controller
     {
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
+        $search = $request->input('search');
         $difficulties = array_filter(explode(',', $request->input('difficulties', '')));
 
         $projects = Project::query()
             ->where('craftsmanship_id', $slug->id)
-            ->when(! is_null($minPrice) && ! is_null($maxPrice), function ($q) use ($minPrice, $maxPrice, $difficulties) {
+            ->when(! is_null($minPrice) && ! is_null($maxPrice), function ($q) use ($minPrice, $maxPrice) {
                 $q->whereBetween('cost', [$minPrice, $maxPrice]);
             })
             ->when(! empty($difficulties), function ($q) use ($difficulties) {
                 $q->whereIn('difficulty', $difficulties);
             })
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($query) use ($search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%");
+                });
+            })
             ->with(['craftman.user'])
+            ->orderByDesc('cost')
             ->paginate(6)
             ->withQueryString();
 
@@ -40,6 +48,7 @@ class CraftsmanshipController extends Controller
             'projects' => $projects,
             'skills' => $skills,
             'filters' => [
+                'search' => $request->input('search', ''),
                 'difficulties' => $difficulties,
                 'min_price' => $minPrice,
                 'max_price' => $maxPrice,

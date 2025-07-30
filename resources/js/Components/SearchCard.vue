@@ -11,12 +11,13 @@ import {
 } from "@/Components/ui/popover"
 import {Checkbox} from "@/Components/ui/checkbox"
 import {Label} from "@/Components/ui/label"
-import { router } from '@inertiajs/vue3'
+import {router} from '@inertiajs/vue3'
 
 function applyFilters() {
   router.get(
-    route('craftsmanships.show', { slug: props.slug }),
+    route('craftsmanships.show', {slug: props.slug}),
     {
+      search: search.value,
       difficulties: selectedDifficulties.value.join(','),
       min_price: minPrice.value,
       max_price: maxPrice.value,
@@ -28,14 +29,20 @@ function applyFilters() {
   )
 }
 
+function resetFilters() {
+  router.get(route('craftsmanships.show', { slug: props.slug }))
+}
+
 const props = defineProps<{
   scope: Project | Course
   slug: string
+  initialSearch?: string
   initialDifficulties?: string[]
   initialMinPrice?: number
   initialMaxPrice?: number
 }>()
 
+const search = ref(props.initialSearch ?? '')
 const selectedDifficulties = ref<string[]>([])
 const difficulties = ref<string[]>([])
 
@@ -103,21 +110,13 @@ function onThumbMouseDown(which: "min" | "max") {
 
 <template>
   <div class="bg-secondary-lighter p-4 space-y-6 rounded-lg">
-    <div class="relative w-full">
-      <Input
-        type="text"
-        class="bg-background rounded-full pr-12 w-full"
-        placeholder="Chercher"
-      />
-      <Button
-        variant="accent"
-        size="icon"
-        class="absolute right-1 top-1/2 -translate-y-1/2"
-      >
-        <Search class="w-4 h-4"/>
-      </Button>
-    </div>
-
+    <Input
+      v-model="search"
+      @keyup.enter="applyFilters"
+      type="text"
+      class="bg-background rounded-full pr-12 w-full"
+      placeholder="Chercher un projet"
+    />
     <Popover>
       <PopoverTrigger as-child>
         <Button
@@ -147,8 +146,8 @@ function onThumbMouseDown(which: "min" | "max") {
 
     <div class="space-y-2 flex items-center gap-6">
       <div class="flex flex-row bg-background items-center p-2 rounded gap-1">
-      <p>{{ minPrice }}</p>
-      <p>Craftout</p>
+        <p>{{ minPrice }}</p>
+        <p>Craftout</p>
       </div>
       <div ref="sliderRef" class="relative h-2 bg-gray-300 rounded-full w-full">
         <div
@@ -174,6 +173,11 @@ function onThumbMouseDown(which: "min" | "max") {
         <p>Craftout</p>
       </div>
     </div>
-    <Button @click="applyFilters" class="w-full">Appliquer les filtres</Button>
+    <div class="flex gap-4 justify-between">
+      <Button variant="secondary" @click="resetFilters">
+        Réinitialiser les filtres
+      </Button>
+      <Button @click="applyFilters">Appliquer les filtres</Button>
+    </div>
   </div>
 </template>
