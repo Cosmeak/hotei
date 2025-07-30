@@ -6,6 +6,7 @@ import { formatDuration } from "@/utils/time";
 import { Button } from "@/Components/ui/button";
 import { Link } from "@inertiajs/vue3";
 import ThumbnailCard from "@/Components/ThumbnailCard.vue";
+import CraftsmanResume from "@/Components/CraftsmanResume.vue";
 
 const { project } = defineProps<{
   courses: Course[],
@@ -88,7 +89,6 @@ const { project } = defineProps<{
         <Button variant="accent" disabled>Continuer le cours</Button>
       </div>
       <!-- Completion -->
-      <!-- TODO: complete percentage -->
       <div class="my-8 flex gap-4 items-center">
         <div class="flex rounded-full bg-white overflow-x-hidden w-full h-3">
           <div class="bg-secondary-darker" :style="`width: ${percentageCompleted}%;`" />
@@ -97,26 +97,20 @@ const { project } = defineProps<{
       </div>
       <!-- Courses list -->
       <div class="flex flex-col gap-4">
-        <div
+        <InertiaLink
           v-for="course in courses"
           :key="course.id"
-          class="rounded-lg py-2 px-4"
+          :href="route('projects.courses.show', { project: project.id, course: course.id })"
+          class="w-full rounded-lg py-2 px-4 hover:bg-accent hover:text-accent-foreground duration-200"
           :class="{ 'bg-primary': course.is_completed, 'bg-white': !course.is_completed }"
         >
           <p>Etape {{ course.pivot.position }} : {{ course.title }}</p>
           <p class="text-sm mt-2">{{ formatDuration(course.duration) }}</p>
-        </div>
+        </InertiaLink>
       </div>
     </section>
 
     <!-- Craftman -->
-    <article class="bg-secondary md:w-1/3 h-full p-4 rounded-lg flex flex-col gap-4">
-      <div class="w-full h-48 bg-white rounded-lg overflow-hidden">
-        <img src="" alt="">
-      </div>
-      <p class="font-bold">{{ project.craftman.user.firstname }} {{ project.craftman.user.lastname }}</p>
-      <div v-html="project.craftman.description" />
-      <Button class="md:w-fit md:mx-auto" variant="accent" :as="Link" href="">En savoir plus</Button>
-    </article>
+    <CraftsmanResume :craftsman="project.craftman" />
   </div>
 </template>

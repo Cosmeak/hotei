@@ -21,6 +21,7 @@ export interface User {
   created_at: string;
   updated_at: string;
   role: 'user'|'admin'|'craftman';
+  fullname: string;
 }
 
 export interface Craftman {
@@ -64,7 +65,9 @@ export interface Course {
   category: string;
   cost: number;
   video: ?string;
+  transcription: ?string;
   thumbnail: ?string;
+  annexes: ?string[];
 }
 
 export interface Project {
@@ -82,4 +85,13 @@ export interface Project {
   cost: number;
   is_completed: bool;
   is_possessed: bool;
+}
+
+export interface Comment {
+  id: string;
+  user: User;
+  text: string;
+  comments: Comment[];
+  created_at: string;
+  updated_at: string;
 }

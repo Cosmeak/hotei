@@ -11,7 +11,9 @@ const craftsmanships = usePage().props.meta.craftsmanships;
 <template>
   <header class="bg-white py-4">
     <div class="container flex justify-between items-center">
-      <img src="/logo.svg" alt="" />
+      <InertiaLink :href="route('home')">
+        <img src="/logo.svg" alt="" />
+      </InertiaLink>
       <div class="flex gap-4 items-center">
         <DropdownMenu>
           <DropdownMenuTrigger class="flex gap-2">

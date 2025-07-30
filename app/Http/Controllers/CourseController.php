@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Project;
+use App\Supports\CommentsTree;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -20,37 +20,17 @@ class CourseController extends Controller
             return back();
         }
 
-        $course->load('craftman.user', 'skills');
+        $course->load('craftman.user', 'skills', 'comments.user');
+        $skills = $course->skills;
+        unset($course->skills);
 
-        $course->materials = $this->prepareMaterials($course);
-
-        $user = Auth::user();
-        $completedCourses = $user->load(['completedCourses' => function ($query) use ($project) {
-            $query->whereIn('course_id', $project->courses->pluck('id'));
-        }]);
-
-        $completion = $completedCourses->count() / $project->courses->count();
+        $comments = CommentsTree::generate($course->comments->toArray());
 
         return Inertia::render('Course/Show', [
             'project' => $project,
+            'comments' => $comments,
             'course' => $course,
-            'completion' => $completion,
+            'skills' => $skills,
         ]);
-    }
-
-    /**
-     * Prepare materials
-     */
-    private function prepareMaterials(Course $course): \Illuminate\Support\Collection
-    {
-        return collect($course->materials)->map(function ($material, $index) {
-            return [
-                'id' => $index + 1,
-                'image' => "/images/materials/{$material}.jpg",
-                'quantity' => rand(1, 5),
-                'content' => ucfirst($material),
-                'url' => "https://example.com/materials/{$material}",
-            ];
-        });
     }
 }

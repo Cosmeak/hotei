@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Button } from '@/Components/ui/button';
+import Payment from "@/Components/Payement.vue";
 
 const subscriptionsChoice = ref('subscriptions');
 const billingCategories = {
@@ -82,7 +83,7 @@ const billingCategories = {
             <p>{{ element.description}}</p>
           </div>
         </div>
-        <Button variant="accent" class="flex-none" disabled>Je m'abonne</Button>
+        <Payment :show="open" />
       </div>
     </div>
   </section>
