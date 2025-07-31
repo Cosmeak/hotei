@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Difficulty;
 use App\Models\Course;
 use App\Models\Craftsmanship;
 use App\Models\Project;
@@ -36,6 +37,15 @@ class CraftsmanshipController extends Controller
             ->paginate(6)
             ->withQueryString();
 
+        $user = $request->user();
+        $projects->getCollection()->transform(function ($project) use ($user) {
+            $project->purchased = $user ? $user->orders()
+                ->where('project_id', $project->id)
+                ->exists() : false;
+
+            return $project;
+        });
+
         $skills = Course::query()
             ->isSkill()
             ->where('craftsmanship_id', $slug->id)
@@ -47,9 +57,10 @@ class CraftsmanshipController extends Controller
             'craftsmanship' => $slug,
             'projects' => $projects,
             'skills' => $skills,
+            'availableDifficulties' => Difficulty::toArray(),
             'filters' => [
                 'search' => $request->input('search', ''),
-                'difficulties' => $difficulties,
+                'difficulties' => array_values($difficulties),
                 'min_price' => $minPrice,
                 'max_price' => $maxPrice,
             ],

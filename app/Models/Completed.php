@@ -9,6 +9,9 @@ class Completed extends Model
 {
     use HasFactory;
 
+    protected $table = 'completed';
+    public $timestamps = false;
+
     protected $fillable = [
         'user_id',
         'course_id',

@@ -7,9 +7,10 @@ import SearchCard from "@/Components/SearchCard.vue";
 import type {Course, Craftsmanship, Project} from "@/types";
 
 const {craftsmanship, projects, skills} = defineProps<{
-  craftsmanship: Craftsmanship,
-  projects: PaginatedResponse<Project>,
+  craftsmanship: Craftsmanship
+  projects: PaginatedResponse<Project>
   skills: Course[]
+  availableDifficulties: Array<{ name: string; value: number }>
   filters: {
     search: string,
     difficulties: string[],
@@ -72,6 +73,7 @@ const {craftsmanship, projects, skills} = defineProps<{
           :initialDifficulties="filters.difficulties"
           :initialMinPrice="+filters.min_price"
           :initialMaxPrice="+filters.max_price"
+          :availableDifficulties="availableDifficulties"
         />
       </div>
 
@@ -92,6 +94,7 @@ const {craftsmanship, projects, skills} = defineProps<{
       v-if="projects.total > 0"
       :paginated-response="projects"
       class="py-8"
+      :preserve-scroll="true"
     />
   </section>
 

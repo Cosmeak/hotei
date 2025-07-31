@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, computed, watchEffect} from "vue"
+import {ref} from "vue"
 import {Course, Project} from "@/types"
 import {Input} from "@/Components/ui/input"
 import {Button} from "@/Components/ui/button"
@@ -36,47 +36,29 @@ const props = defineProps<{
   scope: Project | Course
   slug: string
   initialSearch?: string
-  initialDifficulties?: string[]
+  initialDifficulties?: Record<number, number>
   initialMinPrice?: number
   initialMaxPrice?: number
+  availableDifficulties: Array<{ name: string; value: number }>
 }>()
 
 const search = ref(props.initialSearch ?? '')
-const selectedDifficulties = ref<string[]>([])
-const difficulties = ref<string[]>([])
-
+const selectedDifficulties = ref<number[]>(props.initialDifficulties?.map((item: number): number => Number(item)));
 const minLimit = 0
 const maxLimit = 200
-const minPrice = ref(0)
-const maxPrice = ref(200)
+const minPrice = ref(props.initialMinPrice ?? minLimit)
+const maxPrice = ref(props.initialMaxPrice ?? maxLimit)
 
 const sliderRef = ref<HTMLElement | null>(null)
 
-watchEffect(async () => {
-  difficulties.value = await fetchDifficulties()
-
-  selectedDifficulties.value = (props.initialDifficulties ?? []).filter(Boolean)
-  minPrice.value = props.initialMinPrice ?? 0
-  maxPrice.value = props.initialMaxPrice ?? 200
-})
-
-async function fetchDifficulties() {
-  return ["super facile", "facile", "intermédiaire", "difficile", "expert"]
-}
-
-function toggleDifficulty(value: string) {
-  const index = selectedDifficulties.value.indexOf(value)
-  if (index === -1) {
-    selectedDifficulties.value.push(value)
+function toggleDifficulty(is_added: boolean, difficulty: number) {
+  if (is_added) {
+    selectedDifficulties.value.push(difficulty);
   } else {
-    selectedDifficulties.value.splice(index, 1)
+    const index = selectedDifficulties.value.indexOf(difficulty);
+    selectedDifficulties.value.splice(index, 1);
   }
 }
-
-const selectedLabel = computed(() => {
-  if (selectedDifficulties.value.length === 0) return "Sélectionner les difficultés"
-  return selectedDifficulties.value.join(", ")
-})
 
 function calculateValue(clientX: number) {
   if (!sliderRef.value) return 0
@@ -105,6 +87,8 @@ function onThumbMouseDown(which: "min" | "max") {
   document.addEventListener("mousemove", moveHandler)
   document.addEventListener("mouseup", upHandler)
 }
+
+const selectedDifficultiesToString = () => props.availableDifficulties.filter((difficulty) => selectedDifficulties.value.includes(difficulty.value)).map((difficulty) => difficulty.name).join(', ')
 </script>
 
 <template>
@@ -122,22 +106,27 @@ function onThumbMouseDown(which: "min" | "max") {
           variant="outline"
           class="w-full justify-start bg-background rounded-lg"
         >
-          {{ selectedLabel }}
+          <span v-if=selectedDifficultiesToString()>
+            {{ selectedDifficultiesToString() }}
+          </span>
+          <span v-else>
+            Choisissez une difficultée
+          </span>
         </Button>
       </PopoverTrigger>
       <PopoverContent class="w-60">
         <div class="flex flex-col space-y-2">
           <div
-            v-for="difficulty in difficulties"
-            :key="difficulty"
+            v-for="difficulty in  availableDifficulties"
+            :key="difficulty.value"
             class="flex items-center gap-2"
           >
             <Checkbox
-              :id="difficulty"
-              :checked="selectedDifficulties.includes(difficulty)"
-              @update:checked="() => toggleDifficulty(difficulty)"
+              :id="difficulty.name"
+              :model-value="selectedDifficulties.includes(difficulty.value)"
+              @update:model-value="(is_added: boolean) => toggleDifficulty(is_added, difficulty.value)"
             />
-            <Label :for="difficulty">{{ difficulty }}</Label>
+            <Label :for="difficulty.name">{{ difficulty.name }}</Label>
           </div>
         </div>
       </PopoverContent>
