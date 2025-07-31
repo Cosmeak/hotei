@@ -3,20 +3,31 @@
 namespace App\Jobs;
 
 use App\Supports\Video;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class VideoOptimization implements ShouldQueue
+class VideoOptimization implements ShouldBeUnique, ShouldQueue
 {
-    use Queueable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public int $timeout = 7200;
+
+    public int $tries = 1;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(UploadedFile $file, string $path)
-    {
+    public function __construct(
+        private string $filePath,
+        private string $outputPath
+    ) {
         $this->onQueue('video');
+        Log::info('Constructed job', ['file' => $filePath]);
     }
 
     /**
@@ -24,6 +35,14 @@ class VideoOptimization implements ShouldQueue
      */
     public function handle(): void
     {
-        Video::optimize($this->file, $this->path);
+        Log::info('VideoOptimization is ALIVE', [
+            'file' => $this->filePath,
+        ]);
+
+        $paths = Video::optimize($this->filePath, $this->outputPath);
+
+        TranscribeVideo::dispatch(
+            str_replace(storage_path('app/'), '', $paths['audio'])
+        );
     }
 }

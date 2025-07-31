@@ -34,7 +34,6 @@ class CourseController extends Controller
             ->withQueryString();
 
         return Inertia::render('BackOffice/Course/Index', [
-            'skillOnly' => $skillOnly,
             'courses' => $courses,
         ]);
     }
@@ -49,7 +48,7 @@ class CourseController extends Controller
         if ($user->role == 'admin') {
             $craftmen = Craftman::query()->with('user')->get();
         }
-        $skills = Course::skill()->with('craftmanship')->get();
+        $skills = Course::skill()->with('craftsmanship')->get();
         $craftsmanships = Craftsmanship::all();
 
         return Inertia::render('BackOffice/Course/Create', [
@@ -68,14 +67,18 @@ class CourseController extends Controller
         $inputs = $request->validated();
 
         $course = new Course;
-        $course->fill($inputs);
         $course->craftman_id = $request->craftman_id ?? $user->craftman->id;
         $course->save();
 
         $video = $request->file('video');
-        VideoOptimization::dispatch($video, 'courses/'.$course->id);
+        VideoOptimization::dispatch(
+            $video->getPathname(),
+            'courses/'.$course->id
+        );
 
-        return redirect()->route('backoffice.course.show', ['course' => $course->id]);
+        return redirect()->route('backoffice.course.show', [
+            'course' => $course->id,
+        ]);
     }
 
     /**
@@ -110,8 +113,10 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CourseRequest $request, Course $course): RedirectResponse
-    {
+    public function update(
+        CourseRequest $request,
+        Course $course
+    ): RedirectResponse {
         $course->title = $request->title;
         $course->description = $request->description;
         $course->duration = 0;
@@ -122,7 +127,9 @@ class CourseController extends Controller
         $course->difficulty = $request->difficulty;
         $course->save();
 
-        return redirect()->route('backoffice.course.show', ['course' => $course->id]);
+        return redirect()->route('backoffice.course.show', [
+            'course' => $course->id,
+        ]);
     }
 
     /**

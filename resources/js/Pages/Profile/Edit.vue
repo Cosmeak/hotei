@@ -241,6 +241,7 @@ const CourseHeaders = ['Nom', "Type", 'Status']
               leave-to-class="opacity-0"
             >
               <div
+                v-if="true"
                 class="flex items-center gap-1 text-green-600 text-sm"
                 role="status"
               >
@@ -271,6 +272,7 @@ const CourseHeaders = ['Nom', "Type", 'Status']
               leave-to-class="opacity-0"
             >
               <div
+                v-if="true"
                 class="flex items-center gap-1 text-green-600 text-sm"
                 role="status"
               >
