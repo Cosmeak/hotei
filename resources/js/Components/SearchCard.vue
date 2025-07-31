@@ -161,7 +161,7 @@ const selectedDifficultiesToString = () => props.availableDifficulties.filter((d
         <p>Craftout</p>
       </div>
     </div>
-    <div class="flex gap-4 justify-between">
+    <div class="flex flex-col md:flex-row justify-between gap-y-2">
       <Button variant="secondary" @click="resetFilters">
         Réinitialiser les filtres
       </Button>

@@ -8,7 +8,6 @@ import { Button } from '@/Components/ui/button';
 import TableView from "@/Components/TableView.vue";
 import PaymentModal from "@/Components/PaymentModal.vue";
 
-
 const user = usePage().props.auth.user;
 const { craftman } = usePage().props;
 
@@ -228,10 +227,10 @@ const CourseHeaders = ['Nom', "Type", 'Status']
         <div class="flex flex-col md:flex-row md:items-center bg-white border-1 border-secondary rounded-xl p-2">
           <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 w-full justify-around">
             <div>
-            <Label for="craftout_subscription" class="font-bold">Abonnement (mensuel)</Label>
-            <p id="craftout_subscription" class="text-sm md:text-base font-medium">
-              {{ props.subscriptionPrice }} € / mois
-            </p>
+              <Label for="craftout_subscription" class="font-bold">Abonnement (mensuel)</Label>
+              <p id="craftout_subscription" class="text-sm md:text-base font-medium">
+                {{ props.subscriptionPrice }} € / mois
+              </p>
             </div>
             <PaymentModal>
               <template #button>
@@ -246,11 +245,11 @@ const CourseHeaders = ['Nom', "Type", 'Status']
           <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 w-full justify-around">
             <div class="flex items-center">
               <div>
-              <Label for="craftout_total" class="mr-2 font-bold">Total des craftout :</Label>
-              <p id="craftout_total" class="text-sm md:text-base font-medium">
-                {{ user.credits }}
-              </p>
-            </div>
+                <Label for="craftout_total" class="mr-2 font-bold">Total des craftout :</Label>
+                <p id="craftout_total" class="text-sm md:text-base font-medium">
+                  {{ user.credits }}
+                </p>
+              </div>
             </div>
             <PaymentModal>
               <template #button>
@@ -266,7 +265,7 @@ const CourseHeaders = ['Nom', "Type", 'Status']
     <TableView :headers="HistoryHeaders" :rows="props.history" caption="Liste des achats"/>
 
     <h3 class="text-xl">Mes Cours</h3>
-    <TableView :headers="CourseHeaders" :rows="props.courseOrders" caption="Liste des cours"/>
+    <TableView :headers="CourseHeaders" :rows="props.courseOrders.data" caption="Liste des cours"/>
 
     <h3 class="text-xl">Supprimer mon compte</h3>
     <form @submit.prevent="() => deleteAccountForm.submit()">

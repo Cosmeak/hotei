@@ -28,7 +28,7 @@ const craftsmanships = usePage().props.meta.craftsmanships;
               <DropdownMenuItem>
                 <InertiaLink
                   :href="route('craftsmanships.show', { slug: craftsmanship.id })"
-                  >{{ craftsmanship.name }}</InertiaLink
+                >{{ craftsmanship.name }}</InertiaLink
                 >
               </DropdownMenuItem>
             </template>

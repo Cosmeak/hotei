@@ -2,6 +2,7 @@
 import Payment from "@/Components/PaymentModal.vue";
 import { usePage } from '@inertiajs/vue3';
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import {motion} from "motion-v";
 
 const craftsmanships = usePage().props.meta.craftsmanships;
 
