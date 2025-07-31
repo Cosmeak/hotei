@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Order;
-use App\Models\User;
-use App\Models\Course;
-use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+
+use App\Models\Course;
+use App\Models\Order;
+use App\Models\Project;
+use App\Models\User;
 
 class OrderFactory extends Factory
 {
