@@ -26,7 +26,7 @@ function handleClick(e: MouseEvent) {
 </script>
 
 <template>
-  <div class="flex flex-col bg-white rounded-lg overflow-hidden">
+  <div class="flex flex-col bg-white rounded-lg my-2 md:my-0 overflow-hidden">
     <div class="relative">
       <div class="w-full h-42 bg-gray-300">
         <img v-if="scope.thumbnail" :src="scope.thumbnail" />
