@@ -29,7 +29,7 @@ function applyFilters() {
 }
 
 function resetFilters() {
-  router.get(route('craftsmanships.show', { slug: props.slug }))
+  router.reload({ preserveScroll: true })
 }
 
 const props = defineProps<{
@@ -92,7 +92,7 @@ const selectedDifficultiesToString = () => props.availableDifficulties.filter((d
 </script>
 
 <template>
-  <div class="bg-secondary-lighter p-4 space-y-6 rounded-lg">
+  <div class="bg-secondary-lighter p-4 space-y-6 rounded-lg h-full">
     <Input
       v-model="search"
       @keyup.enter="applyFilters"

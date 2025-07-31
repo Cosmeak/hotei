@@ -45,28 +45,31 @@ const {craftsmanship, projects, skills} = defineProps<{
     </div>
   </section>
 
-  <section class="flex flex-col md:flex-row rounded justify-around items-center bg-muted px-6 py-16 lg:px-8">
-    <div class="bg-secondary-lighter md:max-w-[450px] max-w-[600px] mx-4 md:mx-0 px-4 py-8 rounded-lg container">
-      <h3 class="text-4xl pb-3">Découvrez {{ craftsmanship.name }} !</h3>
-      <p class="text-justify">
-        <b>Avec nos cours introductif offert,</b> que vous soyez débutant ou simplement curieux, ces cours vous
-        permettront de vous familiariser avec les bases et <b>réaliser vos premiers projets en toute simplicité.</b>
-      </p>
+  <section class="bg-muted relative">
+    <div class="relative max-w-7xl mx-auto flex flex-col lg:flex-row px-6 py-16 lg:px-8 justify-between items-center z-10">
+      <div class="bg-secondary-lighter md:max-w-[450px] max-w-[600px] mx-4 md:mx-0 px-4 py-8 rounded-lg container">
+        <h3 class="text-4xl pb-3">Découvrez {{ craftsmanship.name }} !</h3>
+        <p class="text-justify">
+          <b>Avec nos cours introductif offert,</b> que vous soyez débutant ou simplement curieux, ces cours vous
+          permettront de vous familiariser avec les bases et <b>réaliser vos premiers projets en toute simplicité.</b>
+        </p>
+      </div>
+      <div v-if="skills">
+        <SkillCard
+          v-for="skill in skills"
+          :key="skill.id"
+          :skill="skill"
+        />
+      </div>
     </div>
-    <div v-if="skills">
-      <SkillCard
-        v-for="skill in skills"
-        :key="skill.id"
-        :skill="skill"
-      />
-    </div>
+    <img src="/craftsmanship-bg.svg" class="absolute top-0 right-0">
   </section>
 
   <section class="container mx-auto">
     <h4 class="text-5xl my-8">Nos projets</h4>
 
-    <div class="lg:grid lg:grid-cols-4 md:flex gap-6">
-      <div class="col-span-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div class="lg:col-span-2">
         <SearchCard
           scope="Project"
           type="Project"

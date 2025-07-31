@@ -14,8 +14,8 @@ const props = defineProps<{
 }>();
 
 const showModal = ref(false);
-const typeLower = props.type.toLowerCase();
-const isFreeOrOwned = props.scope.cost === 0 || props.scope.is_possessed;
+const scopeType = props.type.toLowerCase().includes('projet') ? 'projects' : (props.type.toLowerCase().includes('cours') ? 'courses' : 'skills');
+const isFreeOrOwned = props.scope.cost === 0 || props.scope.is_possessed || usePage().props.auth.user.role == 'admin';
 const hasEnoughCredits = usePage().props.auth.user && usePage().props.auth.user.credits >= props.scope.cost;
 
 function handleClick(e: MouseEvent) {
@@ -26,7 +26,7 @@ function handleClick(e: MouseEvent) {
   }
 
   if (isFreeOrOwned) {
-    return router.visit(route(`${typeLower}s.show`, props.scope.id));
+    return router.get(route(`${scopeType}.show`, props.scope.id));
   }
 
   if (hasEnoughCredits) {
@@ -56,7 +56,7 @@ function handleClick(e: MouseEvent) {
         v-if="isFreeOrOwned"
         class="absolute -bottom-4 right-2"
         :as="Link"
-        :href="route(`${typeLower}s.show`, scope.id)"
+        :href="route(`${scopeType}.show`, scope.id)"
       >
         Lire
       </Button>

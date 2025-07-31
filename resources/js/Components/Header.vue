@@ -30,6 +30,7 @@ const craftsmanships = usePage().props.meta.craftsmanships;
               <DropdownMenuItem>
                 <InertiaLink
                   :href="route('craftsmanships.show', { slug: craftsmanship.id })"
+                  class="w-full"
                 >{{ craftsmanship.name }}</InertiaLink
                 >
               </DropdownMenuItem>
@@ -60,7 +61,7 @@ const craftsmanships = usePage().props.meta.craftsmanships;
             <Button variant="ghost" size="icon">
               <Menu />
             </Button>
-          </SheetTrigger>   
+          </SheetTrigger>
           <SheetContent class="p-6">
             <div class="flex flex-col gap-4 w-full mt-6">
               <NavigationMenu class="w-full [&>div]:w-full [&>div]:max-w-none">

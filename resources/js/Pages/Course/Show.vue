@@ -12,6 +12,8 @@ const { course, project } = defineProps<{
   project: Project;
   skills: Course[];
 }>();
+
+const materials = course?.materials ?? project?.materials ?? [];
 </script>
 
 <template>
@@ -52,7 +54,7 @@ const { course, project } = defineProps<{
 
         <!-- Materials -->
         <section
-          v-if="project.materials && project.materials?.length > 0"
+          v-if="materials && materials?.length > 0"
           class="bg-secondary"
         >
           <div class="container mx-auto py-8">
@@ -61,7 +63,7 @@ const { course, project } = defineProps<{
 
             <div class="flex flex-col gap-4">
               <div
-                v-for="(material, index) in project.materials"
+                v-for="(material, index) in materials"
                 :key="index"
                 class="bg-white p-2 rounded-lg"
               >
