@@ -18,7 +18,7 @@ class Course extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     // ┌───────────────────────────────┐
-    // │ attributes                                         |
+    // │ attributes                    |
     // └───────────────────────────────┘
     protected $fillable = [
         'craftman_id',
@@ -49,7 +49,7 @@ class Course extends Model
     }
 
     // ┌───────────────────────────────┐
-    // │ relations                                          │
+    // │ relations                     │
     // └───────────────────────────────┘
     public function craftman(): BelongsTo
     {
@@ -76,9 +76,9 @@ class Course extends Model
         return $this->belongsTo(Craftsmanship::class);
     }
 
-    public function project(): BelongsToMany
+    public function projects(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class, 'projects_courses');
+        return $this->belongsToMany(Project::class, 'projects_courses', 'course_id', 'project_id');
     }
 
     public function comments(): HasMany

@@ -8,6 +8,7 @@ import { Button } from '@/Components/ui/button';
 import TableView from "@/Components/TableView.vue";
 import PaymentModal from "@/Components/PaymentModal.vue";
 
+
 const user = usePage().props.auth.user;
 const { craftman } = usePage().props;
 

@@ -12,17 +12,17 @@ use App\Services\OrderService;
 use Illuminate\Support\Facades\Route;
 
 // ┌───────────────────────────────┐
-// │ authentication                                     │
+// │ authentication                │
 // └───────────────────────────────┘
 require __DIR__.'/web/auth.php';
 
 // ┌───────────────────────────────┐
-// │ back office                                        │
+// │ back office                   │
 // └───────────────────────────────┘
 require __DIR__.'/web/backoffice.php';
 
 // ┌───────────────────────────────┐
-// │ user interface                                     │
+// │ user interface                │
 // └───────────────────────────────┘
 Route::get('/', HomeController::class)->name('home');
 

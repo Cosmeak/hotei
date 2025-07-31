@@ -25,6 +25,7 @@ class Project extends Model
         'title',
         'description',
         'difficulty',
+        'cost',
         'duration',
         'is_draft',
     ];
@@ -59,7 +60,7 @@ class Project extends Model
     }
 
     // ┌───────────────────────────────┐
-    // │ scope queries                                      │
+    // │ scope queries                 │
     // └───────────────────────────────┘
     public function scopeIsPublished(Builder $query, bool $bool = false): void
     {
