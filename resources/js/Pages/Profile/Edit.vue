@@ -8,7 +8,6 @@ import { Button } from '@/Components/ui/button';
 import TableView from "@/Components/TableView.vue";
 import PaymentModal from "@/Components/PaymentModal.vue";
 
-
 const user = usePage().props.auth.user;
 const { craftman } = usePage().props;
 
@@ -266,7 +265,7 @@ const CourseHeaders = ['Nom', "Type", 'Status']
     <TableView :headers="HistoryHeaders" :rows="props.history" caption="Liste des achats"/>
 
     <h3 class="text-xl">Mes Cours</h3>
-    <TableView :headers="CourseHeaders" :rows="props.courseOrders" caption="Liste des cours"/>
+    <TableView :headers="CourseHeaders" :rows="props.courseOrders.data" caption="Liste des cours"/>
 
     <h3 class="text-xl">Supprimer mon compte</h3>
     <form @submit.prevent="() => deleteAccountForm.submit()">
