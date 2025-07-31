@@ -61,13 +61,10 @@ const CourseHeaders = ['Nom', "Type", 'Status']
       Informations Personnelles
     </h3>
     <form @submit.prevent="userProfileForm.submit()">
-      <div class="flex flex-col gap-2">
-        <div class="flex flex-col md:flex-row gap-2">
-          <div class="w-full">
-            <Label for="firstname">
-              Prénom
-            </Label>
-
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col md:flex-row gap-4">
+          <div class="w-full md:w-1/2">
+            <Label for="firstname">Prénom</Label>
             <Input
               id="firstname"
               type="text"
@@ -77,34 +74,23 @@ const CourseHeaders = ['Nom', "Type", 'Status']
               autofocus
               autocomplete="firstname"
             />
-
-            <!-- <InputError class="mt-2" :message="userProfileForm.errors.firstname"/> -->
           </div>
-          <div class="w-full">
-            <Label for="lastname">
-              Nom
-            </Label>
-
+          <div class="w-full md:w-1/2">
+            <Label for="lastname">Nom</Label>
             <Input
               id="lastname"
               type="text"
               class="mt-1 block w-full bg-white border border-secondary-darker"
               v-model="userProfileForm.lastname"
               required
-              autofocus
               autocomplete="lastname"
             />
-
-            <!-- <InputError class="mt-2" :message="userProfileForm.errors.lastname"/> -->
           </div>
         </div>
 
-        <div class="flex md:flex-row gap-2 items-end">
-          <div class="w-1/2 justify-center">
-            <Label for="email">
-              Email
-            </Label>
-
+        <div class="flex flex-col md:flex-row gap-4 items-end">
+          <div class="w-full md:w-1/2">
+            <Label for="email">Email</Label>
             <Input
               id="email"
               type="email"
@@ -114,84 +100,51 @@ const CourseHeaders = ['Nom', "Type", 'Status']
               autocomplete="username"
             />
           </div>
-
-          <Button :disabled="userProfileForm.processing" variant="accent">Enregistrer les modifications</Button>
-          <Transition
-            enter-active-class="transition ease-in-out"
-            enter-from-class="opacity-0"
-            leave-active-class="transition ease-in-out"
-            leave-to-class="opacity-0"
-          >
-            <p v-if="userProfileForm.recentlySuccessful" class="text-sm text-gray-600">Saved.</p>
-          </Transition>
-        </div>
-        <!-- <InputError class="mt-2" :message="userProfileForm.errors.email"/> -->
-
-        <!-- <div v-if="mustVerifyEmail && user.email_verified_at === null">
-            <p class="text-sm mt-2 text-gray-800">
-                Your email address is unverified.
-                <InertiaLink
-                    :href="route('verification.send')"
-                    method="post"
-                    as="button"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Click here to re-send the verification email.
-                </InertiaLink>
-            </p>
-            <div
-                v-show="status === 'verification-link-sent'"
-                class="mt-2 font-medium text-sm text-green-600"
+          <div class="flex flex-col gap-1">
+            <Button :disabled="userProfileForm.processing" variant="accent">
+              Enregistrer les modifications
+            </Button>
+            <Transition
+              enter-active-class="transition ease-in-out"
+              enter-from-class="opacity-0"
+              leave-active-class="transition ease-in-out"
+              leave-to-class="opacity-0"
             >
-                A new verification link has been sent to your email address.
-            </div>
-        </div> -->
+              <p v-if="userProfileForm.recentlySuccessful" class="text-sm text-gray-600">Saved.</p>
+            </Transition>
+          </div>
+        </div>
       </div>
     </form>
     <h3 class="text-xl">Mot de passe</h3>
     <form @submit.prevent="() => updatePasswordForm.submit({ onSuccess: () => updatePasswordForm.reset() })">
-      <div class="flex flex-col gap-2">
-        <div class="flex flex-col md:flex-row gap-2">
-          <div class="w-full">
-            <Label for="current_password">
-              Mot de passe actuel
-            </Label>
-
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col md:flex-row gap-4">
+          <div class="w-full md:w-1/2">
+            <Label for="current_password">Mot de passe actuel</Label>
             <Input
               id="current_password"
-              ref="currentPasswordInput"
               v-model="updatePasswordForm.current_password"
               type="password"
               class="mt-1 block w-full bg-white border border-secondary-darker"
               autocomplete="current-password"
             />
-
-            <!-- <InputError :message="updatePasswordForm.errors.current_password" class="mt-2"/> -->
           </div>
-
-          <div class="w-full">
-            <Label for="password">
-              Nouveau mot de passe
-            </Label>
-
+          <div class="w-full md:w-1/2">
+            <Label for="password">Nouveau mot de passe</Label>
             <Input
               id="password"
-              ref="passwordInput"
               v-model="updatePasswordForm.password"
               type="password"
               class="mt-1 block w-full bg-white border border-secondary-darker"
               autocomplete="new-password"
             />
-
-            <!-- <InputError :message="updatePasswordForm.errors.password" class="mt-2"/> -->
           </div>
         </div>
-        <div class="flex flex-col md:flex-row gap-2 items-end">
-          <div class="w-1/2">
-            <Label for="password_confirmation">
-              Confirmer le nouveau mot de passe
-            </Label>
 
+        <div class="flex flex-col md:flex-row gap-4 items-end">
+          <div class="w-full md:w-1/2">
+            <Label for="password_confirmation">Confirmer le nouveau mot de passe</Label>
             <Input
               id="password_confirmation"
               v-model="updatePasswordForm.password_confirmation"
@@ -199,15 +152,12 @@ const CourseHeaders = ['Nom', "Type", 'Status']
               class="mt-1 block w-full bg-white border border-secondary-darker"
               autocomplete="new-password"
             />
-
-            <!-- <InputError :message="updatePasswordForm.errors.password_confirmation" class="mt-2"/> -->
           </div>
 
           <div class="flex flex-col gap-1">
             <Button :disabled="updatePasswordForm.processing" variant="accent">
               Enregistrer les modifications
             </Button>
-
             <Transition
               enter-active-class="transition ease-in-out"
               enter-from-class="opacity-0"
@@ -218,66 +168,38 @@ const CourseHeaders = ['Nom', "Type", 'Status']
             </Transition>
           </div>
         </div>
-
       </div>
     </form>
     <h3 class="text-xl">Craftout</h3>
     <form>
-      <div class="grid grid-cols-2">
-        <div class="flex flex-col md:flex-row md:items-center">
-          <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 w-full justify-around">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+        <!-- Subscription -->
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between bg-white p-4 rounded">
+          <div class="flex flex-col gap-2">
             <Label for="craftout_subscription">Abonnement (mensuel)</Label>
             <p id="craftout_subscription" class="text-sm md:text-base font-medium">
               {{ props.subscriptionPrice }} € / mois
             </p>
+          </div>
+          <div class="md:ml-auto">
             <Button variant="accent">
               <Payement />
             </Button>
-
-            <!-- <Transition
-              enter-active-class="transition-opacity duration-300"
-              enter-from-class="opacity-0"
-              leave-active-class="transition-opacity duration-300"
-              leave-to-class="opacity-0"
-            >
-              <div
-                class="flex items-center gap-1 text-green-600 text-sm"
-                role="status"
-              >
-                <Check class="w-4 h-4"/>
-                <span>Modifié avec succès</span>
-              </div>
-            </Transition> -->
           </div>
         </div>
 
-        <!-- Point Purchases (Total) -->
-        <div class="flex flex-col md:flex-row md:items-center gap-4">
-          <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 w-full justify-around">
-            <div class="flex items-center">
-              <Label for="craftout_total" class="mr-2">Total des craftout :</Label>
-              <p id="craftout_total" class="text-sm md:text-base font-medium">
-                {{ user.credits }}
-              </p>
-            </div>
+        <!-- Point Purchases -->
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between bg-white p-4 rounded">
+          <div class="flex flex-col gap-2">
+            <Label for="craftout_total">Total des craftout :</Label>
+            <p id="craftout_total" class="text-sm md:text-base font-medium">
+              {{ user.credits }}
+            </p>
+          </div>
+          <div class="md:ml-auto">
             <Button variant="accent">
               <Payement />
             </Button>
-<!--
-            <Transition
-              enter-active-class="transition-opacity duration-300"
-              enter-from-class="opacity-0"
-              leave-active-class="transition-opacity duration-300"
-              leave-to-class="opacity-0"
-            >
-              <div
-                class="flex items-center gap-1 text-green-600 text-sm"
-                role="status"
-              >
-                <Check class="w-4 h-4"/>
-                <span>Modifié avec succès</span>
-              </div>
-            </Transition> -->
           </div>
         </div>
       </div>
@@ -291,9 +213,9 @@ const CourseHeaders = ['Nom', "Type", 'Status']
 
     <h3 class="text-xl">Supprimer mon compte</h3>
     <form @submit.prevent="() => deleteAccountForm.submit()">
-      <div class="flex flex-col gap-2">
-        <div class="flex flex-col md:flex-row gap-2 items-end">
-          <div class="w-1/2">
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col md:flex-row gap-4 items-end">
+          <div class="w-full md:w-1/2">
             <Label for="password">Mot de passe</Label>
             <Input
               id="password"
@@ -302,14 +224,26 @@ const CourseHeaders = ['Nom', "Type", 'Status']
               v-model="deleteAccountForm.password"
               required
             />
-            <!-- <InputError :message="deleteAccountForm.errors.password" class="mt-2"/> -->
           </div>
 
-          <Button variant="destructive" :disabled="deleteAccountForm.processing">
-            Supprimer mon compte
-          </Button>
+          <div class="flex flex-col gap-1">
+            <Button variant="destructive" :disabled="deleteAccountForm.processing">
+              Supprimer mon compte
+            </Button>
+            <Transition
+              enter-active-class="transition ease-in-out"
+              enter-from-class="opacity-0"
+              leave-active-class="transition ease-in-out"
+              leave-to-class="opacity-0"
+            >
+              <p v-if="deleteAccountForm.recentlySuccessful" class="text-sm text-gray-600">
+                Compte supprimé.
+              </p>
+            </Transition>
+          </div>
         </div>
       </div>
     </form>
+
   </div>
 </template>

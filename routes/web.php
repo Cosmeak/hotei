@@ -55,7 +55,7 @@ Route::get('buy-course/{userId}/{courseId}', [OrderService::class, 'setCourseOrd
 Route::get('buy-project/{userId}/{projectId}', [OrderService::class, 'setProjectOrder'])->name('course.setProject');
 
 // ┌───────────────────────────────┐
-// │ landing page api                                   │
+// │ landing page api              │
 // └───────────────────────────────┘
 
 // Route::get('newsletter', [NewsletterController::class, 'index']);
