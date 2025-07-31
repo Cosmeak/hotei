@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -27,12 +28,11 @@ class CourseRequest extends FormRequest
         $user = Auth::user();
 
         return [
-            'craftman_id' => [Rule::requiredIf(fn () => $user->role == 'admin'), 'string', 'nullable'],
-            'type' => ['required', 'string', 'in:project,skill'],
+            'craftman_id' => [Rule::requiredIf(fn () => $user->role == UserRole::Admin), 'string', 'nullable'],
             'skills' => ['exclude_unless:type,project', 'array'],
             'title' => ['string', 'min:3', 'max:255', 'required'],
             'description' => ['string', 'max:255', 'required'],
-            'category' => ['string', 'required'],
+            'craftsmanship_id' => ['string', 'required'],
             'materials' => ['array', 'required'],
             'cost' => ['integer', 'nullable'],
             'difficulty' => ['integer', 'required'],

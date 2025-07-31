@@ -25,7 +25,7 @@ const form = useForm(
     title: course?.title,
     description: course?.description,
     video: course?.video,
-    craftsmanship: course?.craftsmanship.id,
+    craftsmanship_id: course?.craftsmanship.id,
     materials: course?.materials ?? [
       {
         name: "",
@@ -84,6 +84,7 @@ const removeMaterial = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
+        <p class="text-destructive">{{ form.errors }}</p>
       </div>
 
       <div class="w-full">
@@ -122,7 +123,7 @@ const removeMaterial = () => {
 
       <div class="w-full">
         <Label>Category</Label>
-        <Select v-model="form.craftsmanship">
+        <Select v-model="form.craftsmanship_id">
           <SelectTrigger class="w-full">
             <SelectValue placeholder="Select a category" />
           </SelectTrigger>

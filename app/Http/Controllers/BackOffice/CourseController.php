@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\BackOffice;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
 use App\Jobs\VideoOptimization;
@@ -24,7 +25,7 @@ class CourseController extends Controller
         $skillOnly = request()->query('skill_only', true) == true;
 
         $courses = Course::query()
-            ->when($user->role != 'admin', function ($query) use ($user) {
+            ->when($user->role != UserRole::Admin, function ($query) use ($user) {
                 $query->where('craftman_id', $user->craftman_id);
             })
             ->when($skillOnly, function ($query) {
@@ -46,10 +47,10 @@ class CourseController extends Controller
     {
         $user = Auth::user();
         $craftmen = collect();
-        if ($user->role == 'admin') {
+        if ($user->role == UserRole::Admin) {
             $craftmen = Craftman::query()->with('user')->get();
         }
-        $skills = Course::skill()->with('craftmanship')->get();
+        $skills = Course::isSkill()->with('craftmanship')->get();
         $craftsmanships = Craftsmanship::all();
 
         return Inertia::render('BackOffice/Course/Create', [
@@ -69,6 +70,7 @@ class CourseController extends Controller
 
         $course = new Course;
         $course->fill($inputs);
+        $course->is_skill = true;
         $course->craftman_id = $request->craftman_id ?? $user->craftman->id;
         $course->save();
 
@@ -95,7 +97,7 @@ class CourseController extends Controller
     {
         $user = Auth::user();
         $craftmen = collect();
-        if ($user->role == 'admin') {
+        if ($user->role == UserRole::Admin) {
             $craftmen = Craftman::query()->with('user')->get();
         }
         $categories = Category::cases();
