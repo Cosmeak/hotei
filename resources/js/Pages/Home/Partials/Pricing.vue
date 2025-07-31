@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import Payment from "@/Components/Payement.vue";
+import Payment from "@/Components/PaymentModal.vue";
 
 const subscriptionsChoice = ref('subscriptions');
 const billingCategories = {
