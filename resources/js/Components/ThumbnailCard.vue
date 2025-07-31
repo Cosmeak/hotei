@@ -2,7 +2,7 @@
 import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
 import { Link, router } from "@inertiajs/vue3";
-import Payement from "@/Components/Payement.vue";
+import PaymentModal from "@/Components/PaymentModal.vue";
 import type { Course, Project, User } from "@/types";
 import { ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
@@ -51,15 +51,28 @@ function handleClick(e: MouseEvent) {
         />
       </div>
 
-      <Button
-        class="absolute -bottom-4 right-2"
-        :as="Link"
-        :href="route('projects.show', scope.id)"
-        @click="handleClick"
-      >
-        <span v-if="isFreeOrOwned">Lire</span>
-        <span v-else>{{ scope.cost }} Craftout</span>
-      </Button>
+      <div v-if="!isFreeOrOwned">
+        <PaymentModal
+          v-model:open="showModal"
+          btn-classes="absolute -bottom-4 right-2"
+          btn-variant="default"
+          :label="isFreeOrOwned ? 'Lire' : `${scope.cost} Craftout`"
+          :project-id="props.type == 'project' ? props.scope.id : null"
+          :course-id="props.type == 'course' ? props.scope.id : null"
+          @close="showModal = false"
+        />
+      </div>
+      <div v-else>
+        <Button
+          class="absolute -bottom-4 right-2"
+          :as="Link"
+          :href="route('projects.show', scope.id)"
+          @click="handleClick"
+        >
+          <span v-if="isFreeOrOwned">Lire</span>
+          <span v-else>{{ scope.cost }} Craftout</span>
+        </Button>
+      </div>
     </div>
 
     <div class="mt-2 p-2">
@@ -76,11 +89,4 @@ function handleClick(e: MouseEvent) {
       </div>
     </div>
   </div>
-
-  <Payement
-    v-if="showModal"
-    :project-id="props.type == 'project' ? props.scope.id : null"
-    :course-id="props.type == 'course' ? props.scope.id : null"
-    @close="showModal = false"
-  />
 </template>
