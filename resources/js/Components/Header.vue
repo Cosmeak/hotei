@@ -3,6 +3,7 @@ import { Link, usePage } from "@inertiajs/vue3";
 import { ChevronDown, Plus } from "lucide-vue-next";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/Components/ui/dropdown-menu";
 import { Button } from "@/Components/ui/button";
+import PaymentModal from "@/Components/PaymentModal.vue";
 
 const user = usePage().props.auth.user;
 const craftsmanships = usePage().props.meta.craftsmanships;
@@ -37,7 +38,12 @@ const craftsmanships = usePage().props.meta.craftsmanships;
           <Button v-if="user.role != 'user'" :href="route('backoffice.dashboard')" variant="outline" :as="Link">
             Backoffice
           </Button>
-          <Button variant="secondary" class="bg-muted text-muted-foreground">Craftout {{ user.credits }}<span class="bg-white rounded-full p-1"><Plus /></span></Button>
+
+          <PaymentModal btn-classes="bg-muted text-muted-foreground" btn-variant="secondary">
+            <template #button>
+              Craftout {{ user.credits }}<span class="bg-white rounded-full p-1"><Plus /></span>
+            </template>
+          </PaymentModal>
           <Button :href="route('profile.edit')" :as="Link">
             Mon compte
           </Button>
