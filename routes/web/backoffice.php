@@ -9,7 +9,7 @@ Route::name('backoffice.')->prefix('bo')
     ->group(function () {
         Route::get('dashboard', [\App\Http\Controllers\BackOffice\BackOfficeController::class, 'dashboard'])->name('dashboard');
         Route::resource('course', \App\Http\Controllers\BackOffice\CourseController::class);
-        Route::resource('project', \App\Http\Controllers\BackOffice\ProjectController::class);
+            Route::resource('project', \App\Http\Controllers\BackOffice\ProjectController::class);
 
         Route::middleware(\App\Http\Middleware\EnsureUserIsAdmin::class)->group(function () {
             Route::resource('user', \App\Http\Controllers\BackOffice\UserController::class)->except(['create', 'store', 'edit']);

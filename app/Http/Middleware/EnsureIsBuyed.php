@@ -18,7 +18,6 @@ class EnsureIsBuyed
      */
     public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
-        dd($request->all());
         $user = Auth::user();
         $isBuyed = $user->orders()
             ->exists();

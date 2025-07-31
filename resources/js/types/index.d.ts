@@ -85,6 +85,7 @@ export interface Project {
   cost: number;
   is_completed: bool;
   is_possessed: bool;
+  is_draft: bool;
 }
 
 export interface Comment {

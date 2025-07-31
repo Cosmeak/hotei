@@ -74,12 +74,12 @@ import { CircleUser, Menu, Package2 } from "lucide-vue-next";
             >
               Courses
             </a>
-            <!-- <a
+            <a
               :href="route('backoffice.project.index')"
               class="text-muted-foreground hover:text-foreground"
             >
               Projects
-            </a> -->
+            </a>
           </nav>
         </SheetContent>
       </Sheet>
