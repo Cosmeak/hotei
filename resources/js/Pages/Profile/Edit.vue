@@ -6,7 +6,8 @@ import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
 import { Button } from '@/Components/ui/button';
 import TableView from "@/Components/TableView.vue";
-import Payement from "@/Components/Payement.vue";
+import PaymentModal from "@/Components/PaymentModal.vue";
+
 
 const user = usePage().props.auth.user;
 const { craftman } = usePage().props;
@@ -177,6 +178,11 @@ const CourseHeaders = ['Nom', "Type", 'Status']
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between bg-white p-4 rounded">
           <div class="flex flex-col gap-2">
             <Label for="craftout_subscription">Abonnement (mensuel)</Label>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+        <!-- Subscription -->
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between bg-white p-4 rounded">
+          <div class="flex flex-col gap-2">
+            <Label for="craftout_subscription">Abonnement (mensuel)</Label>
             <p id="craftout_subscription" class="text-sm md:text-base font-medium">
               {{ props.subscriptionPrice }} € / mois
             </p>
@@ -186,8 +192,25 @@ const CourseHeaders = ['Nom', "Type", 'Status']
               <Payement />
             </Button>
           </div>
+          <div class="md:ml-auto">
+            <Button variant="accent">
+              <Payement />
+            </Button>
+          </div>
         </div>
 
+        <!-- Point Purchases -->
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between bg-white p-4 rounded">
+          <div class="flex flex-col gap-2">
+            <Label for="craftout_total">Total des craftout :</Label>
+            <p id="craftout_total" class="text-sm md:text-base font-medium">
+              {{ user.credits }}
+            </p>
+          </div>
+          <div class="md:ml-auto">
+            <Button variant="accent">
+              <Payement />
+            </Button>
         <!-- Point Purchases -->
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between bg-white p-4 rounded">
           <div class="flex flex-col gap-2">
@@ -244,6 +267,5 @@ const CourseHeaders = ['Nom', "Type", 'Status']
         </div>
       </div>
     </form>
-
   </div>
 </template>
