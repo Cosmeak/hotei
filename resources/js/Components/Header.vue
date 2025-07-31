@@ -99,7 +99,7 @@ const craftsmanships = usePage().props.meta.craftsmanships;
                         </Button>
                       </div>
                     </NavigationMenuItem>
-                    <NavigationMenuItem class="mt-4">
+                    <NavigationMenuItem>
                       <NavigationMenuLink as-child>
                         <Button
                           :href="route('profile.edit')"
