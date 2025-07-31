@@ -4,7 +4,7 @@ import { Button } from "@/Components/ui/button";
 import { Link, router } from "@inertiajs/vue3";
 import Payement from "@/Components/Payement.vue";
 import type { Course, Project, User } from "@/types";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { usePage} from "@inertiajs/vue3";
 
 const props = defineProps<{

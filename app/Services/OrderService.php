@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Course;
 use App\Models\Order;
 use App\Models\Project;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use LemonSqueezy\Laravel\Checkout;
