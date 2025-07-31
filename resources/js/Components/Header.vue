@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import {Link, usePage} from "@inertiajs/vue3";
-import {ChevronDown, Plus} from "lucide-vue-next";
-import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem} from "@/Components/ui/dropdown-menu";
-import {Button} from "@/Components/ui/button";
+import { Link, usePage } from "@inertiajs/vue3";
+import { ChevronDown, Plus } from "lucide-vue-next";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/Components/ui/dropdown-menu";
+import { Button } from "@/Components/ui/button";
+import PaymentModal from "@/Components/PaymentModal.vue";
 
 const user = usePage().props.auth.user;
 const craftsmanships = usePage().props.meta.craftsmanships;
