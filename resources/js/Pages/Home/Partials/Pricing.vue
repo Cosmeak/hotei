@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import Payment from "@/Components/Payement.vue";
+import Payment from "@/Components/PaymentModal.vue";
 
 const subscriptionsChoice = ref('subscriptions');
 const billingCategories = {
@@ -72,6 +72,7 @@ const billingCategories = {
             <span>Packs</span>
           </label>
         </div>
+
       </div>
 
       <div class="flex flex-col flex-wrap gap-6 md:gap-12 items-center w-full">
@@ -81,7 +82,8 @@ const billingCategories = {
             <p>{{ element.description}}</p>
           </div>
         </div>
-        <Payment :show="open" /></div>
+        <Payment :show="open" />
+      </div>
     </div>
   </section>
 </template>

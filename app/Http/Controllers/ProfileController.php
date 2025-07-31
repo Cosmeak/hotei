@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\Course;
 use App\Models\LemonSqueezyOrder;
 use App\Models\LemonSqueezySubscription;
 use App\Models\Order;
@@ -52,33 +51,28 @@ class ProfileController extends Controller
             }
         }
 
-        $courseOrders = Order::where('user_id', $user->getAuthIdentifier())
-            ->whereNotNull('course_id')
-            ->get();
+        $courseOrders = Order::query()
+            ->where('user_id', $user->id)
+            ->with([
+                'course' => function ($query) use ($user) {
+                    $query->with('completed', function ($query) use ($user) {
+                        $query->where('user_id', $user->id);
+                    });
+                },
+                'project.courses' => function ($query) use ($user) {
+                    $query->with('completed', function ($query) use ($user) {
+                        $query->where('user_id', $user->id);
+                    });
+                },
+            ])
+            ->paginate(20)
+            ->withQueryString();
 
-        $projectOrders = Order::where('user_id', $user->getAuthIdentifier())
-            ->whereNotNull('project_id')
-            ->get();
-
-        $courseIds = $courseOrders->pluck('course_id')->merge($projectOrders->pluck('project_id'))->unique();
-
-        $allCourses = Course::whereIn('id', $courseIds)->get()->keyBy('id');
-
-        $courses = [];
-
-        foreach ($courseOrders as $order) {
-            $courseId = $order->course_id;
-            if (isset($allCourses[$courseId])) {
-                $courses[] = [$allCourses[$courseId]->title, 'Cours', 'Non commencé'];
-            }
-        }
-
-        foreach ($projectOrders as $order) {
-            $projectId = $order->project_id;
-            if (isset($allCourses[$projectId])) {
-                $courses[] = [$allCourses[$projectId]->title, 'Projet', 'Non commencé'];
-            }
-        }
+        $courseOrders = $courseOrders->setCollection($courseOrders->getCollection()->map(fn ($order) => [
+            'name' => $order->course_id ? $order->course->title : $order->project->title,
+            'type' => $order->course_id ? 'Compétence' : 'Projet',
+            'status' => $order->course?->completed->count() > 0 ? 'Terminé' : 'En cours',
+        ]));
 
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
@@ -86,7 +80,7 @@ class ProfileController extends Controller
             'craftman' => $craftman,
             'history' => $orders,
             'subscriptionPrice' => $formattedPrice,
-            'courseOrders' => $courses,
+            'courseOrders' => $courseOrders,
             'authUser' => auth()->check(),
         ]);
     }

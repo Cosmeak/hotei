@@ -36,7 +36,6 @@ const { course, project } = defineProps<{
         <div class="bg-gray-300 h-96 rounded-lg">
           <!-- TODO: manage video -->
         </div>
-
         <div v-if="course.transcription">
           <h3 class="font-bold text-2xl">Transcription</h3>
           <div class="mt-4" v-html="course.transcription" />

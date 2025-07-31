@@ -78,7 +78,7 @@ class User extends Authenticatable
     }
 
     // ┌───────────────────────────────┐
-    // │ relations                                          │
+    // │ relations                     │
     // └───────────────────────────────┘
     public function completedCourses(): BelongsToMany
     {

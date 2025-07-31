@@ -12,17 +12,17 @@ use App\Services\OrderService;
 use Illuminate\Support\Facades\Route;
 
 // ┌───────────────────────────────┐
-// │ authentication                                     │
+// │ authentication                │
 // └───────────────────────────────┘
 require __DIR__.'/web/auth.php';
 
 // ┌───────────────────────────────┐
-// │ back office                                        │
+// │ back office                   │
 // └───────────────────────────────┘
 require __DIR__.'/web/backoffice.php';
 
 // ┌───────────────────────────────┐
-// │ user interface                                     │
+// │ user interface                │
 // └───────────────────────────────┘
 Route::get('/', HomeController::class)->name('home');
 
@@ -51,11 +51,11 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/buy-lemon/{productId}', [OrderService::class, 'buy'])->name('buyLemon.product');
 
-Route::get('buy-course/{userId}/{courseId}', [OrderService::class, 'setCourseOrder'])->name('course.setCourse');
-Route::get('buy-project/{userId}/{projectId}', [OrderService::class, 'setProjectOrder'])->name('course.setProject');
+Route::get('buy-course/{course}', [OrderService::class, 'setCourseOrder'])->name('course.setCourse');
+Route::get('buy-project/{project}', [OrderService::class, 'setProjectOrder'])->name('course.setProject');
 
 // ┌───────────────────────────────┐
-// │ landing page api                                   │
+// │ landing page api              │
 // └───────────────────────────────┘
 
 // Route::get('newsletter', [NewsletterController::class, 'index']);

@@ -31,4 +31,18 @@ enum Difficulty: int
                 return 'inconnu';
         }
     }
+
+    public static function toArray(): array
+    {
+        $cases = self::cases();
+        $return = [];
+        foreach ($cases as $case) {
+            $element = [];
+            $element['value'] = $case->value;
+            $element['name'] = $case->toString();
+            $return[] = $element;
+        }
+
+        return $return;
+    }
 }

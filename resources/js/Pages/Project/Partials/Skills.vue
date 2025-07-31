@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Course } from "@/types/index";
+import { type Course } from "@/types";
 
 const { skills } = defineProps<{ skills: Course[] }>();
 </script>
@@ -15,7 +15,7 @@ const { skills } = defineProps<{ skills: Course[] }>();
             <span class="text-gray-700 text-sm bg-yellow-500 p-2 rounded-xl">Projet</span>
             <div>
               <span class="text-gray-700 text-sm">{{ skill.title }}</span>
-              <span class="text-gray-700 text-sm">par {{ skill.craftman.user.fullname }}</span>
+              <span class="text-gray-700 text-sm">par {{ skill.craftman.user.firstname }} {{ skill.craftman.user.lastname }}</span>
             </div>
             <hr>
             <div>
