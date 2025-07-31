@@ -22,33 +22,35 @@ const {craftsmanship, projects, skills} = defineProps<{
 </script>
 
 <template>
-
   <section class="mx-auto flex max-w-7xl flex-col gap-16 px-6 py-16 lg:px-8">
-    <div class="flex flex-row bg-secondary p-8 rounded-lg justify-between items-center">
-      <div class="flex flex-col">
-        <h2 class="text-4xl font-bold tracking-tight text-gray-900">
+    <div class="flex flex-col lg:flex-row bg-secondary p-8 rounded-lg justify-between items-center gap-6">
+      <div class="flex flex-col text-center lg:text-left">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
           {{ craftsmanship.name }}
         </h2>
-        <p class="max-w-3xl text-lg text-gray-600 py-4">
+        <p class="max-w-3xl text-base md:text-lg text-gray-600 py-4">
           {{ craftsmanship.description }}
         </p>
         <p class="font-bold">
           Rejoignez-nous dès maintenant et commencez à créer vos propres créations !
         </p>
       </div>
-      <div>
-        <img class="rounded-xl" width="500px" height="300px" src="https://placeholderimage.eu/api">
+      <div class="w-full lg:w-auto flex justify-center">
+        <img
+          class="rounded-xl w-full max-w-md lg:max-w-[500px] h-auto"
+          src="https://placeholderimage.eu/api"
+          alt="Illustration"
+        />
       </div>
     </div>
   </section>
 
-  <section class="flex flex-row rounded justify-around items-center bg-muted px-6 py-16 lg:px-8">
-    <div class="bg-secondary-lighter max-w-[450px] px-4 py-8 rounded-lg">
-      <h3 class="text-4xl pb-3">Découvrez le crochet !</h3>
+  <section class="flex flex-col md:flex-row rounded justify-around items-center bg-muted px-6 py-16 lg:px-8">
+    <div class="bg-secondary-lighter md:max-w-[450px] max-w-[600px] mx-4 md:mx-0 px-4 py-8 rounded-lg container">
+      <h3 class="text-4xl pb-3">Découvrez {{ craftsmanship.name }} !</h3>
       <p class="text-justify">
         <b>Avec nos cours introductif offert,</b> que vous soyez débutant ou simplement curieux, ces cours vous
-        permettra de
-        vous familiariser les bases et <b>réalisez vos premiers projets en toute simplicité.</b>
+        permettront de vous familiariser avec les bases et <b>réaliser vos premiers projets en toute simplicité.</b>
       </p>
     </div>
     <div v-if="skills">
@@ -63,7 +65,7 @@ const {craftsmanship, projects, skills} = defineProps<{
   <section class="container mx-auto">
     <h4 class="text-5xl my-8">Nos projets</h4>
 
-    <div class="grid grid-cols-4 gap-6">
+    <div class="lg:grid lg:grid-cols-4 md:flex gap-6">
       <div class="col-span-2">
         <SearchCard
           scope="Project"
@@ -79,7 +81,7 @@ const {craftsmanship, projects, skills} = defineProps<{
 
       <template v-if="projects.total > 0">
         <template v-for="project in projects.data" :key="project.id">
-          <ThumbnailCard :scope="project" type="Project" />
+          <ThumbnailCard :scope="project" type="Project"/>
         </template>
       </template>
 
@@ -97,6 +99,4 @@ const {craftsmanship, projects, skills} = defineProps<{
       :preserve-scroll="true"
     />
   </section>
-
-
 </template>

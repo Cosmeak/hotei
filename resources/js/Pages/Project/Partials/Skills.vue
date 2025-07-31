@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Course } from "@/types/index";
+import { type Course } from "@/types";
 
 const { skills } = defineProps<{ skills: Course[] }>();
 </script>

@@ -1,21 +1,52 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { Button } from "@/Components/ui/button/index.js";
+import { Button, buttonVariants } from "@/Components/ui/button";
 import { Label } from "@/Components/ui/label/index.js";
 import { Input } from "@/Components/ui/input/index.js";
 import { useForm, usePage } from "@inertiajs/vue3";
 
 const isAuthenticated = usePage().props.auth?.user !== null && usePage().props.auth?.user !== undefined
-const steps = ref(["Étape 1 : Début", "Étape 2 : Milieu", "Étape 3 : Fin"]);
+const steps = ref(["Étape 1 : Début", "Étape 2 : Connexion", "Étape 3 : Résumé"]);
 const currentStep = ref(0);
 
+const props = defineProps({
+  label: {
+    type: String,
+    default: "Je m'abonne"
+  },
+  btnVariant: {
+    type: buttonVariants.variant,
+    default: "accent",
+  },
+  btnClasses: {
+    type: String,
+    default: "text-lg"
+  }
+
+})
+const labelButton = props.label
+
+const errorMessage = ref('') // Pour afficher un message d'erreur
+
 const nextStep = () => {
+  errorMessage.value = ''
+
+  // Vérification à l’étape 0 : un article doit être sélectionné
+  if (currentStep.value === 0 && !selectedArticle.value) {
+    errorMessage.value = "Veuillez sélectionner un abonnement ou un pack avant de continuer."
+    return
+  }
+
+  // Vérification à l’étape 1 : si non connecté, on attend le succès du login
+  if (currentStep.value === 1 && !isAuthenticated) {
+    return
+  }
+
   if (isAuthenticated && currentStep.value === 0) {
-    // Si connecté, on saute l'étape 2 (index 1)
-    currentStep.value = 2;
+    currentStep.value = 2 // saute étape connexion
   } else if (currentStep.value < steps.value.length - 1) {
-    currentStep.value++;
+    currentStep.value++
   }
 };
 
@@ -67,7 +98,11 @@ function confirmPurchase() {
 
 
 <template>
-  <Button @click="open = true" variant="accent" class="font-bold text-lg">Je m'abonne</Button>
+  <Button :variant="btnVariant" :class="btnClasses" @click="open = true" type="button">
+    <slot name="button">
+      {{ labelButton }}
+    </slot>
+  </Button>
 
   <TransitionRoot as="template" :show="open">
     <Dialog class="relative z-10" @close="open = false">
@@ -95,7 +130,7 @@ function confirmPurchase() {
                 <div class="w-5/6">
                   <div class="flex justify-center">
                     <div class="flex">
-                      <div v-for="(step, index) in steps" :key="index" class="flex items-center">
+                      <div v-for="(steps, index) in steps" :key="index" class="flex items-center">
                         <div class="w-10 h-10 flex items-center justify-center rounded-full text-white font-bold" :class="{'bg-primary': index <= currentStep,'bg-gray-300': index > currentStep}">{{ index + 1 }}</div>
                         <div v-if="index < steps.length - 1" class="h-1 w-16 m-2" :class="{'bg-primary': index < currentStep,'bg-gray-300': index >= currentStep}"></div>
                       </div>
@@ -182,7 +217,7 @@ function confirmPurchase() {
 
                       </div>
                     </div>
-
+                    <p v-if="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</p>
                     <button @click="nextStep" :disabled="currentStep === 2" class="bg-yellow-500 px-12 py-1 rounded-xl font-bold mt-4 flex">
                       Passez à la suite <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M10.9297 3.13593L11.9703 2.0953C12.4109 1.65468 13.1234 1.65468 13.5594 2.0953L22.6719 11.2031C23.1125 11.6437 23.1125 12.3562 22.6719 12.7922L13.5594 21.9047C13.1188 22.3453 12.4063 22.3453 11.9703 21.9047L10.9297 20.8641C10.4844 20.4187 10.4938 19.6922 10.9484 19.2562L16.5969 13.875H3.125C2.50156 13.875 2 13.3734 2 12.75V11.25C2 10.6266 2.50156 10.125 3.125 10.125H16.5969L10.9484 4.74374C10.4891 4.3078 10.4797 3.58124 10.9297 3.13593Z" fill="#111111"/>
@@ -244,7 +279,7 @@ function confirmPurchase() {
 
                     <div class="flex justify-center space-x-4 mt-4">
                       <a :href="route('auth.google')">
-                        <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" />
+                        <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"  alt=""/>
                       </a>
                     </div>
 
@@ -264,12 +299,14 @@ function confirmPurchase() {
 
                   <div v-if="currentStep === 2" class="flex flex-col items-center p-4 w-auto">
                     <div v-if="selectedArticle" class="text-center space-y-2">
-                      <p class="text-xl font-bold">Résumé de votre choix</p>
-                      <p>Id : {{ selectedArticle.id }}</p>
-                      <p>Type : {{ selectedArticle.type }}</p>
-                      <p>Prix : {{ selectedArticle.price }}</p>
-                      <p>Crédits : {{ selectedArticle.credits }}</p>
-
+                      <p class="text-xl font-bold">Votre commande est la suivante : </p>
+                      <div v-if="selectedArticle.type === 'pack'">
+                        <p>Vous avez choisi un pack au prix de {{ selectedArticle.price }}.</p>
+                      </div>
+                      <div v-if="selectedArticle.type !== 'pack'">
+                        <p>Vous avez choisi un abonnement au prix de {{ selectedArticle.price }} par mois.</p>
+                      </div>
+                      <p>Vous recevrez {{ selectedArticle.credits }} craftouts.</p>
                       <button
                         class="bg-accent p-2 rounded-xl"
                         @click="confirmPurchase"
