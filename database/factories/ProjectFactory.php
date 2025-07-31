@@ -29,6 +29,7 @@ class ProjectFactory extends Factory
             'difficulty' => fake()->numberBetween(0, 4),
             'description' => fake()->paragraph(),
             'duration' => fake()->numberBetween(30, 200),
+            'cost' => fake()->numberBetween(0, 200),
             'is_draft' => false,
         ];
     }

@@ -7,7 +7,6 @@ import { Label } from '@/Components/ui/label';
 import { Button } from '@/Components/ui/button';
 import TableView from "@/Components/TableView.vue";
 import Payement from "@/Components/Payement.vue";
-// import { Check } from "lucide-vue-next";
 
 const user = usePage().props.auth.user;
 const { craftman } = usePage().props;

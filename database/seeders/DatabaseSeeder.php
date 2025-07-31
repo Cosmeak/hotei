@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Completed;
 use App\Models\Course;
 use App\Models\Craftman;
 use App\Models\Craftsmanship;
@@ -28,7 +29,7 @@ class DatabaseSeeder extends Seeder
             $user->craftman_id = Craftman::where('user_id', $user->id)->first()->id;
             $user->save();
         });
-        User::factory(150)->isUser()->create();
+        $users = User::factory(150)->isUser()->create();
 
         $craftmanships = ['Crochet', 'Coutellerie', 'Maroquinerie', 'Poterie'];
         Craftsmanship::factory(count($craftmanships))->state(new Sequence(fn (Sequence $sequence) => ['name' => $craftmanships[$sequence->index]]))->create();
@@ -38,6 +39,7 @@ class DatabaseSeeder extends Seeder
                 $course = Course::factory()->create([
                     'craftman_id' => $project->craftman_id,
                     'craftsmanship_id' => $project->craftsmanship_id,
+                    'cost' => 0,
                 ]);
 
                 $project->courses()->attach($course->id, [
@@ -47,5 +49,16 @@ class DatabaseSeeder extends Seeder
         });
 
         Course::factory()->count(150)->isSkill()->create();
+
+        $courses = Course::inRandomOrder()->take(150)->get();
+        $users->each(function ($user) use ($courses) {
+            $courses->random(rand(1, 5))->each(function ($course) use ($user) {
+                Completed::factory()->create([
+                    'user_id' => $user->id,
+                    'course_id' => $course->id,
+                ]);
+            });
+        });
+
     }
 }

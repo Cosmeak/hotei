@@ -20,7 +20,7 @@ class SkillController extends Controller
 
         $course->load('craftman.user');
 
-        return Inertia::render('Courses/Show', [
+        return Inertia::render('Course/Show', [
             'course' => $course,
         ]);
     }
