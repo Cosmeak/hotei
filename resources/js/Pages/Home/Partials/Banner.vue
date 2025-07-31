@@ -15,7 +15,7 @@ const craftsmanships = usePage().props.meta.craftsmanships;
       <h2 class="text-3xl mb-4">Découvrez nos artisanats</h2>
 
       <div class="flex justify-between gap-2 flex-wrap">
-        <Button v-for="index in 3" :key="index" :as="Link" :href="route('craftsmanships.show', { slug: craftsmanships[index-1].id })" class="flex justify-between w-full md:w-48 bg-background text-foreground hover:bg-background/80 rounded-lg">{{ craftsmanships[index-1].name }} <ArrowRight /></Button>
+        <Button v-for="index in 4" :key="index" :as="Link" :href="route('craftsmanships.show', { slug: craftsmanships[index-1].id })" class="flex justify-between w-full md:w-48 bg-background text-foreground hover:bg-background/80 rounded-lg">{{ craftsmanships[index-1].name }} <ArrowRight /></Button>
       </div>
     </div>
   </section>
