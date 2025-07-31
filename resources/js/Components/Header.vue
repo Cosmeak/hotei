@@ -104,7 +104,7 @@ const craftsmanships = usePage().props.meta.craftsmanships;
                         <Button
                           :href="route('profile.edit')"
                           :as="Link"
-                          class="w-[260px] mx-auto justify-start text-left  text-base"
+                          class="w-[260px] h-12 mx-auto flex items-center justify-center text-base rounded-full"
                         >
                           Mon compte
                         </Button>
