@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\Course;
 use App\Models\LemonSqueezyOrder;
 use App\Models\LemonSqueezySubscription;
 use App\Models\Order;
@@ -57,7 +56,7 @@ class ProfileController extends Controller
             ->with([
                 'course' => function ($query) use ($user) {
                     $query->with('completed', function ($query) use ($user) {
-                       $query->where('user_id', $user->id);
+                        $query->where('user_id', $user->id);
                     });
                 },
                 'project.courses' => function ($query) use ($user) {
