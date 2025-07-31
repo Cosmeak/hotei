@@ -51,8 +51,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/buy-lemon/{productId}', [OrderService::class, 'buy'])->name('buyLemon.product');
 
-Route::get('buy-course/{userId}/{courseId}', [OrderService::class, 'setCourseOrder'])->name('course.setCourse');
-Route::get('buy-project/{userId}/{projectId}', [OrderService::class, 'setProjectOrder'])->name('course.setProject');
+Route::get('buy-course/{course}', [OrderService::class, 'setCourseOrder'])->name('course.setCourse');
+Route::get('buy-project/{project}', [OrderService::class, 'setProjectOrder'])->name('course.setProject');
 
 // ┌───────────────────────────────┐
 // │ landing page api              │

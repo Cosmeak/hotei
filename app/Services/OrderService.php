@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Order;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use LemonSqueezy\Laravel\Checkout;
 
@@ -31,41 +32,37 @@ class OrderService
         return $checkout;
     }
 
-    public function setCourseOrder($userId, $courseId): void
+    public function setCourseOrder(Course $course): RedirectResponse
     {
-        $user = User::query()->find($userId);
-        $course = Course::query()->find($courseId);
+        $user = Auth::user();
 
-        $userCredits = $user->getAttribute('credits');
-        $courseCost = $course->getAttribute('cost');
-
-        if (($userCredits - $courseCost) >= 0) {
+        if (($user->credits - $course->cost) >= 0) {
             Order::query()->create([
-                'user_id' => $userId,
-                'course_id' => $courseId,
+                'user_id' => $user->id,
+                'course_id' => $course->id,
             ]);
 
-            $user->setAttribute('credits', $userCredits - $courseCost)->save();
+            $user->credits = $user->credits - $course->cost;
+            $user->save();
         }
+
+        return redirect()->route('courses.show', ['course' => $course->id]);
     }
 
-    public function setProjectOrder($userId, $projectId): void
+    public function setProjectOrder(Project $project): RedirectResponse
     {
-        $user = User::query()->find($userId);
-        $project = Project::query()->find($projectId);
+        $user = Auth::user();
 
-        $userCredits = $user->getAttribute('credits');
-        $projectCost = 0;
-        foreach ($project->courses()->get() as $course) {
-            $projectCost += $course->getAttribute('cost');
-        }
-
-        if (($userCredits - $projectCost) >= 0) {
+        if (($user->credits - $project->cost) >= 0) {
             Order::query()->create([
-                'user_id' => $userId,
-                'project_id' => $projectId,
+                'user_id' => $user->id,
+                'project_id' => $project->id,
             ]);
-            $user->setAttribute('credits', $userCredits - $projectCost)->save();
+
+            $user->credits = $user->credits - $project->cost;
+            $user->save();
         }
+
+        return redirect()->route('projects.show', ['project' => $project->id]);
     }
 }

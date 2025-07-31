@@ -2,8 +2,10 @@
 import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
 import { Link, router } from "@inertiajs/vue3";
+import Payement from "@/Components/Payement.vue";
 import type { Course, Project, User } from "@/types";
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import { usePage} from "@inertiajs/vue3";
 
 const props = defineProps<{
   type: string;
@@ -11,17 +13,30 @@ const props = defineProps<{
   user?: User | null;
 }>();
 
-const isFreeOrOwned = computed(() => {
-  return props.scope.cost === 0 || props.scope.is_possessed;
-});
-
-const isLoggedIn = computed(() => !!props.user);
+const showModal = ref(false);
+const isFreeOrOwned = props.scope.cost === 0 || props.scope.is_possessed;
+const hasEnoughCredits =  usePage().props.auth.user && usePage().props.auth.user.credits >= props.scope.cost;
 
 function handleClick(e: MouseEvent) {
-  if (!isLoggedIn.value && isFreeOrOwned.value) {
-    e.preventDefault();
-    router.visit(route("login"));
+  e.preventDefault();
+
+  if (!usePage().props.auth.user) {
+    return router.visit(route("login"));
   }
+
+  if (isFreeOrOwned) {
+    return router.visit(route(`${props.type}s.show`, props.scope.id));
+  }
+
+  if (hasEnoughCredits) {
+    return router.get(
+      route("course.setProject", {
+        project: props.scope.id,
+      })
+    );
+  }
+
+  showModal.value = true;
 }
 </script>
 
@@ -29,7 +44,11 @@ function handleClick(e: MouseEvent) {
   <div class="flex flex-col bg-white rounded-lg my-2 md:my-0 overflow-hidden">
     <div class="relative">
       <div class="w-full h-42 bg-gray-300">
-        <img v-if="scope.thumbnail" :src="scope.thumbnail" />
+        <img
+          v-if="scope.thumbnail"
+          :src="scope.thumbnail"
+          :alt="scope.title"
+        />
       </div>
 
       <Button
@@ -57,4 +76,11 @@ function handleClick(e: MouseEvent) {
       </div>
     </div>
   </div>
+
+  <Payement
+    v-if="showModal"
+    :project-id="props.type == 'project' ? props.scope.id : null"
+    :course-id="props.type == 'course' ? props.scope.id : null"
+    @close="showModal = false"
+  />
 </template>

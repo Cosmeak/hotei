@@ -39,7 +39,7 @@ class CraftsmanshipController extends Controller
 
         $user = $request->user();
         $projects->getCollection()->transform(function ($project) use ($user) {
-            $project->purchased = $user ? $user->orders()
+            $project->is_possessed = $user ? $user->orders()
                 ->where('project_id', $project->id)
                 ->exists() : false;
 
