@@ -1,6 +1,5 @@
 <div align="center" style="text-align: center;">
     <img width="20%" align="center" src="./public/logo.svg" />
-    <h1>Hotei</h1>
 </div>
 
 > E-learning platform for creative hobbies, built with artisans, for curious minds.
