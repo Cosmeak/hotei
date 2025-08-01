@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BackOffice;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
+use App\Models\Course;
 use App\Models\Craftman;
 use App\Models\Craftsmanship;
 use App\Models\Project;
@@ -42,10 +43,21 @@ class ProjectController extends Controller
         if ($user->role == UserRole::Admin) {
             $craftmen = Craftman::query()->with('user')->get();
         }
+        $courses = Course::query()
+            ->when(
+                Auth::user()->role !== UserRole::Admin->value,
+                fn($query) => $query->where('craftman_id', optional(Auth::user()->craftman)->id)
+            )
+            ->when(
+                Auth::user()->role === UserRole::Admin->value,
+                fn($query) => $query->with('craftman.user')
+            )
+            ->get();
 
         $craftsmanships = Craftsmanship::all();
 
         return Inertia::render('BackOffice/Project/Create', [
+            'courses' => $courses,
             'craftmen' => $craftmen,
             'craftsmanships' => $craftsmanships,
         ]);
@@ -62,6 +74,8 @@ class ProjectController extends Controller
         $project = new Project;
         $project->fill($inputs);
         $project->craftman_id = $request->craftman_id ?? $user->craftman->id;
+        $project->courses()->sync($request->courses ?? []);
+
         $project->save();
 
         return redirect()->route('backoffice.project.show', ['project' => $project->id]);
@@ -86,12 +100,25 @@ class ProjectController extends Controller
         if ($user->role == UserRole::Admin) {
             $craftmen = Craftman::query()->with('user')->get();
         }
+        $courses = Course::query()
+            ->when(
+                Auth::user()->role !== UserRole::Admin->value,
+                fn($query) => $query->where('craftman_id', optional(Auth::user()->craftman)->id)
+            )
+            ->when(
+                Auth::user()->role === UserRole::Admin->value,
+                fn($query) => $query->with('craftman.user')
+            )
+            ->get();
 
         return Inertia::render('BackOffice/Project/Edit', [
-            'project' => $project,
+            'project' => $project->load('courses'),
+            'courses' => $courses,
             'craftmen' => $craftmen,
+            'craftsmanships' => Craftsmanship::all(),
         ]);
     }
+
     /**
      * Update the specified resource in storage.
      */
@@ -103,6 +130,10 @@ class ProjectController extends Controller
         $project->is_draft = $request->is_draft;
         $project->cost = $request->cost;
         $project->difficulty = $request->difficulty;
+
+        $project->save();
+
+        $project->courses()->sync($request->courses ?? []);
 
         return redirect()->route('backoffice.project.show', ['project' => $project->id]);
     }

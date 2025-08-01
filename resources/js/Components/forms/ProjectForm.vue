@@ -11,6 +11,7 @@ const { project, craftmen, craftsmanships } = defineProps([
   "project",
   "craftmen",
   "craftsmanships",
+  "courses",
 ]);
 
 const form = useForm(
@@ -21,9 +22,9 @@ const form = useForm(
   {
     title: project?.title,
     description: project?.description,
-    craftsmanship_id: project?.craftsmanship,
-    is_draft: project?.is_draft ?? true,
+    craftsmanship_id: project?.craftsmanship_id,
     difficulty: project?.difficulty,
+    courses: project?.courses?.map((course: any) => course.id) ?? [],
 
     // ADMIN ONLY
     craftman_id: project?.craftman_id,
@@ -116,14 +117,29 @@ const submit = () =>
           </SelectContent>
         </Select>
       </div>
+      <div>
+        <Label>Associated Courses</Label>
+        <Select v-model="form.courses" multiple>
+          <SelectTrigger class="w-full">
+            <SelectValue placeholder="Select one or more courses" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem
+                v-for="course in courses"
+                :key="course.id"
+                :value="course.id"
+              >
+                {{ course.title }}
+                <template v-if="isAdmin() && course.craftman">
+                  ({{ course.craftman.user.fullname }})
+                </template>
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
-
-    <!-- IS_DRAFT -->
-    <div class="flex gap-2">
-      <Checkbox v-model:checked="form.is_draft" id="is_draft" />
-      <Label for="is_draft">Is draft?</Label>
-    </div>
-
     <Button type="submit" :disabled="form.processing">Submit</Button>
   </form>
 </template>
