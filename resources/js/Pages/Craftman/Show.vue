@@ -8,7 +8,7 @@ import LaravelPagination from '@/Components/LaravelPagination.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
 
-const { craftman, filters, availableDifficulties, projects, courses } = defineProps<{ craftman: Craftman, filters: Filters, availableDifficulties: Difficulty[], projects: PaginatedResponse<Project>, courses: PaginatedResponse<Course> }>()
+const { craftman, filters, availableDifficulties, projects } = defineProps<{ craftman: Craftman, filters: Filters, availableDifficulties: Difficulty[], projects: PaginatedResponse<Project>, courses: PaginatedResponse<Course> }>()
 </script>
 
 <template>

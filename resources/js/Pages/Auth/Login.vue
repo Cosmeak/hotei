@@ -58,7 +58,7 @@ const submit = () => {
             </InertiaLink>
 
             <Button variant="accent" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Se connecter
+                S'inscrire
             </Button>
         </div>
     </form>

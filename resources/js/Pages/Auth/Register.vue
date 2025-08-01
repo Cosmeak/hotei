@@ -89,7 +89,7 @@ const submit = () => {
         <Label for="cgu"><Checkbox id="cgu" v-model="form.cgu" required /> J’accepte les <b>conditions générales d’utilisation</b></Label>
 
         <Button variant="accent" class="mx-auto" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-          S'enregistrer
+          Se connecter
         </Button>
      </form>
 
