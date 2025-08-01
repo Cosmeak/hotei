@@ -40,17 +40,19 @@ class ProjectController extends Controller
     {
         $user = Auth::user();
         $craftmen = collect();
+
         if ($user->role == UserRole::Admin) {
             $craftmen = Craftman::query()->with('user')->get();
         }
+
         $courses = Course::query()
             ->when(
-                Auth::user()->role !== UserRole::Admin->value,
-                fn($query) => $query->where('craftman_id', optional(Auth::user()->craftman)->id)
+                $user->role !== UserRole::Admin->value,
+                fn ($query) => $query->where('craftman_id', optional($user->craftman)->id)
             )
             ->when(
-                Auth::user()->role === UserRole::Admin->value,
-                fn($query) => $query->with('craftman.user')
+                $user->role === UserRole::Admin->value,
+                fn ($query) => $query->with('craftman.user')
             )
             ->get();
 
@@ -62,6 +64,7 @@ class ProjectController extends Controller
             'craftsmanships' => $craftsmanships,
         ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -103,11 +106,11 @@ class ProjectController extends Controller
         $courses = Course::query()
             ->when(
                 Auth::user()->role !== UserRole::Admin->value,
-                fn($query) => $query->where('craftman_id', optional(Auth::user()->craftman)->id)
+                fn ($query) => $query->where('craftman_id', optional(Auth::user()->craftman)->id)
             )
             ->when(
                 Auth::user()->role === UserRole::Admin->value,
-                fn($query) => $query->with('craftman.user')
+                fn ($query) => $query->with('craftman.user')
             )
             ->get();
 

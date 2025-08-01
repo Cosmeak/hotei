@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import { useForm } from "laravel-precognition-vue-inertia";
 import { Label } from "@/Components/ui/label";
-import { Checkbox } from "@/Components/ui/checkbox";
 import { Select, SelectItem, SelectGroup, SelectValue, SelectTrigger, SelectContent } from "@/Components/ui/select";
 import { Input } from "@/Components/ui/input";
 import { Textarea } from "@/Components/ui/textarea";
 import { Button } from "@/Components/ui/button";
+import {Card, CardContent, CardHeader} from "@/Components/ui/card";
+import CourseForm from "@/Components/forms/CourseForm.vue";
+import {Minus, Plus} from "lucide-vue-next";
 
 const { project, craftmen, craftsmanships } = defineProps([
   "project",
@@ -24,7 +26,13 @@ const form = useForm(
     description: project?.description,
     craftsmanship_id: project?.craftsmanship_id,
     difficulty: project?.difficulty,
-    courses: project?.courses?.map((course: any) => course.id) ?? [],
+    courses: project?.courses ?? [
+      {
+        title: project?.course.title,
+        description: project?.course.description,
+        craftsmanships_id: project?.craftsmanship_id.id
+      }
+    ],
 
     // ADMIN ONLY
     craftman_id: project?.craftman_id,
@@ -36,6 +44,19 @@ const submit = () =>
   form.submit({
     preserveScroll: true,
   });
+
+const addCourse = () => {
+  form.courses.push({
+    title: project?.course.title,
+    description: project?.course.description,
+    craftsmanships_id: project?.craftsmanship_id.id
+  })
+};
+
+const removeCourse = () => {
+  if (form.courses.length <= 1) return;
+  form.courses.pop();
+}
 </script>
 
 <template>
@@ -64,7 +85,7 @@ const submit = () =>
       </div>
 
       <div class="w-full">
-        <Label>Cost</Label>
+        <Label>Total Cost</Label>
         <Input type="number" v-model="form.cost" min="0" />
       </div>
     </div>
@@ -99,10 +120,10 @@ const submit = () =>
       </div>
 
       <div class="w-full">
-        <Label>Category</Label>
+        <Label>Craftsmanship</Label>
         <Select v-model="form.craftsmanship_id">
           <SelectTrigger class="w-full">
-            <SelectValue placeholder="Select category" />
+            <SelectValue placeholder="Select a craftmanship" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -117,29 +138,35 @@ const submit = () =>
           </SelectContent>
         </Select>
       </div>
-      <div>
-        <Label>Associated Courses</Label>
-        <Select v-model="form.courses" multiple>
-          <SelectTrigger class="w-full">
-            <SelectValue placeholder="Select one or more courses" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem
-                v-for="course in courses"
-                :key="course.id"
-                :value="course.id"
-              >
-                {{ course.title }}
-                <template v-if="isAdmin() && course.craftman">
-                  ({{ course.craftman.user.fullname }})
-                </template>
-              </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
+
     </div>
+      <div>
+        <Label>Course</Label>
+        <div>
+          <div class="flex flex-row gap-2 mb-1">
+            <Button
+              class="flex-1/2"
+              @click.prevent="removeCourse"
+              :disabled="form.courses.length <= 1"
+            >
+              <Minus />
+            </Button>
+            <Button class="flex-1/2" @click.prevent="addCourse">
+              <Plus />
+            </Button>
+          </div>
+          <template v-for="(course, index) in form.courses" :key="index">
+            <Card class="container max-w-4xl bg-white">
+              <CardHeader>
+                Create a Course
+              </CardHeader>
+              <CardContent>
+                <CourseForm :craftmen="craftmen" :craftsmanships="craftsmanships"/>
+              </CardContent>
+            </Card>
+          </template>
+        </div>
+      </div>
     <Button type="submit" :disabled="form.processing">Submit</Button>
   </form>
 </template>
