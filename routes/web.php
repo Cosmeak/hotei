@@ -8,7 +8,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SkillController;
-use App\Models\User;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\Route;
 

@@ -43,7 +43,7 @@ import { CircleUser, Menu, Package2 } from "lucide-vue-next";
           :href="route('backoffice.course.index')"
           class="text-muted-foreground hover:text-foreground"
         >
-          Cours
+          Compétences
         </InertiaLink>
       </nav>
       <Sheet>

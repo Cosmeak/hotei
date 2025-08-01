@@ -49,8 +49,7 @@ const { craftman, filters, availableDifficulties, projects } = defineProps<{ cra
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 my-4">
       <div class="lg:col-span-2">
         <SearchCard
-          scope="Project"
-          type="Project"
+          type="projet"
           :slug="craftman.id"
           :initialSearch="filters.search"
           :initialDifficulties="filters.difficulties"
@@ -62,7 +61,7 @@ const { craftman, filters, availableDifficulties, projects } = defineProps<{ cra
 
       <template v-if="projects.total > 0">
         <template v-for="project in projects.data" :key="project.id">
-          <ThumbnailCard :scope="project" type="Project"/>
+          <ThumbnailCard :scope="project" type="Projet"/>
         </template>
       </template>
 
