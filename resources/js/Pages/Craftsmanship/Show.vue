@@ -4,19 +4,14 @@ import {PaginatedResponse} from "@/types/laravel";
 import LaravelPagination from "@/Components/LaravelPagination.vue";
 import ThumbnailCard from "@/Components/ThumbnailCard.vue";
 import SearchCard from "@/Components/SearchCard.vue";
-import type {Course, Craftsmanship, Project} from "@/types";
+import type {Course, Craftsmanship, Difficulty, Filters, Project} from "@/types";
 
 const {craftsmanship, projects, skills} = defineProps<{
   craftsmanship: Craftsmanship
   projects: PaginatedResponse<Project>
   skills: Course[]
-  availableDifficulties: Array<{ name: string; value: number }>
-  filters: {
-    search: string,
-    difficulties: string[],
-    min_price: number,
-    max_price: number
-  }
+  availableDifficulties: Difficulty[]
+  filters: Filters
 }>();
 
 </script>
@@ -45,7 +40,7 @@ const {craftsmanship, projects, skills} = defineProps<{
     </div>
   </section>
 
-  <section class="bg-muted relative">
+  <section class="bg-muted relative overflow-hidden">
     <div class="relative max-w-7xl mx-auto flex flex-col lg:flex-row px-6 py-16 lg:px-8 justify-between items-center z-10">
       <div class="bg-secondary-lighter md:max-w-[450px] max-w-[600px] mx-4 md:mx-0 px-4 py-8 rounded-lg container">
         <h3 class="text-4xl pb-3">Découvrez {{ craftsmanship.name }} !</h3>

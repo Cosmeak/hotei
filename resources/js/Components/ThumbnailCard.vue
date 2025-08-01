@@ -84,7 +84,7 @@ function handleClick(e: MouseEvent) {
     <div class="mt-2 p-2">
       <Badge variant="accent">{{ type }}</Badge>
       <p class="text-lg">{{ scope.title }}</p>
-      <p>par {{ scope.craftman.user?.fullname }}</p>
+      <p v-if="scope.craftman">par {{ scope.craftman.user?.fullname }}</p>
     </div>
 
     <div class="mt-auto p-2">

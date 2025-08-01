@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CraftmanController;
 use App\Http\Controllers\CraftsmanshipController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -28,6 +29,9 @@ Route::get('/', HomeController::class)->name('home');
 
 // Craftsmanships
 Route::get('craftsmanships/{slug}', [CraftsmanshipController::class, 'show'])->name('craftsmanships.show');
+
+// Craftmen
+Route::get('craftmen/{craftman}', [CraftmanController::class, 'show'])->name('craftmen.show');
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {

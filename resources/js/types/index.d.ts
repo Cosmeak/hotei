@@ -30,6 +30,9 @@ export interface Craftman {
   description: string;
   created_at: string;
   updated_at: string;
+  instagram: string;
+  facebook: string;
+  website: stringl;
   user: User;
   categories: Craftsmanship[];
 }
@@ -94,4 +97,16 @@ export interface Comment {
   comments: Comment[];
   created_at: string;
   updated_at: string;
+}
+
+export interface Filters {
+  search: string,
+  difficulties: int[],
+  min_price: number,
+  max_price: number
+}
+
+export interface Difficulty {
+  name: string;
+  value: number;
 }

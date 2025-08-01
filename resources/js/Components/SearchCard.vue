@@ -13,23 +13,20 @@ import {Label} from "@/Components/ui/label"
 import {router} from '@inertiajs/vue3'
 
 function applyFilters() {
-  router.get(
-    route('craftsmanships.show', {slug: props.slug}),
+  router.reload(
     {
-      search: search.value,
-      difficulties: selectedDifficulties.value.join(','),
-      min_price: minPrice.value,
-      max_price: maxPrice.value,
-    },
-    {
-      preserveScroll: true,
-      preserveState: false,
+      data: {
+        search: search.value,
+        difficulties: selectedDifficulties.value.join(','),
+        min_price: minPrice.value,
+        max_price: maxPrice.value,
+      }
     }
   )
 }
 
 function resetFilters() {
-  router.reload({ preserveScroll: true })
+  router.reload();
 }
 
 const props = defineProps<{

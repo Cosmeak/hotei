@@ -13,6 +13,6 @@ const { craftsman } = defineProps<{ craftsman: Craftman }>();
     </div>
     <p class="font-bold">{{ craftsman.user.fullname }}</p>
     <div v-html="craftsman.description" />
-    <Button class="md:w-fit md:mx-auto" variant="accent" :as="Link" :href="route('home')">En savoir plus</Button>
+    <Button class="md:w-fit md:mx-auto" variant="accent" :as="Link" :href="route('craftmen.show', { craftman: craftsman.id })">En savoir plus</Button>
   </article>
 </template>
